@@ -12,9 +12,7 @@ WORKDIR /app
 ARG MODULE_NAME=financas-api
 COPY --from=build /app/${MODULE_NAME}/target/*.jar app.jar
 
-ENV AWS_REGION=sa-east-1
 ENV AWS_RDS_URL="jdbc:mysql://rds-financas.cjkk4wk6acu9.sa-east-1.rds.amazonaws.com:3306/financasdb?useSSL=false&allowPublicKeyRetrieval=true"
-ENV AWS_RDS_USER=admin
 ENV AWS_S3_BUCKET_EXTRATO=thianolima-financas-extratos-dev
 ENV AWS_S3_BUCKET_FATURA=thianolima-financas-faturas-dev
 ENV SQS_COMANDO_NOVA_FATURA=sqs-comando-nova-fatura-dev.fifo

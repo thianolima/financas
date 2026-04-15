@@ -5,3 +5,10 @@ resource "aws_secretsmanager_secret" "rds_password" {
 
   tags = merge(var.common_tags, { Name = "rds-password-${var.ambiente}" })
 }
+
+resource "aws_secretsmanager_secret" "rds_url" {
+  name        = "financas/rds/url-${var.ambiente}"
+  description = "Endereço do banco de dados RDS para o sistema de financas"
+
+  tags = merge(var.common_tags, { Name = "rds-url-${var.ambiente}" })
+}

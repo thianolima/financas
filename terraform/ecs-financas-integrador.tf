@@ -145,6 +145,10 @@ resource "aws_ecs_task_definition" "ecs_task_definition_financas_despesa_integra
         {
           name      = "AWS_RDS_PASSWORD"
           valueFrom = aws_secretsmanager_secret.rds_password.arn
+        },
+        {
+          name      = "AWS_RDS_URL"
+          valueFrom = aws_secretsmanager_secret.rds_url.arn
         }
       ]
 

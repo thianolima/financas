@@ -22,7 +22,7 @@ spring:
           comando-nova-despesa: ${AWS_SQS_COMANDO_NOVA_DESPESA:sqs-comando-nova-despesa-dev.fifo}
 
   datasource:
-    url: ${AWS_RDS_URL:jdbc:mysql://localhost:3306/financasdb?useSSL=false&allowPublicKeyRetrieval=true}
+    url: ${AWS_RDS_URL:}
     username: ${AWS_RDS_USER:admin}
     password: ${AWS_RDS_PASSWORD:admin}
     driver-class-name: com.mysql.cj.jdbc.Driver
