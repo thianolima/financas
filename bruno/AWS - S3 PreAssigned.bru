@@ -1,0 +1,35 @@
+meta {
+  name: AWS - S3 PreAssigned
+  type: http
+  seq: 4
+}
+
+put {
+  url: https://thianolima-financas-faturas-dev.s3.sa-east-1.amazonaws.com/1/2/202604/fatura-20260410.csv?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20260414T001956Z&X-Amz-SignedHeaders=host&X-Amz-Credential=AKIA4IABJYQAZP3IZTP7%2F20260414%2Fsa-east-1%2Fs3%2Faws4_request&X-Amz-Expires=43200&X-Amz-Signature=b5278ea3e9651b4e1577a1ce8303f1609bec6659e1192ef0edd7698c440d1409
+  body: file
+  auth: inherit
+}
+
+params:query {
+  X-Amz-Algorithm: AWS4-HMAC-SHA256
+  X-Amz-Date: 20260414T001956Z
+  X-Amz-SignedHeaders: host
+  X-Amz-Credential: AKIA4IABJYQAZP3IZTP7%2F20260414%2Fsa-east-1%2Fs3%2Faws4_request
+  X-Amz-Expires: 43200
+  X-Amz-Signature: b5278ea3e9651b4e1577a1ce8303f1609bec6659e1192ef0edd7698c440d1409
+}
+
+headers {
+  Content-Type: text/csv
+}
+
+body:file {
+  file: @file(C:\Users\thian\Downloads\fatura\visa\fatura-20260410.csv) @contentType(text/csv; charset=utf-8)
+}
+
+settings {
+  encodeUrl: false
+  timeout: 0
+  followRedirects: false
+  maxRedirects: 5
+}

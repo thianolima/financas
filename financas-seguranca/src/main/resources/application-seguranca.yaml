@@ -1,0 +1,7 @@
+jwt:
+  key:
+    public: classpath:app.key.pub
+    private: classpath:app.key
+  token:
+    expiracao: 8
+

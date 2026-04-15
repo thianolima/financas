@@ -1,0 +1,50 @@
+### TERRAFORM ###
+# Ignora a pasta de binários (o que causou o erro de 600MB)
+**/.terraform/*
+
+# Ignora os arquivos de estado (segurança crítica)
+*.tfstate
+*.tfstate.*
+crash.log
+*.tfvars
+*.tfvars.json
+override.tf
+override.tf.json
+
+### JAVA / MAVEN ###
+target/
+*.jar
+*.war
+*.ear
+*.zip
+*.tar.gz
+.mvn/wrapper/maven-wrapper.jar
+
+### SEGURANÇA E AMBIENTE ###
+.env
+.env.local
+.env.*.local
+.aws/
+credentials
+.DS_Store
+
+### IDEs ###
+# IntelliJ
+.idea/
+*.iws
+*.iml
+*.ipr
+out/
+
+# VS Code
+.vscode/
+*.code-workspace
+
+# Eclipse / STS
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache

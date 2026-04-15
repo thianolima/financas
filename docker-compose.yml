@@ -1,0 +1,57 @@
+version: '3.5'
+
+services:
+
+  localstack:
+    container_name: localstack
+    hostname: localstack
+    image: localstack/localstack:latest
+    environment:
+      - AWS_DEFAULT_REGION=us-east-1
+      - AWS_ACCESS_KEY_ID=fakeaccess
+      - AWS_SECRET_KEY_ID=fakesecret
+      - SERVICES=sqs, s3
+      - LAMBDA_EXECUTOR=docker
+      - DATA_DIR=/tmp/localstack/data
+      - DOCKER-HOST=unix:///var/run/docker.sock
+      - DEBUG=1
+    ports:
+      - "4566:4566"
+    networks:
+      - fainancas
+    volumes:
+      - "./init-localstack.sh:/etc/localstack/init/ready.d/init-aws.sh"
+      - localstack-data:/tmp/localstack/tmp
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    restart: unless-stopped
+
+
+  mysql:
+    container_name: mysql-db
+    image: mysql:8.0.41
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_DATABASE: financasdb
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: admin
+      MYSQL_ROOT_PASSWORD: admin
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 5s
+      retries: 10
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+
+
+
+networks:
+  fainancas:
+    driver: bridge
+
+volumes:
+  mysql-data:
+  localstack-data:

@@ -1,0 +1,44 @@
+server:
+  port: ${SERVER_PORT:8084}
+
+spring:
+  application:
+    name: financas-despesas-processador
+
+  cloud:
+    aws:
+      region: ${AWS_REGION:sa-east-1}
+      credentials:
+        access-key: ${AWS_CREDENTIALS_ACCESS_KEY:faketest}
+        secret-key: ${AWS_CREDENTIALS_SECRET_KEY:faketest}
+      sqs:
+        queue:
+          comando-nova-despesa: ${AWS_SQS_COMANDO_NOVA_DESPESA:sqs-comando-nova-despesa-dev.fifo}
+          retorno-nova-fatura: ${AWS_SQS_RETORNO_NOVA_FATURA:sqs-retorno-nova-fatura-dev}
+
+  datasource:
+    url: ${AWS_RDS_URL:jdbc:mysql://localhost:3306/financasdb?useSSL=false&allowPublicKeyRetrieval=true}
+    username: ${AWS_RDS_USER:admin}
+    password: ${AWS_RDS_PASSWORD:admin}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: none
+    properties:
+      properties:
+        hibernate:
+          dialect: org.hibernate.dialect.MySQL8Dialect
+        use_sql_comments: true
+        format_sql: true
+
+### CONFIG ACTUATOR
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, beans
+  endpoint:
+    health:
+      show-details: always

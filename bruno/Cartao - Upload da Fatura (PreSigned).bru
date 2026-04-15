@@ -1,0 +1,27 @@
+meta {
+  name: Cartao - Upload da Fatura (PreSigned)
+  type: http
+  seq: 3
+}
+
+post {
+  url: http://localhost:8080/cartao/2/fatura/upload
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "ano_mes": "202604",
+    "nome_arquivo": "fatura-20260410.csv"
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
