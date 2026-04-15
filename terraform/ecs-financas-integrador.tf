@@ -18,7 +18,7 @@ resource "aws_iam_role" "role_task_execution_financas_desepesas_integrador" {
 # Política de Execução Consolidada (ECR + Logs)
 resource "aws_iam_policy" "policy_task_execution_financas_despesas_integrador" {
   name        = "policy-task-execution-financas-despesas-integrador-${var.ambiente}"
-  description = "Permissoes para o ECS puxar imagens do ECR e gravar logs"
+  description = "Permissoes para o ECS puxar imagens do ECR, gravar logs e ler secrets"
 
   policy = jsonencode({
     Version = "2012-10-17"
@@ -35,7 +35,15 @@ resource "aws_iam_policy" "policy_task_execution_financas_despesas_integrador" {
       },
       {
         Effect = "Allow"
-        Action = ["logs:CreateLogStream", "logs:PutLogEvents"]
+        Action = [
+          "logs:CreateLogStream",
+          "logs:PutLogEvents"
+        ]
+        Resource = "*"
+      },
+      {
+        Effect   = "Allow"
+        Action   = ["secretsmanager:GetSecretValue"]
         Resource = "*"
       }
     ]
@@ -124,7 +132,20 @@ resource "aws_ecs_task_definition" "ecs_task_definition_financas_despesa_integra
       name      = "financas-despesas-integrador"
       image     = "841816327169.dkr.ecr.${var.aws_region}.amazonaws.com/${var.ecr_financas_despesas_integrador}:latest"
       essential = true
-      portMappings = [{ containerPort = 8080, hostPort = 8080, protocol = "tcp" }]
+
+      portMappings = [{
+        containerPort = 8080,
+        hostPort = 8080,
+        protocol = "tcp"
+      }]
+
+      secrets = [
+        {
+          name      = "AWS_RDS_PASSWORD"
+          valueFrom = aws_secretsmanager_secret.rds_password.arn
+        }
+      ]
+
       logConfiguration = {
         logDriver = "awslogs"
         options = {
@@ -133,6 +154,7 @@ resource "aws_ecs_task_definition" "ecs_task_definition_financas_despesa_integra
           "awslogs-stream-prefix" = "ecs"
         }
       }
+
     }
   ])
 }
