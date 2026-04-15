@@ -46,6 +46,17 @@ services:
       - mysql-data:/var/lib/mysql
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
 
+  financas-despesa-integrador:
+    container_name: despesa-integrador
+    image: financas-despesas-integrador-image:latest
+    ports:
+      - "8082:8082"
+    environment:
+      - AWS_RDS_PASSWORD=${AWS_RDS_PASSWORD}
+      - AWS_RDS_USER=${AWS_RDS_USER}
+      - AWS_REGION=${AWS_REGION}
+      - AWS_CREDENTIALS_ACCESS_KEY=${AWS_CREDENTIALS_ACCESS_KEY}
+      - AWS_CREDENTIALS_SECRET_KEY=${AWS_CREDENTIALS_SECRET_KEY}
 
 
 networks:

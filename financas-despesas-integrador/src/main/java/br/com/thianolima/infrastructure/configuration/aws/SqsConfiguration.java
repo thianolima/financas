@@ -7,23 +7,17 @@ import io.awspring.cloud.sqs.support.converter.AbstractMessagingMessageConverter
 import io.awspring.cloud.sqs.support.converter.SqsMessagingMessageConverter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
-import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
+import software.amazon.awssdk.auth.credentials.DefaultCredentialsProvider;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.sqs.SqsAsyncClient;
 
 @Configuration
 public class SqsConfiguration {
     private final AwsProperties awsProperties;
-    private AwsBasicCredentials credential;
     private Region region;
 
     public SqsConfiguration(AwsProperties awsProperties) {
         this.awsProperties = awsProperties;
-        this.credential = AwsBasicCredentials.create(
-                awsProperties.getCredentials().getAccessKey(),
-                awsProperties.getCredentials().getSecretKey()
-        );
         this.region = Region.of(awsProperties.getRegion());
     }
 
@@ -40,7 +34,7 @@ public class SqsConfiguration {
         return SqsAsyncClient.builder()
                 .region(region)
                 .credentialsProvider(
-                        StaticCredentialsProvider.create(credential)
+                        DefaultCredentialsProvider.create()
                 )
                 .build();
     }

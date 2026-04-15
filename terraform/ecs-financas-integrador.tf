@@ -1,12 +1,12 @@
 # ==========================================================
-# 1. IAM ROLES (Identidades)
+# 1. IAM ROLES
 # ==========================================================
 
 # A. Role de Execução (Infraestrutura)
 resource "aws_iam_role" "role_task_execution_financas_desepesas_integrador" {
   name = "role-task-execution-financas-despesas-integrador-${var.ambiente}"
   assume_role_policy = jsonencode({
-    Version = "2012-10-17" # Adicionado para conformidade
+    Version = "2012-10-17"
     Statement = [{
       Action = "sts:AssumeRole",
       Effect = "Allow",
@@ -15,7 +15,7 @@ resource "aws_iam_role" "role_task_execution_financas_desepesas_integrador" {
   })
 }
 
-# Política de Execução Consolidada (ECR + Logs)
+# Política de Execução Consolidada (ECR + Logs + Secrets)
 resource "aws_iam_policy" "policy_task_execution_financas_despesas_integrador" {
   name        = "policy-task-execution-financas-despesas-integrador-${var.ambiente}"
   description = "Permissoes para o ECS puxar imagens do ECR, gravar logs e ler secrets"
@@ -43,7 +43,9 @@ resource "aws_iam_policy" "policy_task_execution_financas_despesas_integrador" {
       },
       {
         Effect   = "Allow"
-        Action   = ["secretsmanager:GetSecretValue"]
+        Action   = [
+          "secretsmanager:GetSecretValue"
+        ]
         Resource = "*"
       }
     ]
@@ -76,14 +78,14 @@ resource "aws_iam_policy" "policy_task_financas_despesas_integrador" {
     Statement = [{
       Effect = "Allow",
       Action = ["sqs:*", "s3:*"],
+
       Resource = "*"
     }]
   })
 }
 
-# CORREÇÃO DA REFERÊNCIA ABAIXO:
 resource "aws_iam_role_policy_attachment" "attach_task_resources" {
-  role       = aws_iam_role.role_task_financas_despesas_integrador.name # Nome corrigido
+  role       = aws_iam_role.role_task_financas_despesas_integrador.name
   policy_arn = aws_iam_policy.policy_task_financas_despesas_integrador.arn
 }
 
