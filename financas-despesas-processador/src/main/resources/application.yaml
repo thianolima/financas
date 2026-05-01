@@ -9,15 +9,15 @@ spring:
     aws:
       region: ${AWS_REGION:sa-east-1}
       credentials:
-        access-key: ${AWS_CREDENTIALS_ACCESS_KEY:faketest}
-        secret-key: ${AWS_CREDENTIALS_SECRET_KEY:faketest}
+        access-key: ${AWS_CREDENTIALS_ACCESS_KEY:}
+        secret-key: ${AWS_CREDENTIALS_SECRET_KEY:}
       sqs:
         queue:
           comando-nova-despesa: ${AWS_SQS_COMANDO_NOVA_DESPESA:sqs-comando-nova-despesa-dev.fifo}
           retorno-nova-fatura: ${AWS_SQS_RETORNO_NOVA_FATURA:sqs-retorno-nova-fatura-dev}
 
   datasource:
-    url: ${AWS_RDS_URL:jdbc:mysql://localhost:3306/financasdb?useSSL=false&allowPublicKeyRetrieval=true}
+    url: ${AWS_RDS_URL:}
     username: ${AWS_RDS_USER:admin}
     password: ${AWS_RDS_PASSWORD:admin}
     driver-class-name: com.mysql.cj.jdbc.Driver

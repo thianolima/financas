@@ -52,12 +52,12 @@ resource "aws_iam_policy" "policy_task_execution_financas_despesas_integrador" {
   })
 }
 
-resource "aws_iam_role_policy_attachment" "attach_execution_standard" {
+resource "aws_iam_role_policy_attachment" "attach_execution_standard_integrador" {
   role       = aws_iam_role.role_task_execution_financas_desepesas_integrador.name
   policy_arn = aws_iam_policy.policy_task_execution_financas_despesas_integrador.arn
 }
 
-resource "aws_iam_role_policy_attachment" "role_policy_ecs_task_execution_managed" {
+resource "aws_iam_role_policy_attachment" "role_policy_ecs_task_execution_managed_integrador" {
   role       = aws_iam_role.role_task_execution_financas_desepesas_integrador.name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
 }
@@ -75,16 +75,32 @@ resource "aws_iam_policy" "policy_task_financas_despesas_integrador" {
   name = "policy-task-financas-despesas-integrador-${var.ambiente}"
   policy = jsonencode({
     Version = "2012-10-17"
-    Statement = [{
-      Effect = "Allow",
-      Action = ["sqs:*", "s3:*"],
-
-      Resource = "*"
-    }]
+    Statement = [
+      {
+        Effect = "Allow",
+        Action = [
+          "sqs:ReceiveMessage",
+          "sqs:DeleteMessage",
+          "sqs:GetQueueAttributes",
+          "sqs:GetQueueUrl",
+          "sqs:SendMessage"
+        ],
+        Resource = [
+          "arn:aws:sqs:sa-east-1:841816327169:sqs-comando-nova-fatura-${var.ambiente}",
+          "arn:aws:sqs:sa-east-1:841816327169:sqs-comando-nova-despesa-${var.ambiente}",
+          "arn:aws:sqs:sa-east-1:841816327169:sqs-retorno-nova-fatura-${var.ambiente}"
+        ]
+      },
+      {
+        Effect = "Allow",
+        Action = ["s3:*"],
+        Resource = "*"
+      }
+    ]
   })
 }
 
-resource "aws_iam_role_policy_attachment" "attach_task_resources" {
+resource "aws_iam_role_policy_attachment" "attach_task_resources_integrador" {
   role       = aws_iam_role.role_task_financas_despesas_integrador.name
   policy_arn = aws_iam_policy.policy_task_financas_despesas_integrador.arn
 }
