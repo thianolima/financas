@@ -1,6 +1,7 @@
 package br.com.thianolima.infrastructure.configuration.aws;
 
 import io.awspring.cloud.sqs.config.SqsMessageListenerContainerFactory;
+import io.awspring.cloud.sqs.listener.QueueNotFoundStrategy;
 import io.awspring.cloud.sqs.listener.acknowledgement.handler.AcknowledgementMode;
 import io.awspring.cloud.sqs.operations.SqsTemplate;
 import io.awspring.cloud.sqs.support.converter.AbstractMessagingMessageConverter;
@@ -46,6 +47,7 @@ public class SqsConfiguration {
                 .sqsAsyncClient(sqsAsyncClient)
                 .configure(options -> options
                         .acknowledgementMode(AcknowledgementMode.ON_SUCCESS)
+                        .queueNotFoundStrategy(QueueNotFoundStrategy.FAIL)
                         .messageConverter(new SqsMessagingMessageConverter())
                 )
                 .build();

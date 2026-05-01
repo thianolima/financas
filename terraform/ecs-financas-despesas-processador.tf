@@ -82,10 +82,11 @@ resource "aws_iam_policy" "policy_task_financas_despesas_processador" {
         "sqs:DeleteMessage",
         "sqs:GetQueueAttributes",
         "sqs:GetQueueUrl",
+        "sqs:CreateQueue",
         "sqs:SendMessage"
       ],
       Resource = [
-        "arn:aws:sqs:sa-east-1:841816327169:sqs-comando-nova-despesa-${var.ambiente}",
+        "arn:aws:sqs:sa-east-1:841816327169:sqs-comando-nova-despesa-${var.ambiente}.fifo",
         "arn:aws:sqs:sa-east-1:841816327169:sqs-retorno-nova-fatura-${var.ambiente}"
       ]
     }]
