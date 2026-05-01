@@ -93,7 +93,7 @@ resource "aws_iam_role_policy_attachment" "attach_task_resources" {
 # 2. RECURSOS DO SERVIÇO
 # ==========================================================
 
-resource "aws_security_group" "sg_ecs_financas_despesa_integrador" {
+resource "aws_security_group" "sg_ecs_financas_despesas_integrador" {
   name        = "ecs-financas-despesas-integrador-sg-${var.ambiente}"
   description = "Permite trafego para o servico de integracao"
   vpc_id      = aws_vpc.vpc_financas.id
@@ -120,7 +120,7 @@ resource "aws_cloudwatch_log_group" "log_group_ecs_financas_despesas_integrador"
   retention_in_days = 7
 }
 
-resource "aws_ecs_task_definition" "ecs_task_definition_financas_despesa_integrador" {
+resource "aws_ecs_task_definition" "ecs_task_definition_financas_despesas_integrador" {
   family                   = "ecs-financas-despesas-integrador-${var.ambiente}"
   requires_compatibilities = ["FARGATE"]
   network_mode             = "awsvpc"
@@ -165,10 +165,10 @@ resource "aws_ecs_task_definition" "ecs_task_definition_financas_despesa_integra
   ])
 }
 
-resource "aws_ecs_service" "ecs_service_financas_integrador" {
+resource "aws_ecs_service" "ecs_service_financas_despesas_integrador" {
   name            = "ecs-financas-despesas-integrador-service"
   cluster         = aws_ecs_cluster.ecs_cluster_financas.id
-  task_definition = aws_ecs_task_definition.ecs_task_definition_financas_despesa_integrador.arn
+  task_definition = aws_ecs_task_definition.ecs_task_definition_financas_despesas_integrador.arn
   desired_count   = 1
 
   capacity_provider_strategy {
@@ -178,7 +178,7 @@ resource "aws_ecs_service" "ecs_service_financas_integrador" {
 
   network_configuration {
     subnets          = [aws_subnet.subnet_financas_publica.id]
-    security_groups  = [aws_security_group.sg_ecs_financas_despesa_integrador.id]
+    security_groups  = [aws_security_group.sg_ecs_financas_despesas_integrador.id]
     assign_public_ip = true
   }
 }

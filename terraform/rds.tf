@@ -24,7 +24,7 @@ resource "aws_security_group" "sg_rds" {
 resource "aws_db_instance" "rds_financas" {
   identifier           = "rds-financas"
   allocated_storage    = 20
-  storage_type         = "gp2"
+  storage_type         = "gp3"
   instance_class       = "db.t4g.micro"
   engine               = "mysql"
   engine_version       = "8.4.7"
