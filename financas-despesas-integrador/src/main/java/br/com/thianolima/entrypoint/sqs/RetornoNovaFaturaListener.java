@@ -33,8 +33,9 @@ public class RetornoNovaFaturaListener {
                     retornoFaturaDto.getDataConlusao()
             );
             log.info("retornoFaturaDto: {}", retornoFaturaDto);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
+        } catch (JsonProcessingException exception) {
+            log.error("Erro: {}", exception.getMessage());
+            throw new RuntimeException(exception);
         }
     }
 }
