@@ -62,10 +62,11 @@ public class ProcessarComandoNovaDespesaUseCase {
             novaDespesa.setRecorrente(depesaSalva.getRecorrente());
         });
 
-        salvarDespesa.executar(novaDespesa);
-
-        if(isUltimaDespesaProcessada(novaDespesa, fatura))
+        if(isUltimaDespesaProcessada(novaDespesa, fatura)) {
             produzirRetornoNovaFatura.executar(fatura.getId());
+        }
+
+        salvarDespesa.executar(novaDespesa);
     }
 
     private boolean isUltimaDespesaProcessada(Despesa despesa, Fatura fatura){

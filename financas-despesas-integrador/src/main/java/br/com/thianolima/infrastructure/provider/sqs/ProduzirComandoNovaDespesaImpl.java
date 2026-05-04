@@ -2,40 +2,51 @@ package br.com.thianolima.infrastructure.provider.sqs;
 
 import br.com.thianolima.core.dto.DespesaCsvDto;
 import br.com.thianolima.core.provider.ProduzirComandoNovaDespesa;
+import brave.Tracer;
 import io.awspring.cloud.sqs.operations.SqsTemplate;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import software.amazon.eventstream.MessageBuilder;
 
 @Slf4j
 @Service
-public class ProduizirComandoNovaDespesaImpl implements ProduzirComandoNovaDespesa {
+public class ProduzirComandoNovaDespesaImpl implements ProduzirComandoNovaDespesa {
 
     private final SqsTemplate sqsTemplate;
     private final String nomeFila;
+    private final Tracer tracer;
 
-    public ProduizirComandoNovaDespesaImpl(
+    public ProduzirComandoNovaDespesaImpl(
             SqsTemplate sqsTemplate,
             @Value("${spring.cloud.aws.sqs.queue.comando-nova-despesa}")
-            String nomeFila
+            String nomeFila,
+            Tracer tracer
     ) {
         this.sqsTemplate = sqsTemplate;
         this.nomeFila = nomeFila;
+        this.tracer = tracer;
     }
 
     @Override
     public boolean executar(DespesaCsvDto despesa) {
-        log.info(
-                "sequencia: {} data: {} descricao: {} valor: {} fatura_id: {}",
-                despesa.getSequencia(), despesa.getData(), despesa.getDescricao(), despesa.getValor(), despesa.getFaturaId()
-        );
+        var currentSpan = tracer.currentSpan();
+        var traceId =  currentSpan.context().traceIdString();
+        var spanId = currentSpan.context().spanIdString();
+
+        log.info("TraceId: {} SpanId {}", traceId, spanId);
 
         sqsTemplate.send(options -> options
                 .queue(nomeFila)
                 .payload(despesa)
+                .header("traceId", traceId)
+                .header("spanId", spanId)
                 .messageGroupId(despesa.getFaturaId().toString())
                 .messageDeduplicationId(despesa.getFaturaId() + "-" + despesa.getSequencia())
+        );
+
+        log.info(
+                "sequencia: {} data: {} descricao: {} valor: {} fatura_id: {}",
+                despesa.getSequencia(), despesa.getData(), despesa.getDescricao(), despesa.getValor(), despesa.getFaturaId()
         );
 
         return true;

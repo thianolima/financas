@@ -4,6 +4,8 @@ import br.com.thianolima.core.usecase.ProcessarComandoNovaFaturaUseCase;
 import br.com.thianolima.entrypoint.dto.S3EventDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.awspring.cloud.sqs.annotation.SqsListener;
+import io.micrometer.tracing.ScopedSpan;
+import io.micrometer.tracing.Tracer;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -12,18 +14,23 @@ import org.springframework.stereotype.Service;
 public class ComandoNovaFaturaListener {
 
     private final ObjectMapper objectMapper;
+    private final Tracer tracer;
     private final ProcessarComandoNovaFaturaUseCase processarComandoNovaFaturaUseCase;
 
     public ComandoNovaFaturaListener(
             ObjectMapper objectMapper,
+            Tracer tracer,
             ProcessarComandoNovaFaturaUseCase processarComandoNovaFaturaUseCase
     ) {
         this.objectMapper = objectMapper;
+        this.tracer = tracer;
         this.processarComandoNovaFaturaUseCase = processarComandoNovaFaturaUseCase;
     }
 
     @SqsListener(value = "${spring.cloud.aws.sqs.queue.comando-nova-fatura}", factory = "defaultSqsMessageListenerContainerFactory")
     public void receberMensagem(String mensagem){
+        ScopedSpan span = tracer.startScopedSpan("comando-nova-fatura");
+
         try {
             log.info("mensagem: {}", mensagem);
 
@@ -43,10 +50,11 @@ public class ComandoNovaFaturaListener {
                     s3Bucket,
                     s3Key
             );
-
         } catch (Exception exception) {
             log.error("Erro: {}", exception.getMessage());
             throw new RuntimeException(exception);
+        } finally {
+            span.end();
         }
     }
 }
