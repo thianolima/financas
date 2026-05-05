@@ -94,3 +94,5 @@ ALTER TABLE tb_despesas ADD CONSTRAINT fk_despesas_fornecedores FOREIGN KEY (for
 
 ALTER TABLE tb_despesas add recorrente boolean NOT NULL DEFAULT  false;
 
+ALTER TABLE tb_despesas  ADD CONSTRAINT uk_tb_despesas_fatura_sequencia UNIQUE (fatura_id, sequencia);
+

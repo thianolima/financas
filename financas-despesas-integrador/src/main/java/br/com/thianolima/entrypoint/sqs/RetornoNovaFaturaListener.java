@@ -35,17 +35,14 @@ public class RetornoNovaFaturaListener {
             @Header("traceId") String traceId,
             @Header("spanId") String spanId
     ){
-        log.info("TraceId: {} SpanId {} mensagem: {}", traceId, spanId, mensagem);
-
         TraceContext context = TraceContext.newBuilder()
                 .traceId(Long.parseUnsignedLong(traceId, 16))
                 .spanId(Long.parseUnsignedLong(spanId, 16))
                 .sampled(true)
                 .build();
 
-        Span newSpan = tracer.newChild(context).name("processar-comando-nova-despesa").start();
-
-        try {
+        Span newSpan = tracer.newChild(context).name("retorno-nova-fatura").start();
+        try (Tracer.SpanInScope spanInScope = tracer.withSpanInScope(newSpan)){
             RetornoFaturaDto retornoFaturaDto = objectMapper.readValue(mensagem, RetornoFaturaDto.class);
 
             processarRetornoNovaFaturaUseCase.executar(
