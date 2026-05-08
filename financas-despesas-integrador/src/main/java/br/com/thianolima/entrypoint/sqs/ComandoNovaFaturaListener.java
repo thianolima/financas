@@ -27,7 +27,10 @@ public class ComandoNovaFaturaListener {
         this.processarComandoNovaFaturaUseCase = processarComandoNovaFaturaUseCase;
     }
 
-    @SqsListener(value = "${spring.cloud.aws.sqs.queue.comando-nova-fatura}", factory = "defaultSqsMessageListenerContainerFactory")
+    @SqsListener(
+            value = "${spring.cloud.aws.sqs.queue.comando-nova-fatura}",
+            factory = "defaultSqsMessageListenerContainerFactory"
+    )
     public void receberMensagem(String mensagem){
         ScopedSpan span = tracer.startScopedSpan("comando-nova-fatura");
 

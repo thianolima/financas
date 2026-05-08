@@ -24,10 +24,10 @@ public class ProcessarRetornoNovaFaturaUseCase {
             FaturaSituacaoEnum situacao,
             LocalDateTime dataConclusao
     ){
-        buscarFaturaPorId.executar(faturaId).ifPresent(f -> {
-            f.setDataConclusao(dataConclusao);
-            f.setSituacao(situacao);
-            salvarFatura.executar(f);
+        buscarFaturaPorId.executar(faturaId).ifPresent(fatura -> {
+            fatura.setDataConclusao(dataConclusao);
+            fatura.setSituacao(situacao);
+            salvarFatura.executar(fatura);
         });
     }
 }

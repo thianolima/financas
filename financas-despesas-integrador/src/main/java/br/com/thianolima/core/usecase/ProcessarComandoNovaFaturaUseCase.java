@@ -43,6 +43,8 @@ public class ProcessarComandoNovaFaturaUseCase {
         despesas.forEach(despesa -> {
                 if(!isDesconto(despesa.getValor())) {
                     despesa.setFaturaId(fatura.getId());
+                    despesa.setCartaoId(fatura.getCartaoId());
+                    despesa.setUsuarioId(fatura.getUsuarioId());
                     produzirComandoNovaDespesa.executar(despesa);
                 }
         });

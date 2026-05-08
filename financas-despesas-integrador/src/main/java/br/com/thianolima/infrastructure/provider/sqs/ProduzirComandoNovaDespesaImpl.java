@@ -33,7 +33,7 @@ public class ProduzirComandoNovaDespesaImpl implements ProduzirComandoNovaDespes
         var traceId =  currentSpan.context().traceIdString();
         var spanId = currentSpan.context().spanIdString();
 
-        log.info("TraceId: {} SpanId {}", traceId, spanId);
+        log.info("TraceId: {} SpanId: {} Mensagem: {}", traceId, spanId, despesa);
 
         sqsTemplate.send(options -> options
                 .queue(nomeFila)
@@ -42,11 +42,6 @@ public class ProduzirComandoNovaDespesaImpl implements ProduzirComandoNovaDespes
                 .header("spanId", spanId)
                 .messageGroupId(despesa.getFaturaId().toString())
                 .messageDeduplicationId(despesa.getFaturaId() + "-" + despesa.getSequencia())
-        );
-
-        log.info(
-                "sequencia: {} data: {} descricao: {} valor: {} fatura_id: {}",
-                despesa.getSequencia(), despesa.getData(), despesa.getDescricao(), despesa.getValor(), despesa.getFaturaId()
         );
 
         return true;

@@ -29,7 +29,10 @@ public class RetornoNovaFaturaListener {
         this.tracer = tracer;
     }
 
-    @SqsListener(value = "${spring.cloud.aws.sqs.queue.retorno-nova-fatura}", factory = "defaultSqsMessageListenerContainerFactory")
+    @SqsListener(
+            value = "${spring.cloud.aws.sqs.queue.retorno-nova-fatura}",
+            factory = "defaultSqsMessageListenerContainerFactory"
+    )
     public void receberMensagem(
             String mensagem,
             @Header("traceId") String traceId,

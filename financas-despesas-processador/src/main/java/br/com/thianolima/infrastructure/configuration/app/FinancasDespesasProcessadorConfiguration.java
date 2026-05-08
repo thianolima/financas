@@ -1,7 +1,8 @@
 package br.com.thianolima.infrastructure.configuration.app;
 
 import br.com.thianolima.core.provider.*;
-import br.com.thianolima.core.usecase.ProcessarComandoNovaDespesaUseCase;
+import br.com.thianolima.core.usecase.ClassificarDespesaUseCase;
+import br.com.thianolima.core.usecase.ProcessarDespesaFaturaUseCase;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -9,21 +10,30 @@ import org.springframework.context.annotation.Configuration;
 public class FinancasDespesasProcessadorConfiguration {
 
     @Bean
-    ProcessarComandoNovaDespesaUseCase criarProcessarComandoNovaDespesaUseCase(
-            BuscarFaturaPorId buscarFaturaPorId,
-            SalvarDespesa salvarDespesa,
+    ClassificarDespesaUseCase criarClassificarDespesaUseCase(
             BuscarFornecedoresPorUsuarioId buscarFornecedoresPorUsuarioId,
             BuscarParcelaAnterior buscarParcelaAnterior,
-            BuscarDespesaRecorrente buscarDespesaRecorrente,
-            ProduzirRetornoNovaFatura produzirRetornoNovaFatura
+            BuscarDespesaRecorrente buscarDespesaRecorrente
     ){
-        return new ProcessarComandoNovaDespesaUseCase(
-                buscarFaturaPorId,
-                salvarDespesa,
+        return new ClassificarDespesaUseCase(
                 buscarFornecedoresPorUsuarioId,
                 buscarParcelaAnterior,
-                buscarDespesaRecorrente,
-                produzirRetornoNovaFatura
+                buscarDespesaRecorrente
+        );
+    }
+
+    @Bean
+    ProcessarDespesaFaturaUseCase criarProcessarDespesaFaturaUseCase(
+            ClassificarDespesaUseCase classificarDespesaUseCase,
+            ProduzirRetornoNovaFatura produzirRetornoNovaFatura,
+            BuscarFaturaPorId buscarFaturaPorId,
+            SalvarDespesa salvarDespesa
+    ){
+        return new ProcessarDespesaFaturaUseCase(
+                classificarDespesaUseCase,
+                produzirRetornoNovaFatura,
+                buscarFaturaPorId,
+                salvarDespesa
         );
     }
 }

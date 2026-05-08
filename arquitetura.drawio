@@ -254,7 +254,7 @@
     </mxGraphModel>
   </diagram>
   <diagram name="Fluxo Gertal" id="weG56k49nqR4uGy29CTM">
-    <mxGraphModel dx="1678" dy="-286" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="2053" dy="-423" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -272,11 +272,11 @@
           </mxGeometry>
         </mxCell>
         <mxCell id="FKLjr1W2ry2_CBXIrIma-2" parent="1" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;strokeColor=#ffffff;fillColor=#232F3E;dashed=0;verticalLabelPosition=middle;verticalAlign=bottom;align=center;html=1;whiteSpace=wrap;fontSize=10;fontStyle=1;spacing=3;shape=mxgraph.aws4.productIcon;prIcon=mxgraph.aws4.s3;" value="&lt;div&gt;&lt;br&gt;&lt;/div&gt;Bucket &lt;br&gt;Fatura" vertex="1">
-          <mxGeometry height="110" width="80" x="200" y="1510" as="geometry" />
+          <mxGeometry height="110" width="80" x="160" y="1510" as="geometry" />
         </mxCell>
         <mxCell id="FKLjr1W2ry2_CBXIrIma-3" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="FKLjr1W2ry2_CBXIrIma-2">
           <mxGeometry relative="1" as="geometry">
-            <mxPoint x="240" y="1670" as="sourcePoint" />
+            <mxPoint x="200" y="1670" as="sourcePoint" />
           </mxGeometry>
         </mxCell>
         <mxCell id="FKLjr1W2ry2_CBXIrIma-5" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="FKLjr1W2ry2_CBXIrIma-25">
@@ -288,16 +288,16 @@
             <mxPoint x="490" y="1550" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="FKLjr1W2ry2_CBXIrIma-6" parent="1" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;strokeColor=#ffffff;fillColor=#232F3E;dashed=0;verticalLabelPosition=middle;verticalAlign=bottom;align=center;html=1;whiteSpace=wrap;fontSize=10;fontStyle=1;spacing=3;shape=mxgraph.aws4.productIcon;prIcon=mxgraph.aws4.sqs;" value="SQS Comando Nova Fatura" vertex="1">
+        <mxCell id="FKLjr1W2ry2_CBXIrIma-6" parent="1" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;strokeColor=#ffffff;fillColor=#232F3E;dashed=0;verticalLabelPosition=middle;verticalAlign=bottom;align=center;html=1;whiteSpace=wrap;fontSize=10;fontStyle=1;spacing=3;shape=mxgraph.aws4.productIcon;prIcon=mxgraph.aws4.sqs;" value="SQS Comando Importar Fatura" vertex="1">
           <mxGeometry height="110" width="80" x="360" y="1510" as="geometry" />
         </mxCell>
         <mxCell id="FKLjr1W2ry2_CBXIrIma-7" edge="1" parent="1" source="FKLjr1W2ry2_CBXIrIma-25" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="FKLjr1W2ry2_CBXIrIma-11">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="620" y="1560" />
-              <mxPoint x="620" y="1560" />
+              <mxPoint x="660" y="1560" />
+              <mxPoint x="660" y="1560" />
             </Array>
-            <mxPoint x="640" y="1550" as="sourcePoint" />
+            <mxPoint x="680" y="1550" as="sourcePoint" />
           </mxGeometry>
         </mxCell>
         <mxCell id="FKLjr1W2ry2_CBXIrIma-27" connectable="0" parent="FKLjr1W2ry2_CBXIrIma-7" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Fan Out&lt;div&gt;Despesas&lt;br&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;/div&gt;" vertex="1">
@@ -307,7 +307,7 @@
         </mxCell>
         <mxCell id="FKLjr1W2ry2_CBXIrIma-8" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="FKLjr1W2ry2_CBXIrIma-18">
           <mxGeometry relative="1" as="geometry">
-            <mxPoint x="560" y="1510" as="sourcePoint" />
+            <mxPoint x="600" y="1510" as="sourcePoint" />
           </mxGeometry>
         </mxCell>
         <mxCell id="6bAriIQr7hWSrmKD41zC-3" connectable="0" parent="FKLjr1W2ry2_CBXIrIma-8" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Salva/Atualiza&lt;br&gt;Situacao" vertex="1">
@@ -317,25 +317,25 @@
         </mxCell>
         <mxCell id="FKLjr1W2ry2_CBXIrIma-10" edge="1" parent="1" source="FKLjr1W2ry2_CBXIrIma-11" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="FKLjr1W2ry2_CBXIrIma-26">
           <mxGeometry relative="1" as="geometry">
-            <mxPoint x="760" y="1670" as="targetPoint" />
+            <mxPoint x="799" y="1670" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="FKLjr1W2ry2_CBXIrIma-11" parent="1" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;strokeColor=#ffffff;fillColor=#232F3E;dashed=0;verticalLabelPosition=middle;verticalAlign=bottom;align=center;html=1;whiteSpace=wrap;fontSize=10;fontStyle=1;spacing=3;shape=mxgraph.aws4.productIcon;prIcon=mxgraph.aws4.sqs;" value="SQS Comando Nova Despesa" vertex="1">
-          <mxGeometry height="110" width="80" x="720" y="1510" as="geometry" />
+        <mxCell id="FKLjr1W2ry2_CBXIrIma-11" parent="1" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;strokeColor=#ffffff;fillColor=#232F3E;dashed=0;verticalLabelPosition=middle;verticalAlign=bottom;align=center;html=1;whiteSpace=wrap;fontSize=10;fontStyle=1;spacing=3;shape=mxgraph.aws4.productIcon;prIcon=mxgraph.aws4.sqs;" value="SQS Comando Importar Fatura Despesa" vertex="1">
+          <mxGeometry height="120" width="80" x="759" y="1510" as="geometry" />
         </mxCell>
         <mxCell id="FKLjr1W2ry2_CBXIrIma-12" edge="1" parent="1" source="FKLjr1W2ry2_CBXIrIma-20" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;">
           <mxGeometry relative="1" as="geometry">
-            <mxPoint x="760" y="1870" as="targetPoint" />
+            <mxPoint x="799" y="1870" as="targetPoint" />
           </mxGeometry>
         </mxCell>
         <mxCell id="FKLjr1W2ry2_CBXIrIma-13" edge="1" parent="1" source="FKLjr1W2ry2_CBXIrIma-26" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="FKLjr1W2ry2_CBXIrIma-15">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="710" y="1710" />
-              <mxPoint x="710" y="1710" />
+              <mxPoint x="750" y="1710" />
+              <mxPoint x="750" y="1710" />
             </Array>
-            <mxPoint x="720" y="1710" as="sourcePoint" />
-            <mxPoint x="640" y="1710" as="targetPoint" />
+            <mxPoint x="760" y="1710" as="sourcePoint" />
+            <mxPoint x="680" y="1710" as="targetPoint" />
           </mxGeometry>
         </mxCell>
         <mxCell id="6bAriIQr7hWSrmKD41zC-2" connectable="0" parent="FKLjr1W2ry2_CBXIrIma-13" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="&lt;span style=&quot;background-color: light-dark(#ffffff, var(--ge-dark-color, #121212)); color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;Ultima &lt;br&gt;&lt;/span&gt;&lt;span style=&quot;background-color: light-dark(#ffffff, var(--ge-dark-color, #121212)); color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;Despesa&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;background-color: light-dark(#ffffff, var(--ge-dark-color, #121212)); color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;da&amp;nbsp;&lt;/span&gt;&lt;div&gt;&lt;span style=&quot;background-color: light-dark(#ffffff, var(--ge-dark-color, #121212)); color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;Fatura?&lt;/span&gt;&lt;/div&gt;" vertex="1">
@@ -346,17 +346,17 @@
         <mxCell id="6bAriIQr7hWSrmKD41zC-1" edge="1" parent="1" source="FKLjr1W2ry2_CBXIrIma-15" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="FKLjr1W2ry2_CBXIrIma-25">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="FKLjr1W2ry2_CBXIrIma-15" parent="1" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;strokeColor=#ffffff;fillColor=#232F3E;dashed=0;verticalLabelPosition=middle;verticalAlign=bottom;align=center;html=1;whiteSpace=wrap;fontSize=10;fontStyle=1;spacing=3;shape=mxgraph.aws4.productIcon;prIcon=mxgraph.aws4.sqs;" value="SQS Retorno Nova Fatura" vertex="1">
-          <mxGeometry height="110" width="80" x="520" y="1670" as="geometry" />
+        <mxCell id="FKLjr1W2ry2_CBXIrIma-15" parent="1" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;strokeColor=#ffffff;fillColor=#232F3E;dashed=0;verticalLabelPosition=middle;verticalAlign=bottom;align=center;html=1;whiteSpace=wrap;fontSize=10;fontStyle=1;spacing=3;shape=mxgraph.aws4.productIcon;prIcon=mxgraph.aws4.sqs;" value="SQS Retorno Importar Fatura" vertex="1">
+          <mxGeometry height="110" width="80" x="560" y="1670" as="geometry" />
         </mxCell>
         <mxCell id="FKLjr1W2ry2_CBXIrIma-16" edge="1" parent="1" source="FKLjr1W2ry2_CBXIrIma-17" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="FKLjr1W2ry2_CBXIrIma-21">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="190" y="1720" />
-              <mxPoint x="190" y="1720" />
+              <mxPoint x="150" y="1720" />
+              <mxPoint x="150" y="1720" />
             </Array>
-            <mxPoint x="110" y="1725" as="sourcePoint" />
-            <mxPoint x="250" y="1780" as="targetPoint" />
+            <mxPoint x="70" y="1725" as="sourcePoint" />
+            <mxPoint x="210" y="1780" as="targetPoint" />
           </mxGeometry>
         </mxCell>
         <mxCell id="FKLjr1W2ry2_CBXIrIma-23" connectable="0" parent="FKLjr1W2ry2_CBXIrIma-16" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Upload&amp;nbsp;&lt;div&gt;Fatura&lt;/div&gt;" vertex="1">
@@ -365,28 +365,28 @@
           </mxGeometry>
         </mxCell>
         <mxCell id="FKLjr1W2ry2_CBXIrIma-17" parent="1" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;strokeColor=#ffffff;fillColor=#232F3E;dashed=0;verticalLabelPosition=middle;verticalAlign=bottom;align=center;html=1;whiteSpace=wrap;fontSize=10;fontStyle=1;spacing=3;shape=mxgraph.aws4.productIcon;prIcon=mxgraph.aws4.api_gateway;" value="Amazon API Gateway" vertex="1">
-          <mxGeometry height="110" width="80" x="40" y="1680" as="geometry" />
+          <mxGeometry height="110" width="80" x="-41" y="1680" as="geometry" />
         </mxCell>
         <mxCell id="FKLjr1W2ry2_CBXIrIma-18" parent="1" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;strokeColor=#ffffff;fillColor=#232F3E;dashed=0;verticalLabelPosition=middle;verticalAlign=bottom;align=center;html=1;whiteSpace=wrap;fontSize=10;fontStyle=1;spacing=3;shape=mxgraph.aws4.productIcon;prIcon=mxgraph.aws4.dynamodb;" value="Fatura" vertex="1">
-          <mxGeometry height="100" width="80" x="520" y="1330" as="geometry" />
+          <mxGeometry height="100" width="80" x="560" y="1330" as="geometry" />
         </mxCell>
         <mxCell id="FKLjr1W2ry2_CBXIrIma-19" edge="1" parent="1" source="FKLjr1W2ry2_CBXIrIma-26" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="FKLjr1W2ry2_CBXIrIma-20" value="">
           <mxGeometry relative="1" as="geometry">
-            <mxPoint x="760" y="1770" as="sourcePoint" />
-            <mxPoint x="760" y="1870" as="targetPoint" />
+            <mxPoint x="799" y="1770" as="sourcePoint" />
+            <mxPoint x="799" y="1870" as="targetPoint" />
           </mxGeometry>
         </mxCell>
         <mxCell id="FKLjr1W2ry2_CBXIrIma-20" parent="1" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;strokeColor=#ffffff;fillColor=#232F3E;dashed=0;verticalLabelPosition=middle;verticalAlign=bottom;align=center;html=1;whiteSpace=wrap;fontSize=10;fontStyle=1;spacing=3;shape=mxgraph.aws4.productIcon;prIcon=mxgraph.aws4.dynamodb;" value="Despesa" vertex="1">
-          <mxGeometry height="100" width="80" x="720" y="1830" as="geometry" />
+          <mxGeometry height="100" width="80" x="759" y="1830" as="geometry" />
         </mxCell>
         <mxCell id="FKLjr1W2ry2_CBXIrIma-21" parent="1" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;strokeColor=#ffffff;fillColor=#232F3E;dashed=0;verticalLabelPosition=middle;verticalAlign=bottom;align=center;html=1;whiteSpace=wrap;fontSize=10;fontStyle=1;spacing=3;shape=mxgraph.aws4.productIcon;prIcon=mxgraph.aws4.ecs;" value="ECS&amp;nbsp;&lt;div&gt;API&lt;/div&gt;" vertex="1">
-          <mxGeometry height="110" width="80" x="200" y="1670" as="geometry" />
+          <mxGeometry height="110" width="80" x="160" y="1670" as="geometry" />
         </mxCell>
         <mxCell id="FKLjr1W2ry2_CBXIrIma-25" parent="1" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;strokeColor=#ffffff;fillColor=#232F3E;dashed=0;verticalLabelPosition=middle;verticalAlign=bottom;align=center;html=1;whiteSpace=wrap;fontSize=10;fontStyle=1;spacing=3;shape=mxgraph.aws4.productIcon;prIcon=mxgraph.aws4.ecs;" value="ECS Despesas&lt;div&gt;Integrador&lt;/div&gt;" vertex="1">
-          <mxGeometry height="110" width="80" x="520" y="1510" as="geometry" />
+          <mxGeometry height="110" width="80" x="560" y="1510" as="geometry" />
         </mxCell>
         <mxCell id="FKLjr1W2ry2_CBXIrIma-26" parent="1" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;strokeColor=#ffffff;fillColor=#232F3E;dashed=0;verticalLabelPosition=middle;verticalAlign=bottom;align=center;html=1;whiteSpace=wrap;fontSize=10;fontStyle=1;spacing=3;shape=mxgraph.aws4.productIcon;prIcon=mxgraph.aws4.ecs;" value="ECS Despesas&lt;div&gt;Processador&lt;/div&gt;" vertex="1">
-          <mxGeometry height="110" width="80" x="720" y="1665" as="geometry" />
+          <mxGeometry height="110" width="80" x="759" y="1665" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>

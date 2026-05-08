@@ -41,6 +41,7 @@ public class DespesaEntity {
     private Boolean recorrente = false;
 
     public DespesaEntity(Despesa despesa){
+        this.id = despesa.getId();
         this.usuarioId = despesa.getUsuarioId();
         this.cartaoId = despesa.getCartaoId();
         this.faturaId = despesa.getFaturaId();
@@ -59,6 +60,7 @@ public class DespesaEntity {
 
     public Despesa toModel() {
         return Despesa.builder()
+                .id(this.id)
                 .usuarioId(this.usuarioId)
                 .cartaoId(this.cartaoId)
                 .faturaId(this.faturaId)

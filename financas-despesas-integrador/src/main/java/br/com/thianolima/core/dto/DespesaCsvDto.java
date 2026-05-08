@@ -15,4 +15,6 @@ public class DespesaCsvDto {
     String descricao;
     String valor;
     Long faturaId;
+    Long usuarioId;
+    Long cartaoId;
 }
