@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class DespesaCsvDto {
+public class FaturaItemDto {
     Integer sequencia;
     String data;
     String descricao;

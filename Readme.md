@@ -20,3 +20,14 @@ aws ecr get-login-password --region sa-east-1 | docker login --username AWS --pa
 docker tag financas-despesas-processador-image:latest 841816327169.dkr.ecr.sa-east-1.amazonaws.com/ecr_financas_despesas_processador:latest
 docker push 841816327169.dkr.ecr.sa-east-1.amazonaws.com/ecr_financas_despesas_processador:latest
 ```
+
+------------------------------------------------------------------------
+
+## API
+
+```
+docker build --no-cache --build-arg MODULE_NAME=financas-api -t financas-api-image .
+aws ecr get-login-password --region sa-east-1 | docker login --username AWS --password-stdin 841816327169.dkr.ecr.sa-east-1.amazonaws.com
+docker tag financas-api-image:latest 841816327169.dkr.ecr.sa-east-1.amazonaws.com/ecr_financas_api:latest
+docker push 841816327169.dkr.ecr.sa-east-1.amazonaws.com/ecr_financas_api:latest
+```

@@ -1,7 +1,7 @@
 package br.com.thianolima.entrypoint.sqs;
 
 import br.com.thianolima.core.usecase.ProcessarDespesaFaturaUseCase;
-import br.com.thianolima.entrypoint.dto.DespesaCsvDto;
+import br.com.thianolima.entrypoint.dto.FaturaItemDto;
 import brave.Span;
 import brave.Tracer;
 import brave.propagation.TraceContext;
@@ -49,7 +49,7 @@ public class ComandoNovaDespesaListener {
         Span newSpan = tracer.newChild(context).name("processar-comando-nova-despesa").start();
 
         try (Tracer.SpanInScope spanInScope = tracer.withSpanInScope(newSpan)){
-            var despesaCsv = objectMapper.readValue(mensagem, DespesaCsvDto.class);
+            var despesaCsv = objectMapper.readValue(mensagem, FaturaItemDto.class);
             processarDespesaFaturaUseCase.executar(despesaCsv.toDespesa());
             log.info("Sucesso Mensagem: {}", mensagem);
         } catch (Exception exception) {

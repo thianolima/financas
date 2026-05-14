@@ -1,6 +1,6 @@
 package br.com.thianolima.infrastructure.provider.storage;
 
-import br.com.thianolima.core.dto.DespesaCsvDto;
+import br.com.thianolima.model.DespesaCsv;
 import br.com.thianolima.core.provider.CarregarFatura;
 import org.springframework.stereotype.Service;
 import software.amazon.awssdk.services.s3.S3Client;
@@ -26,7 +26,7 @@ public class CarregarFaturaImpl implements CarregarFatura {
     }
 
     @Override
-    public List<DespesaCsvDto> executar(
+    public List<DespesaCsv> executar(
             String s3Bucket,
             String s3Key
     ) throws IOException {
@@ -45,7 +45,7 @@ public class CarregarFaturaImpl implements CarregarFatura {
 
         return bufferedReader.lines()
                 .filter(linha -> !linha.isBlank())
-                .map(linha -> conveterCsvParaDespesaCsvDto(linha, sequencia.getAndIncrement()))
+                .map(linha -> criarDespesaCsv(linha, sequencia.getAndIncrement()))
                 .collect(Collectors.toCollection(ArrayList::new));
     }
 
@@ -56,9 +56,9 @@ public class CarregarFaturaImpl implements CarregarFatura {
         }
     }
 
-    private DespesaCsvDto conveterCsvParaDespesaCsvDto(String linha, Integer sequencia){
+    private DespesaCsv criarDespesaCsv(String linha, Integer sequencia){
         var splitLinha = linha.split(",");
-        return DespesaCsvDto.builder()
+        return DespesaCsv.builder()
                 .sequencia(sequencia)
                 .data(splitLinha[0])
                 .descricao(splitLinha[1])

@@ -1,5 +1,6 @@
 package br.com.thianolima.core.usecase;
 
+import br.com.thianolima.core.dto.FaturaItemDto;
 import br.com.thianolima.core.provider.BuscarFaturaPorCartaoIdEAnoMes;
 import br.com.thianolima.core.provider.CarregarFatura;
 import br.com.thianolima.core.provider.ProduzirComandoNovaDespesa;
@@ -27,12 +28,12 @@ public class ProcessarComandoNovaFaturaUseCase {
             String s3Key
     ) throws IOException {
         validarDuplicidadeDaFatura(cartaoId, anoMes);
-        var despesas = carregarFatura.executar(s3Bucket, s3Key);
+        var despesasCsv = carregarFatura.executar(s3Bucket, s3Key);
         var fatura = salvarFatura.executar(
                 Fatura.builder()
                     .dataCriacao(LocalDateTime.now())
                     .situacao(FaturaSituacaoEnum.PROCESSANDO)
-                    .quantidadeDespesas(despesas.size())
+                    .quantidadeDespesas(despesasCsv.size())
                     .cartaoId(cartaoId)
                     .usuarioId(usuarioId)
                     .anoMes(anoMes)
@@ -40,12 +41,19 @@ public class ProcessarComandoNovaFaturaUseCase {
                     .s3Key(s3Key)
                     .build()
         );
-        despesas.forEach(despesa -> {
-                if(!isDesconto(despesa.getValor())) {
-                    despesa.setFaturaId(fatura.getId());
-                    despesa.setCartaoId(fatura.getCartaoId());
-                    despesa.setUsuarioId(fatura.getUsuarioId());
-                    produzirComandoNovaDespesa.executar(despesa);
+        despesasCsv.forEach(despesaCsv -> {
+                if(!isDesconto(despesaCsv.getValor())) {
+                    produzirComandoNovaDespesa.executar(
+                            FaturaItemDto.builder()
+                                    .sequencia(despesaCsv.getSequencia())
+                                    .data(despesaCsv.getData())
+                                    .descricao(despesaCsv.getDescricao())
+                                    .valor(despesaCsv.getValor())
+                                    .faturaId(fatura.getId())
+                                    .cartaoId(fatura.getCartaoId())
+                                    .usuarioId(fatura.getUsuarioId())
+                                    .build()
+                    );
                 }
         });
     }

@@ -1,6 +1,6 @@
 package br.com.thianolima.infrastructure.provider.sqs;
 
-import br.com.thianolima.core.dto.DespesaCsvDto;
+import br.com.thianolima.core.dto.FaturaItemDto;
 import br.com.thianolima.core.provider.ProduzirComandoNovaDespesa;
 import brave.Tracer;
 import io.awspring.cloud.sqs.operations.SqsTemplate;
@@ -28,20 +28,20 @@ public class ProduzirComandoNovaDespesaImpl implements ProduzirComandoNovaDespes
     }
 
     @Override
-    public boolean executar(DespesaCsvDto despesa) {
+    public boolean executar(FaturaItemDto faturaItem) {
         var currentSpan = tracer.currentSpan();
         var traceId =  currentSpan.context().traceIdString();
         var spanId = currentSpan.context().spanIdString();
 
-        log.info("TraceId: {} SpanId: {} Mensagem: {}", traceId, spanId, despesa);
+        log.info("TraceId: {} SpanId: {} Mensagem: {}", traceId, spanId, faturaItem);
 
         sqsTemplate.send(options -> options
                 .queue(nomeFila)
-                .payload(despesa)
+                .payload(faturaItem)
                 .header("traceId", traceId)
                 .header("spanId", spanId)
-                .messageGroupId(despesa.getFaturaId().toString())
-                .messageDeduplicationId(despesa.getFaturaId() + "-" + despesa.getSequencia())
+                .messageGroupId(faturaItem.getFaturaId().toString())
+                .messageDeduplicationId(faturaItem.getFaturaId() + "-" + faturaItem.getSequencia())
         );
 
         return true;
