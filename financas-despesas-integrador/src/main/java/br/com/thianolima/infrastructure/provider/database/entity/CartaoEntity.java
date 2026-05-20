@@ -31,6 +31,7 @@ public class CartaoEntity {
                 .id(this.id)
                 .bandeira(this.bandeira)
                 .nome(this.nome)
+                .diaVencimento(this.diaVencimento)
                 .build();
     }
 }
