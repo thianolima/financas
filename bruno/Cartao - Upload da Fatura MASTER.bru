@@ -1,0 +1,27 @@
+meta {
+  name: Cartao - Upload da Fatura MASTER
+  type: http
+  seq: 4
+}
+
+post {
+  url: http://localhost:8080/cartao/{{CARTAO_MASTER}}/fatura/upload
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{TOKEN}}
+}
+
+body:json {
+  {
+    "ano_mes": "{{ANO_MES}}",
+    "nome_arquivo": "{{NOME_ARQUIVO}}"
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

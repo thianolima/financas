@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class DespesaCsv {
     Integer sequencia;
-    String data;
+    String dataDespesa;
     String descricao;
     String valor;
 }

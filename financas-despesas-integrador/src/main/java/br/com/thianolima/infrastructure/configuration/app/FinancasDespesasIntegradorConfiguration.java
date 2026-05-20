@@ -14,13 +14,15 @@ public class FinancasDespesasIntegradorConfiguration {
             CarregarFatura carregarFaturaCsv,
             BuscarFaturaPorCartaoIdEAnoMes buscarFaturaPorCartaoIdEAnoMes,
             SalvarFatura salvarFatura,
-            ProduzirComandoNovaDespesa produzirComandoNovaDespesa
+            ProduzirComandoNovaDespesa produzirComandoNovaDespesa,
+            BuscarCartaoPorId buscarCartaoPorId
     ){
         return new ProcessarComandoNovaFaturaUseCase(
                 carregarFaturaCsv,
                 buscarFaturaPorCartaoIdEAnoMes,
                 salvarFatura,
-                produzirComandoNovaDespesa
+                produzirComandoNovaDespesa,
+                buscarCartaoPorId
         );
     }
 

@@ -60,7 +60,7 @@ public class CarregarFaturaImpl implements CarregarFatura {
         var splitLinha = linha.split(",");
         return DespesaCsv.builder()
                 .sequencia(sequencia)
-                .data(splitLinha[0])
+                .dataDespesa(splitLinha[0])
                 .descricao(splitLinha[1])
                 .valor(splitLinha[2])
                 .build();

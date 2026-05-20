@@ -15,7 +15,8 @@ import java.time.LocalDate;
 @Builder
 public class FaturaItemDto {
     Integer sequencia;
-    String data;
+    String dataDespesa;
+    String dataVencimento;
     String descricao;
     String valor;
     Long faturaId;
@@ -31,7 +32,8 @@ public class FaturaItemDto {
                 .descricaoOriginal(this.getDescricao())
                 .descricaoProcessada(this.getDescricao())
                 .sequencia(this.getSequencia())
-                .dataDespesa(LocalDate.parse(this.getData()))
+                .dataDespesa(LocalDate.parse(this.getDataDespesa()))
+                .dataVencimento(LocalDate.parse(this.getDataVencimento()))
                 .recorrente(false)
                 .build();
     }

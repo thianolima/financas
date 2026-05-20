@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
@@ -21,5 +22,6 @@ public class Fatura {
     private String s3Key;
     private LocalDateTime dataCriacao;
     private LocalDateTime dataConclusao;
+    private LocalDate dataVencimento;
     private FaturaSituacaoEnum situacao;
 }
