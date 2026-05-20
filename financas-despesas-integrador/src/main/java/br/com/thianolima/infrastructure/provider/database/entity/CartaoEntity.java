@@ -23,6 +23,7 @@ public class CartaoEntity {
     @Enumerated(EnumType.STRING)
     BandeiraEnum bandeira;
 
+    @Column(name = "dia_vencimento")
     Integer diaVencimento;
 
     public Cartao toModel(){
