@@ -10,6 +10,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
@@ -36,8 +37,8 @@ public class FaturaEntity {
     private String s3Key;
 
     private LocalDateTime dataCriacao;
-
     private LocalDateTime dataConclusao;
+    private LocalDate dataVencimento;
 
     @Enumerated(EnumType.STRING)
     private FaturaSituacaoEnum situacao;
@@ -55,6 +56,7 @@ public class FaturaEntity {
                 .s3Key(this.s3Key)
                 .dataCriacao(this.dataCriacao)
                 .dataConclusao(this.dataConclusao)
+                .dataVencimento(this.dataVencimento)
                 .situacao(this.situacao)
                 .cartaoId(this.cartaoId)
                 .usuarioId(this.usuarioId)
@@ -69,6 +71,7 @@ public class FaturaEntity {
         this.s3Key = fatura.getS3Key();
         this.dataCriacao = fatura.getDataCriacao();
         this.dataConclusao = fatura.getDataConclusao();
+        this.dataVencimento = fatura.getDataVencimento();
         this.situacao = fatura.getSituacao();
         this.usuarioId = fatura.getUsuarioId();
         this.cartaoId = fatura.getCartaoId();

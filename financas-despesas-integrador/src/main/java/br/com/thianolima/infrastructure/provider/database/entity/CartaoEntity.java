@@ -23,20 +23,13 @@ public class CartaoEntity {
     @Enumerated(EnumType.STRING)
     BandeiraEnum bandeira;
 
-    @Column(name = "dia_vencimento")
     Integer diaVencimento;
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "usuario_id")
-    UsuarioEntity usuario;
 
     public Cartao toModel(){
         return Cartao.builder()
                 .id(this.id)
                 .bandeira(this.bandeira)
-                .usuario(this.usuario.toModel())
                 .nome(this.nome)
-                .diaVencimento(this.diaVencimento)
                 .build();
     }
 }

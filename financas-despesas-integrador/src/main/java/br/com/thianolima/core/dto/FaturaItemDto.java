@@ -11,7 +11,8 @@ import lombok.NoArgsConstructor;
 @Builder
 public class FaturaItemDto {
     Integer sequencia;
-    String data;
+    String dataDespesa;
+    String dataVencimento;
     String descricao;
     String valor;
     Long faturaId;

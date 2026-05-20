@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Optional;
 
 @Data
 @NoArgsConstructor
@@ -25,6 +26,7 @@ public class Despesa {
     private Integer totalParcelas;
     private Integer sequencia;
     private LocalDate dataDespesa;
+    private LocalDate dataVencimento;
     private BigDecimal valor;
     private String observacao;
     private Boolean recorrente = false;
@@ -48,7 +50,16 @@ public class Despesa {
     public Integer getParcelaAnterior(){
         if (isParcelado() && parcelaAtual > 1)
             return parcelaAtual - 1;
-        else
+        else {
             return parcelaAtual;
+        }
+    }
+
+    public Optional<LocalDate> getProximaDataVencimentoParcela(){
+        if (parcelaAtual < totalParcelas)
+            return Optional.of(dataVencimento.plusMonths(1));
+        else {
+            return Optional.empty();
+        }
     }
 }

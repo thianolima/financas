@@ -36,6 +36,7 @@ public class DespesaEntity {
     private Integer totalParcelas;
     private Integer sequencia;
     private LocalDate dataDespesa;
+    private LocalDate dataVencimento;
     private BigDecimal valor;
     private String observacao;
     private Boolean recorrente = false;
@@ -53,6 +54,7 @@ public class DespesaEntity {
         this.totalParcelas = despesa.getTotalParcelas();
         this.sequencia = despesa.getSequencia();
         this.dataDespesa = despesa.getDataDespesa();
+        this.dataVencimento = despesa.getDataVencimento();
         this.valor = despesa.getValor();
         this.observacao = despesa.getObservacao();
         this.recorrente = despesa.getRecorrente();
@@ -72,6 +74,7 @@ public class DespesaEntity {
                 .totalParcelas(this.totalParcelas)
                 .sequencia(this.sequencia)
                 .dataDespesa(this.dataDespesa)
+                .dataVencimento(this.dataVencimento)
                 .valor(this.valor)
                 .observacao(this.observacao)
                 .recorrente(this.recorrente)

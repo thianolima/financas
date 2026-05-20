@@ -1,0 +1,27 @@
+meta {
+  name: Cartao - Upload da Fatura VISA
+  type: http
+  seq: 5
+}
+
+post {
+  url: http://localhost:8080/cartao/{{CARTAO_VISA}}/fatura/upload
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "ano_mes": "{{ANO_MES}}",
+    "nome_arquivo": "{{NOME_ARQUIVO}}"
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

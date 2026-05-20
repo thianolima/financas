@@ -16,6 +16,7 @@ public class Cartao {
     BandeiraEnum bandeira;
     Usuario usuario;
     String nome;
+    Integer diaVencimento;
 
     public Boolean isUsuario(Long usuarioId){
         return Objects.equals(this.usuario.getId(), usuarioId);
