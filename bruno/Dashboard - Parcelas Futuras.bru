@@ -1,0 +1,24 @@
+meta {
+  name: Dashboard - Parcelas Futuras
+  type: http
+  seq: 7
+}
+
+get {
+  url: http://localhost:8080/dashboard/despesas-futura?meses=6
+  body: none
+  auth: bearer
+}
+
+params:query {
+  meses: 6
+}
+
+auth:bearer {
+  token: {{TOKEN}}
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
