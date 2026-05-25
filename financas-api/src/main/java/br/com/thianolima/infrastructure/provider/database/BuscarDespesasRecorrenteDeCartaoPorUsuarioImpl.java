@@ -1,6 +1,7 @@
 package br.com.thianolima.infrastructure.provider.database;
 
 
+import br.com.thianolima.core.provider.database.BuscarDespesasRecorrenteDeCartaoPorUsuario;
 import br.com.thianolima.core.provider.database.BuscarParcelasAtivasDeCartaoPorUsuario;
 import br.com.thianolima.infrastructure.provider.database.entity.DespesaEntity;
 import br.com.thianolima.model.Despesa;
@@ -14,7 +15,7 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Service
-public class BuscarParcelasAtivasDeCartaoPorUsuarioImpl implements BuscarParcelasAtivasDeCartaoPorUsuario {
+public class BuscarDespesasRecorrenteDeCartaoPorUsuarioImpl implements BuscarDespesasRecorrenteDeCartaoPorUsuario {
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -43,7 +44,7 @@ public class BuscarParcelasAtivasDeCartaoPorUsuarioImpl implements BuscarParcela
                 "WHERE d.usuario_id = :usuarioId " +
                 "  AND d.cartao_id IS NOT NULL " +
                 "  AND d.fatura_id IS NOT NULL " +
-                "  AND d.parcela_atual < d.total_parcelas " +
+                "  AND d.recorrente IS TRUE " +
                 "  AND EXTRACT(YEAR_MONTH FROM d.data_vencimento) >= EXTRACT(YEAR_MONTH FROM CURRENT_DATE()) " +
                 "GROUP BY " +
                 "    d.cartao_id, " +

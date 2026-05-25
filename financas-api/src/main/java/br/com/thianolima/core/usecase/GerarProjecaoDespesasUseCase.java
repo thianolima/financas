@@ -1,5 +1,6 @@
 package br.com.thianolima.core.usecase;
 
+import br.com.thianolima.core.provider.database.BuscarDespesasRecorrenteDeCartaoPorUsuario;
 import br.com.thianolima.core.provider.database.BuscarParcelasAtivasDeCartaoPorUsuario;
 import br.com.thianolima.model.DespesaMensal;
 
@@ -11,25 +12,27 @@ import java.util.TreeMap;
 
 public class GerarProjecaoDespesasUseCase {
 
-    private final BuscarParcelasAtivasDeCartaoPorUsuario buscarDespesasParceladas;
+    private final BuscarParcelasAtivasDeCartaoPorUsuario buscarParcelasAtivasDeCartaoPorUsuario;
+    private final BuscarDespesasRecorrenteDeCartaoPorUsuario buscarDespesasRecorrenteDeCartaoPorUsuario;
 
     public GerarProjecaoDespesasUseCase(
-            BuscarParcelasAtivasDeCartaoPorUsuario buscarDespesasParceladas
+            BuscarParcelasAtivasDeCartaoPorUsuario buscarParcelasAtivasDeCartaoPorUsuario,
+            BuscarDespesasRecorrenteDeCartaoPorUsuario buscarDespesasRecorrenteDeCartaoPorUsuario
     ){
-        this.buscarDespesasParceladas = buscarDespesasParceladas;
+        this.buscarParcelasAtivasDeCartaoPorUsuario = buscarParcelasAtivasDeCartaoPorUsuario;
+        this.buscarDespesasRecorrenteDeCartaoPorUsuario = buscarDespesasRecorrenteDeCartaoPorUsuario;
     }
 
     public List<DespesaMensal> executar(
             Long usuarioId,
             Integer mesesProjecao
     ){
-        var resultado = buscarDespesasParceladas.executar(usuarioId);
-
         YearMonth anoMesAtual = YearMonth.now();
         YearMonth anoMesLimite = anoMesAtual.plusMonths(mesesProjecao + 1);
-
         Map<YearMonth, BigDecimal> agregacao = new TreeMap<>();
-        resultado.forEach(despesa -> {
+
+        var resultadoParcelasAtivasCartao = buscarParcelasAtivasDeCartaoPorUsuario.executar(usuarioId);
+        resultadoParcelasAtivasCartao.forEach(despesa -> {
             Integer parcelasRestantes = (despesa.getTotalParcelas() - despesa.getParcelaAtual());
             while(parcelasRestantes > 0) {
                 YearMonth anoMesProjetado = YearMonth.from(despesa.getDataVencimento().plusMonths(parcelasRestantes));
@@ -41,6 +44,19 @@ public class GerarProjecaoDespesasUseCase {
                     );
                 }
                 parcelasRestantes--;
+            }
+        });
+
+        var resultadoDespesasRecorrentesCartao = buscarDespesasRecorrenteDeCartaoPorUsuario.executar(usuarioId);
+        resultadoDespesasRecorrentesCartao.forEach(despesa -> {
+            YearMonth anoMesProjetado = anoMesAtual.plusMonths(1);
+            while(anoMesProjetado.isBefore(anoMesLimite)) {
+                agregacao.merge(
+                    YearMonth.from(anoMesProjetado),
+                    despesa.getValor(),
+                    BigDecimal::add
+                );
+                anoMesProjetado = anoMesProjetado.plusMonths(1);
             }
         });
 

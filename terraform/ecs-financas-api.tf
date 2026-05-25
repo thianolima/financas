@@ -103,7 +103,7 @@ resource "aws_security_group" "sg_ecs_financas_api" {
     from_port   = 8080
     to_port     = 8080
     protocol    = "tcp"
-    cidr_blocks = ["10.0.1.0/24"]
+    security_groups = [aws_security_group.sg_alb_financas_api.id]
   }
 
   egress {
@@ -178,8 +178,14 @@ resource "aws_ecs_service" "ecs_service_financas_api" {
   }
 
   network_configuration {
-    subnets          = [aws_subnet.subnet_financas_publica.id]
+    subnets          = [aws_subnet.subnet_financas_publica_az_a.id]
     security_groups  = [aws_security_group.sg_ecs_financas_api.id]
     assign_public_ip = true
+  }
+
+  load_balancer {
+    target_group_arn = aws_lb_target_group.tg_financas_api.arn
+    container_name   = "financas-api"
+    container_port   = 8080
   }
 }

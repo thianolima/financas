@@ -194,7 +194,7 @@ resource "aws_ecs_service" "ecs_service_financas_despesas_integrador" {
   }
 
   network_configuration {
-    subnets          = [aws_subnet.subnet_financas_publica.id]
+    subnets          = [aws_subnet.subnet_financas_publica_az_a.id]
     security_groups  = [aws_security_group.sg_ecs_financas_despesas_integrador.id]
     assign_public_ip = true
   }
