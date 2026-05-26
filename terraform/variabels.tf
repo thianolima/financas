@@ -77,3 +77,9 @@ variable "ecr_financas_api" {
   description = "Nome do repositorio para modulo api"
   type        = string
 }
+
+variable "ecs_tasks_desejadas" {
+  description = "Tempo padrão de espera para a mensagem ficar disponivel para leitura (em segundos)."
+  type        = number
+  default     = 0
+}

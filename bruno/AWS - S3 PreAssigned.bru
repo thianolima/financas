@@ -1,22 +1,22 @@
 meta {
   name: AWS - S3 PreAssigned
   type: http
-  seq: 6
+  seq: 5
 }
 
 put {
-  url: https://thianolima-financas-faturas-dev.s3.sa-east-1.amazonaws.com/1/1/202605/fatura-20260510.csv?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20260519T153906Z&X-Amz-SignedHeaders=host&X-Amz-Credential=AKIA4IABJYQAZP3IZTP7%2F20260519%2Fsa-east-1%2Fs3%2Faws4_request&X-Amz-Expires=43200&X-Amz-Signature=98e4c627915494eeb960602aa42fc05d6e48bec73137660ec10704c7d7fbfb41
+  url: https://thianolima-financas-faturas-dev.s3.sa-east-1.amazonaws.com/1/1/202606/fatura-20260610.csv?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20260520T005451Z&X-Amz-SignedHeaders=host&X-Amz-Credential=AKIA4IABJYQAZP3IZTP7%2F20260520%2Fsa-east-1%2Fs3%2Faws4_request&X-Amz-Expires=43200&X-Amz-Signature=7b9d2636684237079f0409d9676e0cc90d10bc48a97b9419699493980e337a84
   body: file
   auth: inherit
 }
 
 params:query {
   X-Amz-Algorithm: AWS4-HMAC-SHA256
-  X-Amz-Date: 20260519T153906Z
+  X-Amz-Date: 20260520T005451Z
   X-Amz-SignedHeaders: host
-  X-Amz-Credential: AKIA4IABJYQAZP3IZTP7%2F20260519%2Fsa-east-1%2Fs3%2Faws4_request
+  X-Amz-Credential: AKIA4IABJYQAZP3IZTP7%2F20260520%2Fsa-east-1%2Fs3%2Faws4_request
   X-Amz-Expires: 43200
-  X-Amz-Signature: 98e4c627915494eeb960602aa42fc05d6e48bec73137660ec10704c7d7fbfb41
+  X-Amz-Signature: 7b9d2636684237079f0409d9676e0cc90d10bc48a97b9419699493980e337a84
 }
 
 headers {
@@ -24,7 +24,7 @@ headers {
 }
 
 body:file {
-  file: @file(C:\Users\thian\Downloads\fatura\master\fatura-20260510.csv) @contentType(text/csv; charset=utf-8)
+  file: @file(C:\Users\thian\Downloads\fatura\master\fatura-20260610.csv) @contentType(text/csv; charset=utf-8)
 }
 
 settings {
