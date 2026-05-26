@@ -170,7 +170,7 @@ resource "aws_ecs_service" "ecs_service_financas_api" {
   name            = "ecs-financas-api-service"
   cluster         = aws_ecs_cluster.ecs_cluster_financas.id
   task_definition = aws_ecs_task_definition.ecs_task_definition_financas_api.arn
-  desired_count   = 1
+  desired_count   = var.ecs_tasks_desejadas
 
   capacity_provider_strategy {
     capacity_provider = "FARGATE_SPOT"
@@ -178,7 +178,10 @@ resource "aws_ecs_service" "ecs_service_financas_api" {
   }
 
   network_configuration {
-    subnets          = [aws_subnet.subnet_financas_publica_az_a.id]
+    subnets          = [
+      aws_subnet.subnet_financas_publica_az_a.id,
+      aws_subnet.subnet_financas_publica_az_b.id
+    ]
     security_groups  = [aws_security_group.sg_ecs_financas_api.id]
     assign_public_ip = true
   }

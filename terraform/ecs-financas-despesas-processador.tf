@@ -178,7 +178,7 @@ resource "aws_ecs_service" "ecs_service_financas_despesas_processador" {
   name            = "ecs-financas-despesas-processador-service"
   cluster         = aws_ecs_cluster.ecs_cluster_financas.id
   task_definition = aws_ecs_task_definition.ecs_task_definition_financas_despesas_processador.arn
-  desired_count   = 1
+  desired_count   = var.ecs_tasks_desejadas
 
   capacity_provider_strategy {
     capacity_provider = "FARGATE_SPOT"

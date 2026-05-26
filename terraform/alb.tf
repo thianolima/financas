@@ -26,15 +26,14 @@ resource "aws_security_group" "sg_alb_financas_api" {
 }
 
 # ==========================================================
-# 2. APPLICATION LOAD BALANCER (O Garçom)
+# 2. APPLICATION LOAD BALANCER
 # ==========================================================
 resource "aws_lb" "alb_financas_api" {
   name               = "alb-financas-api-${var.ambiente}"
-  internal           = false # "false" significa exposto para a internet
+  internal           = false
   load_balancer_type = "application"
   security_groups    = [aws_security_group.sg_alb_financas_api.id]
 
-  # O ALB obrigatoriamente precisa estar nas subnets PÚBLICAS
   subnets            = [
     aws_subnet.subnet_financas_publica_az_a.id,
     aws_subnet.subnet_financas_publica_az_b.id
@@ -44,7 +43,7 @@ resource "aws_lb" "alb_financas_api" {
 }
 
 # ==========================================================
-# 3. TARGET GROUP (O Destino Interno)
+# 3. TARGET GROUP
 # ==========================================================
 resource "aws_lb_target_group" "tg_financas_api" {
   name        = "tg-financas-api-${var.ambiente}"
@@ -62,7 +61,7 @@ resource "aws_lb_target_group" "tg_financas_api" {
     matcher             = "200"
   }
 
-  tags = merge(var.common_tags, { Name = "tg-finacnas-api-${var.ambiente}" })
+  tags = merge(var.common_tags, { Name = "tg-financas-api-${var.ambiente}" })
 }
 
 # ==========================================================

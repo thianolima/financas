@@ -2,7 +2,7 @@ package br.com.thianolima.core.usecase;
 
 import br.com.thianolima.core.provider.database.BuscarDespesasRecorrenteDeCartaoPorUsuario;
 import br.com.thianolima.core.provider.database.BuscarParcelasAtivasDeCartaoPorUsuario;
-import br.com.thianolima.model.DespesaMensal;
+import br.com.thianolima.core.model.DespesaMensal;
 
 import java.math.BigDecimal;
 import java.time.YearMonth;

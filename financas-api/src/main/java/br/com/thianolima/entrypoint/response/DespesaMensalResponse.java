@@ -1,15 +1,15 @@
 package br.com.thianolima.entrypoint.response;
 
-import br.com.thianolima.model.DespesaMensal;
-import lombok.Data;
+import br.com.thianolima.core.model.DespesaMensal;
+import lombok.Getter;
 
 import java.math.BigDecimal;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-@Data
+@Getter
 public class DespesaMensalResponse {
-    List<DespesaMensalItemResponse> data;
+    private final List<DespesaMensalItemResponse> data;
 
     public record DespesaMensalItemResponse(
             String anoMes,
@@ -19,8 +19,8 @@ public class DespesaMensalResponse {
     public DespesaMensalResponse(List<DespesaMensal> despesas) {
         this.data = despesas.stream().map(despesa ->
                 new DespesaMensalItemResponse(
-                    despesa.periodo().format(DateTimeFormatter.ofPattern("yyyyMM")),
-                    despesa.valorTotal()
+                    despesa.getAnoMes().format(DateTimeFormatter.ofPattern("yyyyMM")),
+                    despesa.getValorTotal()
                 )
         ).toList();
     }
