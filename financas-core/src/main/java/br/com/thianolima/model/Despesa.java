@@ -43,7 +43,7 @@ public class Despesa {
         return this.parcelaAtual.equals(1);
     }
 
-    public boolean isRecorrete(){
+    public boolean isRecorrente(){
         return this.recorrente;
     }
 

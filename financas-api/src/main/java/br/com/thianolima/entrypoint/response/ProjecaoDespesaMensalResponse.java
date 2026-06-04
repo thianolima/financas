@@ -1,0 +1,71 @@
+package br.com.thianolima.entrypoint.response;
+
+import br.com.thianolima.core.model.ProjecaoDespesaMensal;
+import lombok.Getter;
+import org.springframework.cglib.core.Local;
+
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+
+@Getter
+public class ProjecaoDespesaMensalResponse {
+    private final List<ProjecaoDespesaMensalItemResponse> data;
+
+    public record ProjecaoDespesaMensalItemResponse(
+            String anoMes,
+            BigDecimal valorTotal,
+            BigDecimal valorTotalParcelado,
+            BigDecimal valorTotalRecorrente,
+            BigDecimal valorTotalAvulso,
+            List<ProjecaoDespesaMensalItemDespesasResponse> despesas
+    ) {}
+
+    public record ProjecaoDespesaMensalItemDespesasResponse(
+            String descricao,
+            BigDecimal valor,
+            String observacao,
+            Boolean recorrente,
+            Boolean parcelado,
+            Boolean avulso,
+            Long cartaoId,
+            String cartaoNome,
+            Integer parcelaAtual,
+            Integer totalParcelas,
+            LocalDate dataDespesa,
+            LocalDate dataVencimento,
+            Long categoriaId,
+            String categoriaNome
+    ) {}
+
+    public ProjecaoDespesaMensalResponse(List<ProjecaoDespesaMensal> despesas) {
+        this.data = despesas.stream().map(despesa ->
+                new ProjecaoDespesaMensalItemResponse(
+                    despesa.getAnoMes().format(DateTimeFormatter.ofPattern("yyyyMM")),
+                    despesa.getValorTotal(),
+                    despesa.getValorTotalParcelado(),
+                    despesa.getValorTotalRecorrente(),
+                    despesa.getValorTotalAvulso(),
+                    despesa.getDespesas().stream().map(detalhe ->
+                            new ProjecaoDespesaMensalItemDespesasResponse(
+                                detalhe.getDescricaoProcessada(),
+                                detalhe.getValor(),
+                                detalhe.getObservacao(),
+                                detalhe.isRecorrente(),
+                                detalhe.isParcelado(),
+                                detalhe.isAvulso(),
+                                detalhe.getCartaoId(),
+                                detalhe.getCartaoNome(),
+                                detalhe.getParcelaAtual(),
+                                detalhe.getTotalParcelas(),
+                                detalhe.getDataDespesa(),
+                                detalhe.getDataVencimento(),
+                                detalhe.getCategoriaId(),
+                                detalhe.getCategoriaNome()
+                            )
+                    ).toList()
+                )
+        ).toList();
+    }
+}

@@ -1,7 +1,7 @@
 package br.com.thianolima.entrypoint.controller;
 
 import br.com.thianolima.core.usecase.GerarProjecaoDespesasUseCase;
-import br.com.thianolima.entrypoint.response.DespesaMensalResponse;
+import br.com.thianolima.entrypoint.response.ProjecaoDespesaMensalResponse;
 import io.micrometer.tracing.ScopedSpan;
 import io.micrometer.tracing.Tracer;
 import lombok.extern.slf4j.Slf4j;
@@ -37,7 +37,7 @@ public class DashBoardController {
         try{
             var usuarioId = extrairUsuarioIdDoToken(token);
             var resultado = gerarProjecaoParcelasMensalUseCase.executar(usuarioId, mesesProjetados);
-            var response = !resultado.isEmpty() ? new DespesaMensalResponse(resultado) : resultado;
+            var response = !resultado.isEmpty() ? new ProjecaoDespesaMensalResponse(resultado) : resultado;
             return ResponseEntity.ok(response);
         } catch (Exception exception) {
             log.error("Erro: {}", exception.getMessage());

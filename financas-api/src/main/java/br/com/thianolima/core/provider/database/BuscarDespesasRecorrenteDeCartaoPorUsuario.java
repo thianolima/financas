@@ -1,10 +1,10 @@
 package br.com.thianolima.core.provider.database;
 
-import br.com.thianolima.model.Despesa;
+import br.com.thianolima.core.model.ProjecaoDespesaMensalItens;
 
 import java.util.List;
 
 public interface BuscarDespesasRecorrenteDeCartaoPorUsuario {
 
-    List<Despesa> executar(Long usuarioId);
+    List<ProjecaoDespesaMensalItens> executar(Long usuarioId);
 }
