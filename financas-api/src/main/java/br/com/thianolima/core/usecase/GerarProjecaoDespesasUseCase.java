@@ -137,7 +137,7 @@ public class GerarProjecaoDespesasUseCase {
             Map<YearMonth, List<ProjecaoDespesaMensalItens>> mapDespesasMes
     ) {
         YearMonth anoMesAtual = YearMonth.now().minusMonths(1);
-        YearMonth anoMesLimite = anoMesAtual.plusMonths(mesesProjecao).plusMonths(1);
+        YearMonth anoMesLimite = anoMesAtual.plusMonths(mesesProjecao).plusMonths(2);
 
         buscarDespesasRecorrentePorUsuario.executar(usuarioId).forEach(despesa -> {
             var anoMesDespesa = YearMonth.of(
