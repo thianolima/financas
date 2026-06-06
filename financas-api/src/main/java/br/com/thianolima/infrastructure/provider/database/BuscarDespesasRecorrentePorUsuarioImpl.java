@@ -47,7 +47,7 @@ public class BuscarDespesasRecorrentePorUsuarioImpl implements BuscarDespesasRec
                 "WHERE d.usuario_id = :usuarioId " +
                 "  AND d.cartao_id IS NULL " +
                 "  AND d.fatura_id IS NULL " +
-                "  AND EXTRACT(YEAR_MONTH FROM d.data_vencimento) >= EXTRACT(YEAR_MONTH FROM CURRENT_DATE()) " +
+                "  AND EXTRACT(YEAR_MONTH FROM d.data_vencimento) > EXTRACT(YEAR_MONTH FROM CURRENT_DATE()) " +
                 "GROUP BY " +
                 "    d.cartao_id, " +
                 "    t.nome, "+

@@ -1,11 +1,11 @@
 meta {
   name: Cartao - Upload da Fatura MASTER
   type: http
-  seq: 5
+  seq: 4
 }
 
 post {
-  url: http://localhost:8080/cartao/{{CARTAO_MASTER}}/fatura/upload
+  url: {{URL_SERVER}}/cartao/{{CARTAO_MASTER}}/fatura/upload
   body: json
   auth: bearer
 }
