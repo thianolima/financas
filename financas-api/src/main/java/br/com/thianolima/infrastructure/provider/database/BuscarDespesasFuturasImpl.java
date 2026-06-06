@@ -1,7 +1,7 @@
 package br.com.thianolima.infrastructure.provider.database;
 
 import br.com.thianolima.core.model.ProjecaoDespesaMensalItens;
-import br.com.thianolima.core.provider.database.BuscarDespesasRecorrentePorUsuario;
+import br.com.thianolima.core.provider.database.BuscarDespesasFuturas;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Service;
@@ -11,11 +11,11 @@ import java.util.List;
 
 @Slf4j
 @Service
-public class BuscarDespesasRecorrentePorUsuarioImpl implements BuscarDespesasRecorrentePorUsuario {
+public class BuscarDespesasFuturasImpl implements BuscarDespesasFuturas {
 
     private final JdbcClient jdbcClient;
 
-    public BuscarDespesasRecorrentePorUsuarioImpl(JdbcClient jdbcClient) {
+    public BuscarDespesasFuturasImpl(JdbcClient jdbcClient) {
         this.jdbcClient = jdbcClient;
     }
 

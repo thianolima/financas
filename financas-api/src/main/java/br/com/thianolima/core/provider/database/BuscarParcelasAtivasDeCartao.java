@@ -4,6 +4,6 @@ import br.com.thianolima.core.model.ProjecaoDespesaMensalItens;
 
 import java.util.List;
 
-public interface BuscarParcelasAtivasDeCartaoPorUsuario {
+public interface BuscarParcelasAtivasDeCartao {
     List<ProjecaoDespesaMensalItens> executar(Long usuarioId);
 }

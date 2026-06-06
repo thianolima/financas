@@ -20,4 +20,5 @@ public class CategoriaEntity {
 
     String nome;
     Long usuarioId;
+    Boolean incluirProjecao;
 }

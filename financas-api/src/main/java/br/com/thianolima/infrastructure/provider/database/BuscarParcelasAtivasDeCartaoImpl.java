@@ -2,7 +2,7 @@ package br.com.thianolima.infrastructure.provider.database;
 
 
 import br.com.thianolima.core.model.ProjecaoDespesaMensalItens;
-import br.com.thianolima.core.provider.database.BuscarDespesasRecorrenteDeCartaoPorUsuario;
+import br.com.thianolima.core.provider.database.BuscarParcelasAtivasDeCartao;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Service;
@@ -11,17 +11,17 @@ import java.util.List;
 
 @Slf4j
 @Service
-public class BuscarDespesasRecorrenteDeCartaoPorUsuarioImpl implements BuscarDespesasRecorrenteDeCartaoPorUsuario {
+public class BuscarParcelasAtivasDeCartaoImpl implements BuscarParcelasAtivasDeCartao {
 
     private final JdbcClient jdbcClient;
 
-    public BuscarDespesasRecorrenteDeCartaoPorUsuarioImpl(JdbcClient jdbcClient) {
+    public BuscarParcelasAtivasDeCartaoImpl(JdbcClient jdbcClient) {
         this.jdbcClient = jdbcClient;
     }
 
     @Override
     public List<ProjecaoDespesaMensalItens> executar(Long usuarioId) {
-        String sqlNativa =
+                String sqlNativa =
                 "SELECT " +
                 "    MAX(d.despesa_id) as despesa_id, " +
                 "    MAX(d.fatura_id) as fatura_id, " +
@@ -47,9 +47,7 @@ public class BuscarDespesasRecorrenteDeCartaoPorUsuarioImpl implements BuscarDes
                 "WHERE d.usuario_id = :usuarioId " +
                 "  AND d.cartao_id IS NOT NULL " +
                 "  AND d.fatura_id IS NOT NULL " +
-                "  AND d.parcela_atual = 0 " +
-                "  AND d.total_parcelas = 0 " +
-                "  AND d.recorrente IS TRUE " +
+                "  AND d.parcela_atual < d.total_parcelas " +
                 "  AND d.fatura_id in (SELECT fatura_id FROM (SELECT max(f.fatura_id) as fatura_id, f.cartao_id FROM tb_faturas f GROUP BY f.cartao_id)as faturas) "  +
                 "GROUP BY " +
                 "    d.cartao_id, " +
@@ -68,7 +66,6 @@ public class BuscarDespesasRecorrenteDeCartaoPorUsuarioImpl implements BuscarDes
                 .param("usuarioId", usuarioId)
                 .query(ProjecaoDespesaMensalItens.class)
                 .list();
-
     }
 }
 

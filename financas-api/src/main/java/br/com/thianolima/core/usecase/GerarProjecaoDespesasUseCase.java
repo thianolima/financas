@@ -2,9 +2,10 @@ package br.com.thianolima.core.usecase;
 
 import br.com.thianolima.core.model.ProjecaoDespesaMensal;
 import br.com.thianolima.core.model.ProjecaoDespesaMensalItens;
-import br.com.thianolima.core.provider.database.BuscarDespesasRecorrenteDeCartaoPorUsuario;
-import br.com.thianolima.core.provider.database.BuscarDespesasRecorrentePorUsuario;
-import br.com.thianolima.core.provider.database.BuscarParcelasAtivasDeCartaoPorUsuario;
+import br.com.thianolima.core.provider.database.BuscarDespesasFuturas;
+import br.com.thianolima.core.provider.database.BuscarDespesasRecorrenteDeCartao;
+import br.com.thianolima.core.provider.database.BuscarParcelasAtivasDeCartao;
+import br.com.thianolima.core.provider.database.BuscarProjecaoDespesasPorCategoria;
 
 import java.math.BigDecimal;
 import java.time.YearMonth;
@@ -15,18 +16,21 @@ import java.util.TreeMap;
 
 public class GerarProjecaoDespesasUseCase {
 
-    private final BuscarParcelasAtivasDeCartaoPorUsuario buscarParcelasAtivasDeCartaoPorUsuario;
-    private final BuscarDespesasRecorrenteDeCartaoPorUsuario buscarDespesasRecorrenteDeCartaoPorUsuario;
-    private final BuscarDespesasRecorrentePorUsuario buscarDespesasRecorrentePorUsuario;
+    private final BuscarParcelasAtivasDeCartao buscarParcelasAtivasDeCartao;
+    private final BuscarDespesasRecorrenteDeCartao buscarDespesasRecorrenteDeCartao;
+    private final BuscarDespesasFuturas buscarDespesasFuturas;
+    private final BuscarProjecaoDespesasPorCategoria buscarProjecaoDespesasPorCategoria;
 
     public GerarProjecaoDespesasUseCase(
-            BuscarParcelasAtivasDeCartaoPorUsuario buscarParcelasAtivasDeCartaoPorUsuario,
-            BuscarDespesasRecorrenteDeCartaoPorUsuario buscarDespesasRecorrenteDeCartaoPorUsuario,
-            BuscarDespesasRecorrentePorUsuario buscarDespesasRecorrentePorUsuario
+            BuscarParcelasAtivasDeCartao buscarParcelasAtivasDeCartao,
+            BuscarDespesasRecorrenteDeCartao buscarDespesasRecorrenteDeCartao,
+            BuscarDespesasFuturas buscarDespesasFuturas,
+            BuscarProjecaoDespesasPorCategoria buscarProjecaoDespesasPorCategoria
     ){
-        this.buscarParcelasAtivasDeCartaoPorUsuario = buscarParcelasAtivasDeCartaoPorUsuario;
-        this.buscarDespesasRecorrenteDeCartaoPorUsuario = buscarDespesasRecorrenteDeCartaoPorUsuario;
-        this.buscarDespesasRecorrentePorUsuario = buscarDespesasRecorrentePorUsuario;
+        this.buscarParcelasAtivasDeCartao = buscarParcelasAtivasDeCartao;
+        this.buscarDespesasRecorrenteDeCartao = buscarDespesasRecorrenteDeCartao;
+        this.buscarDespesasFuturas = buscarDespesasFuturas;
+        this.buscarProjecaoDespesasPorCategoria = buscarProjecaoDespesasPorCategoria;
     }
 
     public List<ProjecaoDespesaMensal> executar(
@@ -38,7 +42,8 @@ public class GerarProjecaoDespesasUseCase {
 
         adicionarParcelasAtivasDeCartaoPorUsuario(usuarioId, mesesProjecao, mapValorTotalMes, mapDespesasMes);
         adicionarDespesasRecorrenteDeCartaoPorUsuario(usuarioId, mesesProjecao, mapValorTotalMes, mapDespesasMes);
-        adicionarDespesasRecorrentePorUsuario(usuarioId, mesesProjecao, mapValorTotalMes, mapDespesasMes);
+        adicionarDespesasFuturasPorUsuario(usuarioId, mesesProjecao, mapValorTotalMes, mapDespesasMes);
+        adicionarProjecaoDespesasPorCategoria(usuarioId, mesesProjecao, mapValorTotalMes, mapDespesasMes);
 
         return mapperDespesaMensal(mapValorTotalMes, mapDespesasMes);
     }
@@ -49,7 +54,7 @@ public class GerarProjecaoDespesasUseCase {
             Map<YearMonth, BigDecimal> mapValorTotalMes,
             Map<YearMonth, List<ProjecaoDespesaMensalItens>> mapDespesasMes
     ){
-        buscarParcelasAtivasDeCartaoPorUsuario.executar(usuarioId).forEach(despesa -> {
+        buscarParcelasAtivasDeCartao.executar(usuarioId).forEach(despesa -> {
             var proximaParcela = 1;
             var totalParcelasRestantes = despesa.getTotalParcelas() - despesa.getParcelaAtual();
             while(proximaParcela <= totalParcelasRestantes) {
@@ -96,7 +101,76 @@ public class GerarProjecaoDespesasUseCase {
             Map<YearMonth, BigDecimal> mapValorTotalMes,
             Map<YearMonth, List<ProjecaoDespesaMensalItens>> mapDespesasMes
     ) {
-        buscarDespesasRecorrenteDeCartaoPorUsuario.executar(usuarioId).forEach(despesa -> {
+        buscarDespesasRecorrenteDeCartao.executar(usuarioId).forEach(despesa -> {
+            for(int proximaMes= 1; proximaMes <= mesesProjecao; proximaMes++) {
+                var anoMesProjetado = despesa.getDataVencimento().plusMonths(proximaMes);
+
+                mapValorTotalMes.merge(
+                        YearMonth.from(anoMesProjetado),
+                        despesa.getValor(),
+                        BigDecimal::add
+                );
+
+                mapDespesasMes.computeIfAbsent(
+                        YearMonth.from(anoMesProjetado),
+                        despesas -> new ArrayList<>()
+                ).add(
+                        ProjecaoDespesaMensalItens.builder()
+                        .usuarioId(despesa.getUsuarioId())
+                        .descricaoOriginal(despesa.getDescricaoOriginal())
+                        .descricaoProcessada(despesa.getDescricaoProcessada())
+                        .categoriaId(despesa.getCategoriaId())
+                        .categoriaNome(despesa.getCategoriaNome())
+                        .cartaoId(despesa.getCartaoId())
+                        .cartaoNome(despesa.getCartaoNome())
+                        .parcelaAtual(despesa.getParcelaAtual() + proximaMes)
+                        .totalParcelas(despesa.getTotalParcelas())
+                        .dataVencimento(despesa.getDataVencimento().plusMonths(proximaMes))
+                        .observacao(despesa.getObservacao())
+                        .recorrente(despesa.isRecorrente())
+                        .valor(despesa.getValor())
+                        .build()
+                );
+            }
+        });
+    }
+
+    private void adicionarDespesasFuturasPorUsuario(
+            Long usuarioId,
+            Integer mesesProjecao,
+            Map<YearMonth, BigDecimal> mapValorTotalMes,
+            Map<YearMonth, List<ProjecaoDespesaMensalItens>> mapDespesasMes
+    ) {
+        YearMonth anoMesAtual = YearMonth.now().minusMonths(1);
+        YearMonth anoMesLimite = anoMesAtual.plusMonths(mesesProjecao).plusMonths(2);
+
+        buscarDespesasFuturas.executar(usuarioId).forEach(despesa -> {
+            var anoMesDespesa = YearMonth.of(
+                    despesa.getDataVencimento().getYear(),
+                    despesa.getDataVencimento().getMonth()
+            );
+            if(anoMesDespesa.isAfter(anoMesAtual) && anoMesDespesa.isBefore(anoMesLimite)) {
+                mapValorTotalMes.merge(
+                        YearMonth.from(anoMesDespesa),
+                        despesa.getValor(),
+                        BigDecimal::add
+                );
+
+                mapDespesasMes.computeIfAbsent(
+                        YearMonth.from(anoMesDespesa),
+                        despesas -> new ArrayList<>()
+                ).add(despesa);
+            }
+        });
+    }
+
+    private void adicionarProjecaoDespesasPorCategoria(
+            Long usuarioId,
+            Integer mesesProjecao,
+            Map<YearMonth, BigDecimal> mapValorTotalMes,
+            Map<YearMonth, List<ProjecaoDespesaMensalItens>> mapDespesasMes
+    ) {
+        buscarProjecaoDespesasPorCategoria.executar(usuarioId).forEach(despesa -> {
             for(int proximaParcela = 1; proximaParcela <= mesesProjecao; proximaParcela++) {
                 var anoMesProjetado = despesa.getDataVencimento().plusMonths(proximaParcela);
 
@@ -126,35 +200,6 @@ public class GerarProjecaoDespesasUseCase {
                         .valor(despesa.getValor())
                         .build()
                 );
-            }
-        });
-    }
-
-    private void adicionarDespesasRecorrentePorUsuario(
-            Long usuarioId,
-            Integer mesesProjecao,
-            Map<YearMonth, BigDecimal> mapValorTotalMes,
-            Map<YearMonth, List<ProjecaoDespesaMensalItens>> mapDespesasMes
-    ) {
-        YearMonth anoMesAtual = YearMonth.now().minusMonths(1);
-        YearMonth anoMesLimite = anoMesAtual.plusMonths(mesesProjecao).plusMonths(2);
-
-        buscarDespesasRecorrentePorUsuario.executar(usuarioId).forEach(despesa -> {
-            var anoMesDespesa = YearMonth.of(
-                    despesa.getDataVencimento().getYear(),
-                    despesa.getDataVencimento().getMonth()
-            );
-            if(anoMesDespesa.isAfter(anoMesAtual) && anoMesDespesa.isBefore(anoMesLimite)) {
-                mapValorTotalMes.merge(
-                        YearMonth.from(anoMesDespesa),
-                        despesa.getValor(),
-                        BigDecimal::add
-                );
-
-                mapDespesasMes.computeIfAbsent(
-                        YearMonth.from(anoMesDespesa),
-                        despesas -> new ArrayList<>()
-                ).add(despesa);
             }
         });
     }
