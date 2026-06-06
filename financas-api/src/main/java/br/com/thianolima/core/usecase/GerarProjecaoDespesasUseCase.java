@@ -7,7 +7,6 @@ import br.com.thianolima.core.provider.database.BuscarDespesasRecorrentePorUsuar
 import br.com.thianolima.core.provider.database.BuscarParcelasAtivasDeCartaoPorUsuario;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.List;
