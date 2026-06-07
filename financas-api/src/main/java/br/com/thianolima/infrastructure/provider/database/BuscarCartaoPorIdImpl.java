@@ -15,7 +15,7 @@ import java.util.Optional;
 public class BuscarCartaoPorIdImpl implements BuscarCartaoPorId {
 
     @PersistenceContext
-    private EntityManager entityManager;
+    private final EntityManager entityManager;
 
     public BuscarCartaoPorIdImpl(EntityManager entityManager){
         this.entityManager = entityManager;

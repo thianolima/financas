@@ -1,7 +1,9 @@
 package br.com.thianolima.entrypoint.controller;
 
-import br.com.thianolima.core.usecase.GerarProjecaoDespesasUseCase;
+import br.com.thianolima.core.usecase.BuscarCartoesPorUsuarioUseCase;
+import br.com.thianolima.entrypoint.response.CartaoResponse;
 import br.com.thianolima.entrypoint.response.ProjecaoDespesaMensalResponse;
+import br.com.thianolima.model.Cartao;
 import io.micrometer.tracing.ScopedSpan;
 import io.micrometer.tracing.Tracer;
 import lombok.extern.slf4j.Slf4j;
@@ -9,35 +11,37 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @Slf4j
 @RestController
-public class DashBoardController {
+@RequestMapping("/cartoes")
+public class CartaoController {
 
     private final Tracer tracer;
-    private final GerarProjecaoDespesasUseCase gerarProjecaoParcelasMensalUseCase;
+    private final BuscarCartoesPorUsuarioUseCase buscarCartoesPorUsuarioUseCase;
 
-    public DashBoardController(
+    public CartaoController(
             Tracer tracer,
-            GerarProjecaoDespesasUseCase gerarProjecaoParcelasMensalUseCase)
-    {
+            BuscarCartoesPorUsuarioUseCase buscarCartoesPorUsuarioUseCase
+    ) {
         this.tracer = tracer;
-        this.gerarProjecaoParcelasMensalUseCase = gerarProjecaoParcelasMensalUseCase;
+        this.buscarCartoesPorUsuarioUseCase = buscarCartoesPorUsuarioUseCase;
     }
 
-    @GetMapping("/dashboard/despesas-futura")
+    @GetMapping
     @PreAuthorize("hasAnyAuthority('ADMIN', 'BASICO')")
-    public ResponseEntity<?> parcelasFuturas(
-            @RequestParam(value = "meses", defaultValue = "6") Integer mesesProjetados,
+    public ResponseEntity<?> upload(
             JwtAuthenticationToken token
-    ){
-        ScopedSpan span = tracer.startScopedSpan("desepesas-futura");
+    ) {
+        ScopedSpan span = tracer.startScopedSpan("cartoes-por-usuario");
         try{
             var usuarioId = extrairUsuarioIdDoToken(token);
-            var resultado = gerarProjecaoParcelasMensalUseCase.executar(usuarioId, mesesProjetados);
-            var response = !resultado.isEmpty() ? new ProjecaoDespesaMensalResponse(resultado) : resultado;
+            var resultado = buscarCartoesPorUsuarioUseCase.executar(usuarioId);
+            var response = !resultado.isEmpty() ? resultado.stream().map(CartaoResponse::new).toList() : List.of();
             return ResponseEntity.ok(response);
         } catch (Exception exception) {
             log.error("Erro: {}", exception.getMessage());

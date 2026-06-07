@@ -171,8 +171,8 @@ public class GerarProjecaoDespesasUseCase {
             Map<YearMonth, List<ProjecaoDespesaMensalItens>> mapDespesasMes
     ) {
         buscarProjecaoDespesasPorCategoria.executar(usuarioId).forEach(despesa -> {
-            for(int proximaParcela = 1; proximaParcela <= mesesProjecao; proximaParcela++) {
-                var anoMesProjetado = despesa.getDataVencimento().plusMonths(proximaParcela);
+            for(int proximoMes = 1; proximoMes <= mesesProjecao; proximoMes++) {
+                var anoMesProjetado = despesa.getDataVencimento().plusMonths(proximoMes);
 
                 mapValorTotalMes.merge(
                         YearMonth.from(anoMesProjetado),
@@ -192,9 +192,9 @@ public class GerarProjecaoDespesasUseCase {
                         .categoriaNome(despesa.getCategoriaNome())
                         .cartaoId(despesa.getCartaoId())
                         .cartaoNome(despesa.getCartaoNome())
-                        .parcelaAtual(despesa.getParcelaAtual() + proximaParcela)
+                        .parcelaAtual(despesa.getParcelaAtual() + proximoMes)
                         .totalParcelas(despesa.getTotalParcelas())
-                        .dataVencimento(despesa.getDataVencimento().plusMonths(proximaParcela))
+                        .dataVencimento(despesa.getDataVencimento().plusMonths(proximoMes))
                         .observacao(despesa.getObservacao())
                         .recorrente(despesa.isRecorrente())
                         .valor(despesa.getValor())
