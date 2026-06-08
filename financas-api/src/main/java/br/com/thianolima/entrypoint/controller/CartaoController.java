@@ -2,8 +2,6 @@ package br.com.thianolima.entrypoint.controller;
 
 import br.com.thianolima.core.usecase.BuscarCartoesPorUsuarioUseCase;
 import br.com.thianolima.entrypoint.response.CartaoResponse;
-import br.com.thianolima.entrypoint.response.ProjecaoDespesaMensalResponse;
-import br.com.thianolima.model.Cartao;
 import io.micrometer.tracing.ScopedSpan;
 import io.micrometer.tracing.Tracer;
 import lombok.extern.slf4j.Slf4j;

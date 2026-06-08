@@ -1,17 +1,19 @@
 meta {
-  name: Despesas - Projecoes
+  name: Despesas - Listar despesas do usuario
   type: http
   seq: 8
 }
 
 get {
-  url: {{URL_SERVER}}/despesas/projecoes?meses=6
+  url: {{URL_SERVER}}/despesas?anomes=202601&pagina=0&tamanho=20
   body: none
   auth: bearer
 }
 
 params:query {
-  meses: 6
+  anomes: 202601
+  pagina: 0
+  tamanho: 20
 }
 
 auth:bearer {

@@ -3,6 +3,7 @@ package br.com.thianolima.infrastructure.configuration.app;
 import br.com.thianolima.core.provider.database.*;
 import br.com.thianolima.core.provider.storage.CriarUrlPreAssinadaFatura;
 import br.com.thianolima.core.usecase.BuscarCartoesPorUsuarioUseCase;
+import br.com.thianolima.core.usecase.BuscarDespesasPorUsuarioUseCase;
 import br.com.thianolima.core.usecase.GerarProjecaoDespesasUseCase;
 import br.com.thianolima.core.usecase.UploadFaturaCartaoUseCase;
 import org.springframework.context.annotation.Bean;
@@ -42,5 +43,12 @@ public class FinancasApiConfiguration {
             BuscarCartoesPorUsuario buscarCartoesPorUsuario
     ){
         return new BuscarCartoesPorUsuarioUseCase(buscarCartoesPorUsuario);
+    }
+
+    @Bean
+    public BuscarDespesasPorUsuarioUseCase criarBuscarDespesasPorUsuarioUseCase(
+            BuscarDespesasPorUsuario buscarDespesasPorUsuario
+    ){
+        return new BuscarDespesasPorUsuarioUseCase(buscarDespesasPorUsuario);
     }
 }
