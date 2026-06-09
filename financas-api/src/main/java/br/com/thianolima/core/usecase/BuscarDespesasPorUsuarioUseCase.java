@@ -2,6 +2,7 @@ package br.com.thianolima.core.usecase;
 
 import br.com.thianolima.core.model.DespesaPaginada;
 import br.com.thianolima.core.model.DespesaPaginadaItem;
+import br.com.thianolima.core.model.TipoDespesaEnum;
 import br.com.thianolima.core.provider.database.BuscarDespesasPorUsuario;
 
 import java.math.BigDecimal;
@@ -22,9 +23,18 @@ public class BuscarDespesasPorUsuarioUseCase {
             Long usuarioId,
             YearMonth anoMes,
             Integer pagina,
-            Integer tamanho
+            Integer tamanho,
+            Long cartaoId,
+            Long categoriaId,
+            TipoDespesaEnum tipo
     ){
-        var despesas = buscarDespesasPorUsuario.executar(usuarioId, anoMes);
+        var despesas = buscarDespesasPorUsuario.executar(
+                usuarioId,
+                anoMes,
+                cartaoId,
+                categoriaId,
+                tipo
+        );
         var valorTotal = calcularValorTotal(despesas);
         var valorTotalParcelado = calcularValorTotalParcelado(despesas);
         var valorTotalRecorrente = calcularValorTotalRcorrente(despesas);

@@ -1,10 +1,13 @@
 package br.com.thianolima.entrypoint.controller;
 
+import br.com.thianolima.core.model.TipoDespesaEnum;
 import br.com.thianolima.core.usecase.BuscarDespesasPorUsuarioUseCase;
 import br.com.thianolima.entrypoint.request.ReclassificarRequest;
 import br.com.thianolima.entrypoint.response.DespesaPaginadaResponse;
 import io.micrometer.tracing.ScopedSpan;
 import io.micrometer.tracing.Tracer;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -37,12 +40,23 @@ public class DespesaController {
             JwtAuthenticationToken token,
             @RequestParam(value = "anomes", required = true) @DateTimeFormat(pattern = "yyyyMM") YearMonth anoMes,
             @RequestParam(value = "pagina", defaultValue = "0") int pagina,
-            @RequestParam(value = "tamanho", defaultValue = "20") int tamanho
+            @RequestParam(value = "tamanho", defaultValue = "20") int tamanho,
+            @RequestParam(value = "cartao", required = false) Long cartaoId,
+            @RequestParam(value = "categoria", required = false) Long categoriaId,
+            @RequestParam(value = "tipo", required = false) TipoDespesaEnum tipo
     ){
         ScopedSpan span = tracer.startScopedSpan("despesas-listar");
         try{
             var usuarioId = extrairUsuarioIdDoToken(token);
-            var resultado = buscarDespesasPorUsuarioUseCase.executar(usuarioId, anoMes, pagina, tamanho);
+            var resultado = buscarDespesasPorUsuarioUseCase.executar(
+                    usuarioId,
+                    anoMes,
+                    pagina,
+                    tamanho,
+                    cartaoId,
+                    categoriaId,
+                    tipo
+            );
             return ResponseEntity.ok(new DespesaPaginadaResponse(resultado));
         } catch (Exception exception) {
             log.error("Erro: {}", exception.getMessage());
