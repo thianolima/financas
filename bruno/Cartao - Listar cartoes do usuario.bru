@@ -1,17 +1,13 @@
 meta {
-  name: Dashboard - Parcelas Futuras
+  name: Cartao - Listar cartoes do usuario
   type: http
-  seq: 7
+  seq: 6
 }
 
 get {
-  url: {{URL_SERVER}}/dashboard/despesas-futura?meses=7
+  url: {{URL_SERVER}}/cartoes
   body: none
   auth: bearer
-}
-
-params:query {
-  meses: 7
 }
 
 auth:bearer {

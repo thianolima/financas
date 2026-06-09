@@ -1,22 +1,23 @@
 meta {
   name: AWS - S3 PreAssigned
   type: http
-  seq: 5
+  seq: 7
 }
 
 put {
-  url: https://thianolima-financas-faturas-dev.s3.sa-east-1.amazonaws.com/1/1/202606/fatura-20260610.csv?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20260520T005451Z&X-Amz-SignedHeaders=host&X-Amz-Credential=AKIA4IABJYQAZP3IZTP7%2F20260520%2Fsa-east-1%2Fs3%2Faws4_request&X-Amz-Expires=43200&X-Amz-Signature=7b9d2636684237079f0409d9676e0cc90d10bc48a97b9419699493980e337a84
+  url: https://thianolima-financas-faturas-dev.s3.sa-east-1.amazonaws.com/1/2/202606/fatura-20260610.csv?X-Amz-Security-Token=IQoJb3JpZ2luX2VjEL3%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXNhLWVhc3QtMSJGMEQCIC5xAe9U3fbUQeJnIYd3fQPfvegLFCsBOOx6wMTG5P06AiA219HXbwlXkpHM%2BaaWcmDLQ2y%2BctVbCjQvqXwWqZIwRCqQBAiG%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F8BEAUaDDg0MTgxNjMyNzE2OSIMDu8l2szJzdTlyAgLKuQDnvlpPn4FWyCG%2FJHv7JKYKbIMrdNPnVIWpGeh6zU8OeUb%2BiEliTSSkquCO6fx40GcebjyOM7oJuHmQXCaeuJPm101RzNgadLleWEnm9k5%2F8j2KaojDk2Uvgl%2Ftzfd1OYSVPHQh1NMh43hrMZ%2FXuHc4t%2B2zINXoYeNZj%2F87ma%2FF6NfQiekTEXW4oEjaXpYCdzkxFq7fwC0tPtt8UvDaUhmxoONIGR76EJA3IfRIKFutWslpYVEkB0R8lD%2BUQbFYKxcOpte9%2Bv9%2B%2BiQtNT1vzuvtLic8LUpkYcheCszuDihv3Rk5IAwXRDv9Sjk05JMQ6LhmgJW2IsTOQMsxpFyyWhW%2Bf%2Fu%2FO%2FfHEf%2Br6%2BhWJVv1PVsAfrxVzYO3JI%2FKUY7fkPClHqjSO7yN8daDAhIYb0Nbome1ynxGCNPIWl%2FMFgpJcBNNTTo9a4vEspHGOvlAigk1ik3iqt3uSoqIPDAw1MJ9bKMONBvWpA8Dff%2FbRNvzgFo9afpW5E%2BKGn4ji2RbsxfM1SActeuRgJOjzMyTPkh9OnMR023ko0OKByzDYB7q0kC9iR59VY%2BF1oX67cDZb104xopmyGiQ%2FB8x3s1yXEp0iUUqaln31sWgv%2FVcaYs4E7eKcvL1s71Qzam%2F1Bh3TjqIEtHCjDhuJDRBjqmAdy1rb9kYTaPYyEMJ89drRR2ROY2wNpwUOGnQUm719BX4MUsnVRgAKMMYExBVOjYXF8JTjqOw5i%2FrjDqdYWfSx2LOn5BuUGhTQwxMLy0hxfc5maB%2Bop5q29PXfGAeZ0kxHuRHyGnS1S3WKRJqd1jrsaFKIzOOUGcmrdkDulsH7HN%2FzOU6qV3USiQccupZXh0ldRJNqxRcAxAgNRhQNcUtwaJ5ANxPgU%3D&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20260606T131921Z&X-Amz-SignedHeaders=host&X-Amz-Credential=ASIA4IABJYQA2QBPHNQV%2F20260606%2Fsa-east-1%2Fs3%2Faws4_request&X-Amz-Expires=43200&X-Amz-Signature=ecf330a2a37aa866eb7a74231618f33a7fcbd7025b30357d406b3b3fe2fa7dab
   body: file
   auth: inherit
 }
 
 params:query {
+  X-Amz-Security-Token: IQoJb3JpZ2luX2VjEL3%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXNhLWVhc3QtMSJGMEQCIC5xAe9U3fbUQeJnIYd3fQPfvegLFCsBOOx6wMTG5P06AiA219HXbwlXkpHM%2BaaWcmDLQ2y%2BctVbCjQvqXwWqZIwRCqQBAiG%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F8BEAUaDDg0MTgxNjMyNzE2OSIMDu8l2szJzdTlyAgLKuQDnvlpPn4FWyCG%2FJHv7JKYKbIMrdNPnVIWpGeh6zU8OeUb%2BiEliTSSkquCO6fx40GcebjyOM7oJuHmQXCaeuJPm101RzNgadLleWEnm9k5%2F8j2KaojDk2Uvgl%2Ftzfd1OYSVPHQh1NMh43hrMZ%2FXuHc4t%2B2zINXoYeNZj%2F87ma%2FF6NfQiekTEXW4oEjaXpYCdzkxFq7fwC0tPtt8UvDaUhmxoONIGR76EJA3IfRIKFutWslpYVEkB0R8lD%2BUQbFYKxcOpte9%2Bv9%2B%2BiQtNT1vzuvtLic8LUpkYcheCszuDihv3Rk5IAwXRDv9Sjk05JMQ6LhmgJW2IsTOQMsxpFyyWhW%2Bf%2Fu%2FO%2FfHEf%2Br6%2BhWJVv1PVsAfrxVzYO3JI%2FKUY7fkPClHqjSO7yN8daDAhIYb0Nbome1ynxGCNPIWl%2FMFgpJcBNNTTo9a4vEspHGOvlAigk1ik3iqt3uSoqIPDAw1MJ9bKMONBvWpA8Dff%2FbRNvzgFo9afpW5E%2BKGn4ji2RbsxfM1SActeuRgJOjzMyTPkh9OnMR023ko0OKByzDYB7q0kC9iR59VY%2BF1oX67cDZb104xopmyGiQ%2FB8x3s1yXEp0iUUqaln31sWgv%2FVcaYs4E7eKcvL1s71Qzam%2F1Bh3TjqIEtHCjDhuJDRBjqmAdy1rb9kYTaPYyEMJ89drRR2ROY2wNpwUOGnQUm719BX4MUsnVRgAKMMYExBVOjYXF8JTjqOw5i%2FrjDqdYWfSx2LOn5BuUGhTQwxMLy0hxfc5maB%2Bop5q29PXfGAeZ0kxHuRHyGnS1S3WKRJqd1jrsaFKIzOOUGcmrdkDulsH7HN%2FzOU6qV3USiQccupZXh0ldRJNqxRcAxAgNRhQNcUtwaJ5ANxPgU%3D
   X-Amz-Algorithm: AWS4-HMAC-SHA256
-  X-Amz-Date: 20260520T005451Z
+  X-Amz-Date: 20260606T131921Z
   X-Amz-SignedHeaders: host
-  X-Amz-Credential: AKIA4IABJYQAZP3IZTP7%2F20260520%2Fsa-east-1%2Fs3%2Faws4_request
+  X-Amz-Credential: ASIA4IABJYQA2QBPHNQV%2F20260606%2Fsa-east-1%2Fs3%2Faws4_request
   X-Amz-Expires: 43200
-  X-Amz-Signature: 7b9d2636684237079f0409d9676e0cc90d10bc48a97b9419699493980e337a84
+  X-Amz-Signature: ecf330a2a37aa866eb7a74231618f33a7fcbd7025b30357d406b3b3fe2fa7dab
 }
 
 headers {
@@ -24,7 +25,7 @@ headers {
 }
 
 body:file {
-  file: @file(C:\Users\thian\Downloads\fatura\master\fatura-20260610.csv) @contentType(text/csv; charset=utf-8)
+  file: @file(C:\Users\thian\Downloads\fatura\visa\fatura-20260610.csv) @contentType(text/csv; charset=utf-8)
 }
 
 settings {

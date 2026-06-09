@@ -19,5 +19,10 @@ public class CategoriaEntity {
     Long id;
 
     String nome;
-    Long usuarioId;
+//    Long usuarioId;
+    Boolean incluirProjecao;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "usuario_id")
+    UsuarioEntity usuario;
 }

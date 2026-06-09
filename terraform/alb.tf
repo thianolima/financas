@@ -55,9 +55,9 @@ resource "aws_lb_target_group" "tg_financas_api" {
   health_check {
     path                = "/actuator/health"
     interval            = 30
-    timeout             = 5
+    timeout             = 15
     healthy_threshold   = 2
-    unhealthy_threshold = 2
+    unhealthy_threshold = 5
     matcher             = "200"
   }
 

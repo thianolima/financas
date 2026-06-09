@@ -1,9 +1,9 @@
 package br.com.thianolima.infrastructure.configuration.app;
 
-import br.com.thianolima.core.provider.database.BuscarCartaoPorId;
-import br.com.thianolima.core.provider.database.BuscarDespesasRecorrenteDeCartaoPorUsuario;
-import br.com.thianolima.core.provider.database.BuscarParcelasAtivasDeCartaoPorUsuario;
+import br.com.thianolima.core.provider.database.*;
 import br.com.thianolima.core.provider.storage.CriarUrlPreAssinadaFatura;
+import br.com.thianolima.core.usecase.BuscarCartoesPorUsuarioUseCase;
+import br.com.thianolima.core.usecase.BuscarDespesasPorUsuarioUseCase;
 import br.com.thianolima.core.usecase.GerarProjecaoDespesasUseCase;
 import br.com.thianolima.core.usecase.UploadFaturaCartaoUseCase;
 import org.springframework.context.annotation.Bean;
@@ -25,12 +25,30 @@ public class FinancasApiConfiguration {
 
     @Bean
     public GerarProjecaoDespesasUseCase criarGerarProjecaoParcelasMensalUseCase(
-            BuscarParcelasAtivasDeCartaoPorUsuario buscarParcelasAtivasDeCartaoPorUsuario,
-            BuscarDespesasRecorrenteDeCartaoPorUsuario buscarDespesasRecorrenteDeCartaoPorUsuario
+            BuscarParcelasAtivasDeCartao buscarParcelasAtivasDeCartao,
+            BuscarDespesasRecorrenteDeCartao buscarDespesasRecorrenteDeCartao,
+            BuscarDespesasFuturas buscarDespesasFuturasPorUsuario,
+            BuscarProjecaoDespesasPorCategoria buscarProjecaoDespesasPorCategoria
     ){
         return new GerarProjecaoDespesasUseCase(
-                buscarParcelasAtivasDeCartaoPorUsuario,
-                buscarDespesasRecorrenteDeCartaoPorUsuario
+                buscarParcelasAtivasDeCartao,
+                buscarDespesasRecorrenteDeCartao,
+                buscarDespesasFuturasPorUsuario,
+                buscarProjecaoDespesasPorCategoria
         );
+    }
+
+    @Bean
+    public BuscarCartoesPorUsuarioUseCase criarBuscarCartoesPorUsuarioUsecase(
+            BuscarCartoesPorUsuario buscarCartoesPorUsuario
+    ){
+        return new BuscarCartoesPorUsuarioUseCase(buscarCartoesPorUsuario);
+    }
+
+    @Bean
+    public BuscarDespesasPorUsuarioUseCase criarBuscarDespesasPorUsuarioUseCase(
+            BuscarDespesasPorUsuario buscarDespesasPorUsuario
+    ){
+        return new BuscarDespesasPorUsuarioUseCase(buscarDespesasPorUsuario);
     }
 }

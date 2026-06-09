@@ -1,0 +1,24 @@
+meta {
+  name: Projecoes - Despesas
+  type: http
+  seq: 8
+}
+
+get {
+  url: {{URL_SERVER}}/projecoes/despesas?meses=6
+  body: none
+  auth: bearer
+}
+
+params:query {
+  meses: 6
+}
+
+auth:bearer {
+  token: {{TOKEN}}
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

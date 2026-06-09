@@ -1,11 +1,11 @@
 meta {
   name: Cartao - Upload da Fatura VISA
   type: http
-  seq: 4
+  seq: 5
 }
 
 post {
-  url: http://localhost:8080/cartao/{{CARTAO_VISA}}/fatura/upload
+  url: {{URL_SERVER}}/cartao/{{CARTAO_VISA}}/fatura/upload
   body: json
   auth: bearer
 }

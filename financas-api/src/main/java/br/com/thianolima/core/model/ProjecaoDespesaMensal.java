@@ -7,14 +7,19 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.YearMonth;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class DespesaMensal {
+public class ProjecaoDespesaMensal {
     YearMonth anoMes;
     BigDecimal valorTotal;
+    BigDecimal valorTotalParcelado;
+    BigDecimal valorTotalRecorrente;
+    BigDecimal valorTotalAvulso;
+    List<ProjecaoDespesaMensalItens> despesas;
 }
 
 

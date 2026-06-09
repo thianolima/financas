@@ -1,0 +1,29 @@
+meta {
+  name: Despesas - Listar despesas do usuario
+  type: http
+  seq: 8
+}
+
+get {
+  url: {{URL_SERVER}}/despesas?anomes=202606&pagina=0&tamanho=50&tipo=RECORRENTE&cartao={{CARTAO_VISA}}&categoria=16
+  body: none
+  auth: bearer
+}
+
+params:query {
+  anomes: 202606
+  pagina: 0
+  tamanho: 50
+  tipo: RECORRENTE
+  cartao: {{CARTAO_VISA}}
+  categoria: 16
+}
+
+auth:bearer {
+  token: {{TOKEN}}
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

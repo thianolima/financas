@@ -1,52 +1,59 @@
 package br.com.thianolima.infrastructure.provider.database;
 
 
-import br.com.thianolima.core.provider.database.BuscarParcelasAtivasDeCartaoPorUsuario;
-import br.com.thianolima.infrastructure.provider.database.entity.DespesaEntity;
-import br.com.thianolima.model.Despesa;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
+import br.com.thianolima.core.model.ProjecaoDespesaMensalItens;
+import br.com.thianolima.core.provider.database.BuscarParcelasAtivasDeCartao;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Service
-public class BuscarParcelasAtivasDeCartaoPorUsuarioImpl implements BuscarParcelasAtivasDeCartaoPorUsuario {
+public class BuscarParcelasAtivasDeCartaoImpl implements BuscarParcelasAtivasDeCartao {
 
-    @PersistenceContext
-    private EntityManager entityManager;
+    private final JdbcClient jdbcClient;
+
+    public BuscarParcelasAtivasDeCartaoImpl(JdbcClient jdbcClient) {
+        this.jdbcClient = jdbcClient;
+    }
 
     @Override
-    public List<Despesa> executar(Long usuarioId) {
-        String sqlNativa =
+    public List<ProjecaoDespesaMensalItens> executar(Long usuarioId) {
+                String sqlNativa =
                 "SELECT " +
                 "    MAX(d.despesa_id) as despesa_id, " +
                 "    MAX(d.fatura_id) as fatura_id, " +
-                "    d.cartao_id, " +
                 "    d.usuario_id, " +
-                "    MAX(d.categoria_id) as categoria_id, " +
+                "    d.cartao_id, " +
+                "    t.nome as cartao_nome, "+
+                "    d.categoria_id, " +
+                "    c.nome as categoria_nome, " +
                 "    MAX(d.fornecedor_id) as fornecedor_id, " +
                 "    MAX(d.descricao_original) as descricao_original, " +
                 "    d.descricao_processada, " +
-                "    d.observacao, " +
                 "    MAX(d.parcela_atual) as parcela_atual, " +
                 "    d.total_parcelas, " +
                 "    MAX(d.sequencia) as sequencia, " +
                 "    d.data_despesa, " +
+                "    MAX(d.data_vencimento) as data_vencimento, " +
                 "    d.valor, " +
                 "    d.recorrente, " +
-                "    MAX(d.data_vencimento) as data_vencimento " +
+                "    d.observacao " +
                 "FROM tb_despesas d " +
+                "LEFT JOIN tb_categorias c ON c.categoria_id = d.categoria_id "+
+                "LEFT JOIN tb_cartoes t ON t.cartao_id = d.cartao_id "+
                 "WHERE d.usuario_id = :usuarioId " +
                 "  AND d.cartao_id IS NOT NULL " +
                 "  AND d.fatura_id IS NOT NULL " +
                 "  AND d.parcela_atual < d.total_parcelas " +
-                "  AND EXTRACT(YEAR_MONTH FROM d.data_vencimento) >= EXTRACT(YEAR_MONTH FROM CURRENT_DATE()) " +
+                "  AND d.fatura_id in (SELECT fatura_id FROM (SELECT max(f.fatura_id) as fatura_id, f.cartao_id FROM tb_faturas f GROUP BY f.cartao_id)as faturas) "  +
                 "GROUP BY " +
                 "    d.cartao_id, " +
+                "    t.nome, "+
+                "    d.categoria_id, " +
+                "    c.nome, "+
                 "    d.usuario_id, " +
                 "    d.descricao_processada, " +
                 "    d.observacao, " +
@@ -55,13 +62,10 @@ public class BuscarParcelasAtivasDeCartaoPorUsuarioImpl implements BuscarParcela
                 "    d.valor, " +
                 "    d.recorrente";
 
-        List<DespesaEntity> entidades = entityManager.createNativeQuery(sqlNativa, DespesaEntity.class)
-                .setParameter("usuarioId", usuarioId)
-                .getResultList();
-
-        return entidades.stream()
-                .map(DespesaEntity::toModel)
-                .collect(Collectors.toList());
+        return jdbcClient.sql(sqlNativa)
+                .param("usuarioId", usuarioId)
+                .query(ProjecaoDespesaMensalItens.class)
+                .list();
     }
 }
 
