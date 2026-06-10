@@ -23,7 +23,11 @@ public class BuscarCartoesPorUsuarioImpl implements BuscarCartoesPorUsuario {
 
     @Override
     public List<Cartao> executar(Long usuarioId) {
-        var consulta = "SELECT f FROM CartaoEntity f WHERE f.usuario.id = :usuarioId";
+        var consulta = """
+                          SELECT c FROM CartaoEntity c 
+                          WHERE c.usuarioId = :usuarioId
+                          ORDER BY c.nome ASC
+                       """;
         return entityManager.createQuery(consulta, CartaoEntity.class)
                 .setParameter("usuarioId", usuarioId)
                 .getResultList()

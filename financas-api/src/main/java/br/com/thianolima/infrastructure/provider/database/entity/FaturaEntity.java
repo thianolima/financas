@@ -34,18 +34,18 @@ public class FaturaEntity {
     private String s3Key;
 
     private LocalDateTime dataCriacao;
+
     private LocalDateTime dataConclusao;
+
     private LocalDate dataVencimento;
 
     @Enumerated(EnumType.STRING)
     private FaturaSituacaoEnum situacao;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "usuario_id")
-    UsuarioEntity usuario;
+    @Column(name = "usuario_id")
+    Long usuarioId;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "cartao_id")
-    CartaoEntity cartao;
+    @Column(name = "cartao_id")
+    Long cartaoId;
 
 }

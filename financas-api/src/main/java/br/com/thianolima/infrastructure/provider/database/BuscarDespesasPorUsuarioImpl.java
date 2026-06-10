@@ -30,27 +30,29 @@ public class BuscarDespesasPorUsuarioImpl implements BuscarDespesasPorUsuario {
             Long categoriaId,
             TipoDespesaEnum tipo
     ) {
-        var sql = new StringBuilder("""
-            SELECT 
-                d.despesa_id as id, 
-                d.cartao_id, 
-                t.nome as cartao_nome, 
-                d.categoria_id, 
-                c.nome as categoria_nome, 
-                d.descricao_processada as descricao, 
-                d.parcela_atual, 
-                d.total_parcelas, 
-                d.data_vencimento, 
-                d.valor, 
-                d.observacao, 
-                d.recorrente 
-            FROM tb_despesas d 
-            LEFT JOIN tb_categorias c ON c.categoria_id = d.categoria_id 
-            LEFT JOIN tb_cartoes t ON t.cartao_id = d.cartao_id 
-            WHERE d.usuario_id = :usuarioId 
-            AND EXTRACT(YEAR FROM d.data_vencimento) = :ano 
-            AND EXTRACT(MONTH FROM d.data_vencimento) = :mes
-        """);
+        var sql = new StringBuilder(
+            """
+                SELECT 
+                    d.despesa_id as id, 
+                    d.cartao_id, 
+                    t.nome as cartao_nome, 
+                    d.categoria_id, 
+                    c.nome as categoria_nome, 
+                    d.descricao_processada as descricao, 
+                    d.parcela_atual, 
+                    d.total_parcelas, 
+                    d.data_vencimento, 
+                    d.valor, 
+                    d.observacao, 
+                    d.recorrente 
+                FROM tb_despesas d 
+                LEFT JOIN tb_categorias c ON c.categoria_id = d.categoria_id 
+                LEFT JOIN tb_cartoes t ON t.cartao_id = d.cartao_id 
+                WHERE d.usuario_id = :usuarioId 
+                AND EXTRACT(YEAR FROM d.data_vencimento) = :ano 
+                AND EXTRACT(MONTH FROM d.data_vencimento) = :mes
+            """
+        );
 
         var params = new MapSqlParameterSource()
                 .addValue("usuarioId", usuarioId)

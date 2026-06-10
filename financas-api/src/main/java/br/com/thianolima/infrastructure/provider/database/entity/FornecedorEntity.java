@@ -1,6 +1,6 @@
 package br.com.thianolima.infrastructure.provider.database.entity;
 
-import br.com.thianolima.model.Categoria;
+import br.com.thianolima.model.Fornecedor;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,26 +11,23 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "tb_categorias")
+@Table(name = "tb_fornecedores")
 @Builder
-public class CategoriaEntity {
+public class FornecedorEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "categoria_id")
+    @Column(name = "fornecedor_id")
     Long id;
 
     @Column(name = "usuario_id")
     Long usuarioId;
 
-    String nome;
-    Boolean incluirProjecao;
+    @Column(name = "categoria_id")
+    Long cartegoriaId;
 
-    public Categoria toModel() {
-        return Categoria.builder()
-                .id(id)
-                .nome(nome)
-                .incluirProjecao(incluirProjecao)
-                .usuarioId(usuarioId)
-                .build();
-    }
+    String nome;
+
+    String palavrasChave;
+
 }

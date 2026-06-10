@@ -26,15 +26,15 @@ public class CartaoEntity {
     @Column(name = "dia_vencimento")
     Integer diaVencimento;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "usuario_id")
-    UsuarioEntity usuario;
+    @Column(name = "usuario_id")
+    Long usuarioId;
+
 
     public Cartao toModel(){
         return Cartao.builder()
                 .id(this.id)
                 .bandeira(this.bandeira)
-                .usuario(this.usuario.toModel())
+                .usuarioId(this.usuarioId)
                 .nome(this.nome)
                 .diaVencimento(this.diaVencimento)
                 .build();

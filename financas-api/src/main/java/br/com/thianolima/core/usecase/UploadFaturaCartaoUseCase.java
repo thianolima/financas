@@ -25,7 +25,7 @@ public class UploadFaturaCartaoUseCase {
         var cartao = buscarCartaoPorId.executar(cartaoId)
                 .orElseThrow(() -> new RuntimeException());
 
-        if(!cartao.isUsuario(usuarioId))
+        if(!cartao.getUsuarioId().equals(usuarioId))
             throw new RuntimeException("Usuario nao pertencete ao cartao");
 
         return criarUrlPreAssinadaFatura.executar(cartaoId, usuarioId, anoMes, nomeArquivo);

@@ -1,7 +1,8 @@
 package br.com.thianolima.entrypoint.controller;
 
-import br.com.thianolima.core.usecase.BuscarCartoesPorUsuarioUseCase;
+import br.com.thianolima.core.usecase.BuscarCategoriasPorUsuarioUseCase;
 import br.com.thianolima.entrypoint.response.CartaoResponse;
+import br.com.thianolima.entrypoint.response.CategoriaResponse;
 import io.micrometer.tracing.ScopedSpan;
 import io.micrometer.tracing.Tracer;
 import lombok.extern.slf4j.Slf4j;
@@ -16,18 +17,18 @@ import java.util.List;
 
 @Slf4j
 @RestController
-@RequestMapping("/cartoes")
-public class CartaoController {
+@RequestMapping("/categorias")
+public class CategoriaController {
 
     private final Tracer tracer;
-    private final BuscarCartoesPorUsuarioUseCase buscarCartoesPorUsuarioUseCase;
+    private final BuscarCategoriasPorUsuarioUseCase buscarCategoriasPorUsuarioUseCase;
 
-    public CartaoController(
+    public CategoriaController(
             Tracer tracer,
-            BuscarCartoesPorUsuarioUseCase buscarCartoesPorUsuarioUseCase
+            BuscarCategoriasPorUsuarioUseCase buscarCategoriasPorUsuarioUseCase
     ) {
         this.tracer = tracer;
-        this.buscarCartoesPorUsuarioUseCase = buscarCartoesPorUsuarioUseCase;
+        this.buscarCategoriasPorUsuarioUseCase = buscarCategoriasPorUsuarioUseCase;
     }
 
     @GetMapping
@@ -35,11 +36,11 @@ public class CartaoController {
     public ResponseEntity<?> listar(
             JwtAuthenticationToken token
     ) {
-        ScopedSpan span = tracer.startScopedSpan("cartoes-por-usuario");
+        ScopedSpan span = tracer.startScopedSpan("categorias-por-usuario");
         try{
             var usuarioId = extrairUsuarioIdDoToken(token);
-            var resultado = buscarCartoesPorUsuarioUseCase.executar(usuarioId);
-            var response = !resultado.isEmpty() ? resultado.stream().map(CartaoResponse::new).toList() : List.of();
+            var resultado = buscarCategoriasPorUsuarioUseCase.executar(usuarioId);
+            var response = !resultado.isEmpty() ? resultado.stream().map(CategoriaResponse::new).toList() : List.of();
             return ResponseEntity.ok(response);
         } catch (Exception exception) {
             log.error("Erro: {}", exception.getMessage());

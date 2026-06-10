@@ -23,6 +23,18 @@ public class DespesaEntity {
     @Column(name = "despesa_id")
     private Long id;
 
+    @Column(name = "usuario_id")
+    Long usuarioId;
+
+    @Column(name = "cartao_id")
+    Long cartaoId;
+
+    @Column(name = "categoria_id")
+    Long cartegoriaId;
+
+    @Column(name = "fatura_id")
+    Long faturaId;
+
     private String descricaoOriginal;
     private String descricaoProcessada;
     private Integer parcelaAtual;
@@ -33,22 +45,6 @@ public class DespesaEntity {
     private BigDecimal valor;
     private String observacao;
     private Boolean recorrente = false;
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "usuario_id")
-    UsuarioEntity usuario;
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "cartao_id")
-    CartaoEntity cartao;
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "categoria_id")
-    CategoriaEntity categoria;
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "fatura_id")
-    FaturaEntity fatura;
 
     public boolean isParcelado(){
         return parcelaAtual > 0 && totalParcelas > 0;

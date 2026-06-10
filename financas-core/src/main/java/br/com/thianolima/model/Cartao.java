@@ -14,11 +14,7 @@ import java.util.Objects;
 public class Cartao {
     Long id;
     BandeiraEnum bandeira;
-    Usuario usuario;
+    Long usuarioId;
     String nome;
     Integer diaVencimento;
-
-    public Boolean isUsuario(Long usuarioId){
-        return Objects.equals(this.usuario.getId(), usuarioId);
-    }
 }
