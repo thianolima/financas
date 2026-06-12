@@ -1,0 +1,35 @@
+meta {
+  name: Despesas - Alterar
+  type: http
+  seq: 10
+}
+
+put {
+  url: {{URL_SERVER}}/despesas/651
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{TOKEN}}
+}
+
+body:json {
+  {
+      "cartaoId" : 1,
+      "categoriaId" : 6,
+      "descricao" : "MALIBU ACADEMIA",
+      "parcelaAtual" : 4,
+      "totalParcelas" : 12,
+      "dataDespesa" : "2026-01-10",
+      "dataVencimento" : "2026-05-10",
+      "valor" : 130.00,
+      "observacao" : "NATAÇÃO",
+      "recorrente" : false
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

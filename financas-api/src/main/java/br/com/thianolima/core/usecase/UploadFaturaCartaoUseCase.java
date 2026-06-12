@@ -22,7 +22,7 @@ public class UploadFaturaCartaoUseCase {
             String anoMes,
             String nomeArquivo
     ){
-        var cartao = buscarCartaoPorId.executar(cartaoId)
+        var cartao = buscarCartaoPorId.executar(cartaoId, usuarioId)
                 .orElseThrow(() -> new RuntimeException());
 
         if(!cartao.getUsuarioId().equals(usuarioId))

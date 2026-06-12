@@ -1,13 +1,14 @@
 package br.com.thianolima.entrypoint.controller;
 
 import br.com.thianolima.core.model.TipoDespesaEnum;
+import br.com.thianolima.core.usecase.AlterarDespesaUsecase;
 import br.com.thianolima.core.usecase.BuscarDespesasPorUsuarioUseCase;
+import br.com.thianolima.entrypoint.request.DespesaRequest;
 import br.com.thianolima.entrypoint.request.ReclassificarRequest;
 import br.com.thianolima.entrypoint.response.DespesaPaginadaResponse;
+import br.com.thianolima.model.Despesa;
 import io.micrometer.tracing.ScopedSpan;
 import io.micrometer.tracing.Tracer;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -25,20 +26,24 @@ public class DespesaController {
 
     private final Tracer tracer;
     private final BuscarDespesasPorUsuarioUseCase buscarDespesasPorUsuarioUseCase;
+    private final AlterarDespesaUsecase alterarDespesaUsecase;
+
 
     public DespesaController(
             Tracer tracer,
-            BuscarDespesasPorUsuarioUseCase buscarDespesasPorUsuarioUseCase
+            BuscarDespesasPorUsuarioUseCase buscarDespesasPorUsuarioUseCase,
+            AlterarDespesaUsecase alterarDespesaUsecase
     ) {
         this.tracer = tracer;
         this.buscarDespesasPorUsuarioUseCase = buscarDespesasPorUsuarioUseCase;
+        this.alterarDespesaUsecase = alterarDespesaUsecase;
     }
 
     @GetMapping
     @PreAuthorize("hasAnyAuthority('ADMIN', 'BASICO')")
     public ResponseEntity<DespesaPaginadaResponse> listar(
             JwtAuthenticationToken token,
-            @RequestParam(value = "anomes", required = true) @DateTimeFormat(pattern = "yyyyMM") YearMonth anoMes,
+            @RequestParam(value = "anomes") @DateTimeFormat(pattern = "yyyyMM") YearMonth anoMes,
             @RequestParam(value = "pagina", defaultValue = "0") int pagina,
             @RequestParam(value = "tamanho", defaultValue = "20") int tamanho,
             @RequestParam(value = "cartao", required = false) Long cartaoId,
@@ -66,7 +71,30 @@ public class DespesaController {
         }
     }
 
-    @PostMapping("/despesas/reclassificar")
+    @PutMapping("/{id}")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'BASICO')")
+    public ResponseEntity<?> reclassificar(
+            @PathVariable(value = "id") Long despesaId,
+            @RequestBody DespesaRequest request,
+            JwtAuthenticationToken token
+    ){
+        ScopedSpan span = tracer.startScopedSpan("despesas-alterar");
+        try{
+            var usuarioId = extrairUsuarioIdDoToken(token);
+            var despesa = request.toModel();
+            despesa.setUsuarioId(usuarioId);
+            despesa.setId(despesaId);
+            alterarDespesaUsecase.executar(despesa);
+            return ResponseEntity.ok().build();
+        } catch (Exception exception) {
+            log.error("Erro: {}", exception.getMessage());
+            throw new RuntimeException(exception);
+        } finally {
+            span.end();
+        }
+    }
+
+    @PostMapping("/reclassificar")
     @PreAuthorize("hasAnyAuthority('ADMIN', 'BASICO')")
     public ResponseEntity<?> reclassificar(
         @RequestBody @Valid ReclassificarRequest request,

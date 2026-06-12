@@ -55,4 +55,19 @@ public class FinancasApiConfiguration {
     ){
         return new BuscarCategoriasPorUsuarioUseCase(buscarCategoriasPorUsuario);
     }
+
+    @Bean
+    public AlterarDespesaUsecase criarAlterarDespesaUsecase(
+            SalvarDespesa salvarDespesa,
+            BuscarDespesaPorId buscarDespesaPorId,
+            BuscarCartaoPorId buscarCartaoPorId,
+            BuscarCategoriaPorId buscarCategoriaPorId
+    ){
+        return new AlterarDespesaUsecase(
+                salvarDespesa,
+                buscarDespesaPorId,
+                buscarCartaoPorId,
+                buscarCategoriaPorId
+        );
+    }
 }

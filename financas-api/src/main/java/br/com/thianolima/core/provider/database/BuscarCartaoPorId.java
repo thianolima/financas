@@ -6,5 +6,5 @@ import java.util.Optional;
 
 public interface BuscarCartaoPorId {
 
-    Optional<Cartao> executar(Long id);
+    Optional<Cartao> executar(Long cartaoId, Long usuarioId);
 }
