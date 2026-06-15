@@ -25,7 +25,8 @@ public class BuscarCategoriaPorIdImpl implements BuscarCategoriaPorId {
     public Optional<Categoria> executar(Long categoriaId, Long usuarioId) {
         var consulta = """
                           SELECT c FROM CategoriaEntity c 
-                          WHERE c.usuarioId = :usuarioId AND c.id = :categoriaId
+                          WHERE (c.usuarioId = :usuarioId OR c.usuarioId = 0) 
+                          AND c.id = :categoriaId
                        """;
 
         CategoriaEntity categoriaEntity = entityManager.createQuery(consulta, CategoriaEntity.class)

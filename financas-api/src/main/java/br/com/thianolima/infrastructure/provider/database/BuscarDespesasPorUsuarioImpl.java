@@ -51,6 +51,7 @@ public class BuscarDespesasPorUsuarioImpl implements BuscarDespesasPorUsuario {
                 WHERE d.usuario_id = :usuarioId 
                 AND EXTRACT(YEAR FROM d.data_vencimento) = :ano 
                 AND EXTRACT(MONTH FROM d.data_vencimento) = :mes
+                ORDER BY d.data_vencimento desc
             """
         );
 

@@ -3,10 +3,10 @@ package br.com.thianolima.entrypoint.controller;
 import br.com.thianolima.core.model.TipoDespesaEnum;
 import br.com.thianolima.core.usecase.AlterarDespesaUsecase;
 import br.com.thianolima.core.usecase.BuscarDespesasPorUsuarioUseCase;
+import br.com.thianolima.core.usecase.ExcluirDespesaUseCase;
 import br.com.thianolima.entrypoint.request.DespesaRequest;
 import br.com.thianolima.entrypoint.request.ReclassificarRequest;
 import br.com.thianolima.entrypoint.response.DespesaPaginadaResponse;
-import br.com.thianolima.model.Despesa;
 import io.micrometer.tracing.ScopedSpan;
 import io.micrometer.tracing.Tracer;
 import jakarta.validation.Valid;
@@ -27,16 +27,19 @@ public class DespesaController {
     private final Tracer tracer;
     private final BuscarDespesasPorUsuarioUseCase buscarDespesasPorUsuarioUseCase;
     private final AlterarDespesaUsecase alterarDespesaUsecase;
+    private final ExcluirDespesaUseCase excluirDespesaUseCase;
 
 
     public DespesaController(
             Tracer tracer,
             BuscarDespesasPorUsuarioUseCase buscarDespesasPorUsuarioUseCase,
-            AlterarDespesaUsecase alterarDespesaUsecase
+            AlterarDespesaUsecase alterarDespesaUsecase,
+            ExcluirDespesaUseCase excluirDespesaUseCase
     ) {
         this.tracer = tracer;
         this.buscarDespesasPorUsuarioUseCase = buscarDespesasPorUsuarioUseCase;
         this.alterarDespesaUsecase = alterarDespesaUsecase;
+        this.excluirDespesaUseCase = excluirDespesaUseCase;
     }
 
     @GetMapping
@@ -73,7 +76,7 @@ public class DespesaController {
 
     @PutMapping("/{id}")
     @PreAuthorize("hasAnyAuthority('ADMIN', 'BASICO')")
-    public ResponseEntity<?> reclassificar(
+    public ResponseEntity<?> alterar(
             @PathVariable(value = "id") Long despesaId,
             @RequestBody DespesaRequest request,
             JwtAuthenticationToken token
@@ -85,6 +88,25 @@ public class DespesaController {
             despesa.setUsuarioId(usuarioId);
             despesa.setId(despesaId);
             alterarDespesaUsecase.executar(despesa);
+            return ResponseEntity.ok().build();
+        } catch (Exception exception) {
+            log.error("Erro: {}", exception.getMessage());
+            throw new RuntimeException(exception);
+        } finally {
+            span.end();
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'BASICO')")
+    public ResponseEntity<?> excluir(
+            @PathVariable(value = "id") Long despesaId,
+            JwtAuthenticationToken token
+    ){
+        ScopedSpan span = tracer.startScopedSpan("despesas-excluir");
+        try{
+            var usuarioId = extrairUsuarioIdDoToken(token);
+            excluirDespesaUseCase.executar(despesaId, usuarioId);
             return ResponseEntity.ok().build();
         } catch (Exception exception) {
             log.error("Erro: {}", exception.getMessage());

@@ -1,12 +1,12 @@
 meta {
-  name: Categoria - Listar categorias do usuario
+  name: Despesas - Excluir
   type: http
-  seq: 8
+  seq: 1
 }
 
-get {
-  url: {{URL_SERVER}}/categorias
-  body: none
+delete {
+  url: {{URL_SERVER}}/despesas/648
+  body: json
   auth: bearer
 }
 

@@ -1,17 +1,13 @@
 meta {
-  name: Projecoes - Despesas
+  name: Categoria - Listar Por Usuario
   type: http
-  seq: 11
+  seq: 5
 }
 
 get {
-  url: {{URL_SERVER}}/projecoes/despesas?meses=6
+  url: {{URL_SERVER}}/categorias
   body: none
   auth: bearer
-}
-
-params:query {
-  meses: 6
 }
 
 auth:bearer {

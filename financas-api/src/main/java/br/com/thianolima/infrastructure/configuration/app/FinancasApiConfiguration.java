@@ -70,4 +70,15 @@ public class FinancasApiConfiguration {
                 buscarCategoriaPorId
         );
     }
+
+    @Bean
+    public ExcluirDespesaUseCase criarExcluirDespesaUseCase(
+            ExcluirDespesa excluirDespesa,
+            BuscarDespesaPorId buscarDespesaPorId
+    ){
+        return new ExcluirDespesaUseCase(
+                excluirDespesa,
+                buscarDespesaPorId
+        );
+    }
 }
