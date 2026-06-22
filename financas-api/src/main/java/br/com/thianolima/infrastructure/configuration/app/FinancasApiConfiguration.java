@@ -2,10 +2,7 @@ package br.com.thianolima.infrastructure.configuration.app;
 
 import br.com.thianolima.core.provider.database.*;
 import br.com.thianolima.core.provider.storage.CriarUrlPreAssinadaFatura;
-import br.com.thianolima.core.usecase.BuscarCartoesPorUsuarioUseCase;
-import br.com.thianolima.core.usecase.BuscarDespesasPorUsuarioUseCase;
-import br.com.thianolima.core.usecase.GerarProjecaoDespesasUseCase;
-import br.com.thianolima.core.usecase.UploadFaturaCartaoUseCase;
+import br.com.thianolima.core.usecase.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -50,5 +47,38 @@ public class FinancasApiConfiguration {
             BuscarDespesasPorUsuario buscarDespesasPorUsuario
     ){
         return new BuscarDespesasPorUsuarioUseCase(buscarDespesasPorUsuario);
+    }
+
+    @Bean
+    public BuscarCategoriasPorUsuarioUseCase criarBuscarCategoriasPorUsuarioUseCase(
+            BuscarCategoriasPorUsuario buscarCategoriasPorUsuario
+    ){
+        return new BuscarCategoriasPorUsuarioUseCase(buscarCategoriasPorUsuario);
+    }
+
+    @Bean
+    public AlterarDespesaUsecase criarAlterarDespesaUsecase(
+            SalvarDespesa salvarDespesa,
+            BuscarDespesaPorId buscarDespesaPorId,
+            BuscarCartaoPorId buscarCartaoPorId,
+            BuscarCategoriaPorId buscarCategoriaPorId
+    ){
+        return new AlterarDespesaUsecase(
+                salvarDespesa,
+                buscarDespesaPorId,
+                buscarCartaoPorId,
+                buscarCategoriaPorId
+        );
+    }
+
+    @Bean
+    public ExcluirDespesaUseCase criarExcluirDespesaUseCase(
+            ExcluirDespesa excluirDespesa,
+            BuscarDespesaPorId buscarDespesaPorId
+    ){
+        return new ExcluirDespesaUseCase(
+                excluirDespesa,
+                buscarDespesaPorId
+        );
     }
 }

@@ -1,0 +1,20 @@
+meta {
+  name: Cartao - Listar Por Usuario
+  type: http
+  seq: 9
+}
+
+get {
+  url: {{URL_SERVER}}/cartoes
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{TOKEN}}
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

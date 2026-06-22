@@ -62,4 +62,8 @@ public class Despesa {
             return Optional.empty();
         }
     }
+
+    public boolean isOrigemFatura(){
+        return this.faturaId != null;
+    }
 }

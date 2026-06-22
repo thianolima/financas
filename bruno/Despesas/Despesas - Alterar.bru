@@ -1,0 +1,35 @@
+meta {
+  name: Despesas - Alterar
+  type: http
+  seq: 2
+}
+
+put {
+  url: {{URL_SERVER}}/despesas/6626
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{TOKEN}}
+}
+
+body:json {
+  {
+    "cartaoId":1,
+    "categoriaId":7,
+    "descricao":"GRILETTO",
+    "parcelaAtual":0,
+    "totalParcelas":0,
+    "dataDespesa":"2026-06-10",
+    "dataVencimento":"2026-06-10",
+    "valor":27.9,
+    "observacao":"ALMOCO STEPHANY",
+    "recorrente":false
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
