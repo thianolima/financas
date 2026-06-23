@@ -78,7 +78,7 @@ public class DespesaController {
     @PreAuthorize("hasAnyAuthority('ADMIN', 'BASICO')")
     public ResponseEntity<?> alterar(
             @PathVariable(value = "id") Long despesaId,
-            @RequestBody DespesaRequest request,
+            @RequestBody @Valid DespesaRequest request,
             JwtAuthenticationToken token
     ){
         ScopedSpan span = tracer.startScopedSpan("despesas-alterar");

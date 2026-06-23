@@ -40,7 +40,8 @@ public class BuscarDespesasPorUsuarioImpl implements BuscarDespesasPorUsuario {
                     c.nome as categoria_nome, 
                     d.descricao_processada as descricao, 
                     d.parcela_atual, 
-                    d.total_parcelas, 
+                    d.total_parcelas,
+                    d.data_despesa, 
                     d.data_vencimento, 
                     d.valor, 
                     d.observacao, 
@@ -51,7 +52,6 @@ public class BuscarDespesasPorUsuarioImpl implements BuscarDespesasPorUsuario {
                 WHERE d.usuario_id = :usuarioId 
                 AND EXTRACT(YEAR FROM d.data_vencimento) = :ano 
                 AND EXTRACT(MONTH FROM d.data_vencimento) = :mes
-                ORDER BY d.data_vencimento desc
             """
         );
 
@@ -77,6 +77,8 @@ public class BuscarDespesasPorUsuarioImpl implements BuscarDespesasPorUsuario {
                 case PARCELADO  -> sql.append(" AND d.total_parcelas > 0 ");
             }
         }
+
+        sql.append(" ORDER BY d.data_vencimento DESC ");
 
         return jdbcTemplate.query(
                     sql.toString(),

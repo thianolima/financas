@@ -81,4 +81,15 @@ public class FinancasApiConfiguration {
                 buscarDespesaPorId
         );
     }
+
+    @Bean
+    public SalvarRegraUseCase criarSavarRegraUseCase(
+            SalvarRegra salvarRegra,
+            BuscarRegraPorTermoBusca buscarRegraPorTermoBusc
+    ){
+        return new SalvarRegraUseCase(
+                salvarRegra,
+                buscarRegraPorTermoBusc
+        );
+    }
 }

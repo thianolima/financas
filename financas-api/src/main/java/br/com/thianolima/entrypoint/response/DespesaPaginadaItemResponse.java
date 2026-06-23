@@ -18,6 +18,7 @@ public class DespesaPaginadaItemResponse {
     private String descricao;
     private Integer parcelaAtual;
     private Integer totalParcelas;
+    private LocalDate dataDespesa;
     private LocalDate dataVencimento;
     private BigDecimal valor;
     private String observacao;
@@ -34,6 +35,7 @@ public class DespesaPaginadaItemResponse {
         this.descricao = despesaPaginadaItem.getDescricao();
         this.parcelaAtual = despesaPaginadaItem.getParcelaAtual();
         this.totalParcelas = despesaPaginadaItem.getTotalParcelas();
+        this.dataDespesa = despesaPaginadaItem.getDataDespesa();
         this.dataVencimento = despesaPaginadaItem.getDataVencimento();
         this.valor = despesaPaginadaItem.getValor();
         this.observacao = despesaPaginadaItem.getObservacao();
