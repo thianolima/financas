@@ -18,6 +18,10 @@ spring:
         bucket:
           fatura: ${AWS_S3_BUCKET_FATURA:bucket_name:thianolima-financas-faturas-dev}
           extrato: ${AWS_S3_BUCKET_EXTRATO:bucket_name:thianolima-financas-extratos-dev}
+      sqs:
+        queue:
+          comando-processar-regras: ${AWS_SQS_COMANDO_PROCESSAR_REGRAS:sqs-comando-processar-regras-dev.fifo}
+          retorno-processar-regras: ${AWS_SQS_RETORNO_PROCESSAR_REGRAS:sqs-retorno-processar-regras}
 
   datasource:
     url: ${AWS_RDS_URL:}

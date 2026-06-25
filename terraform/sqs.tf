@@ -23,3 +23,29 @@ resource "aws_sqs_queue" "sqs-retorno-nova-fatura" {
   message_retention_seconds = var.sqs_retention_seconds
   tags  = var.common_tags
 }
+
+resource "aws_sqs_queue" "sqs-comando-processar-regras" {
+  name = "${var.sqs_comando_processar_regras}.fifo"
+  fifo_queue = true
+  content_based_deduplication = true
+  delay_seconds = var.sqs_delay_seconds
+  visibility_timeout_seconds = var.sqs_visibility_timeout_seconds
+  message_retention_seconds = var.sqs_retention_seconds
+  tags  = var.common_tags
+}
+
+resource "aws_sqs_queue" "sqs-comando-processar-regras-dlq" {
+  name =  var.sqs_comando_processar_regras_dlq
+  delay_seconds = var.sqs_delay_seconds
+  visibility_timeout_seconds = var.sqs_visibility_timeout_seconds
+  message_retention_seconds = var.sqs_retention_seconds
+  tags  = var.common_tags
+}
+
+resource "aws_sqs_queue" "sqs-retorno-processar-regras" {
+  name = var.sqs_retorno_processar_regras
+  delay_seconds = var.sqs_delay_seconds
+  visibility_timeout_seconds = var.sqs_visibility_timeout_seconds
+  message_retention_seconds = var.sqs_retention_seconds
+  tags  = var.common_tags
+}

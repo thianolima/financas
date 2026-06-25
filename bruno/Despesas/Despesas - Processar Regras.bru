@@ -1,0 +1,26 @@
+meta {
+  name: Despesas - Processar Regras
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{URL_SERVER}}/despesas/processar-regras
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{TOKEN}}
+}
+
+body:json {
+  {
+    "despesasIds": [6696, 2803]
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

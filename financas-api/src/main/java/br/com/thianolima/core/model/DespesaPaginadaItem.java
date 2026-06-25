@@ -13,7 +13,6 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class DespesaPaginadaItem {
-
     private Long id;
     private Long cartaoId;
     private String cartaoNome;

@@ -1,6 +1,7 @@
 package br.com.thianolima.infrastructure.configuration.app;
 
 import br.com.thianolima.core.provider.database.*;
+import br.com.thianolima.core.provider.message.ProduzirComandoProcessarRegras;
 import br.com.thianolima.core.provider.storage.CriarUrlPreAssinadaFatura;
 import br.com.thianolima.core.usecase.*;
 import org.springframework.context.annotation.Bean;
@@ -90,6 +91,17 @@ public class FinancasApiConfiguration {
         return new SalvarRegraUseCase(
                 salvarRegra,
                 buscarRegraPorTermoBusc
+        );
+    }
+
+    @Bean
+    public PorcessarRegrasEmLoteUseCase criarPorcessarRegrasEmLoteUseCase(
+            ValidarDespesasPertecemUsuario validarDespesasPertecemUsuario,
+            ProduzirComandoProcessarRegras produzirComandoProcessarRegras
+    ){
+        return  new PorcessarRegrasEmLoteUseCase(
+                validarDespesasPertecemUsuario,
+                produzirComandoProcessarRegras
         );
     }
 }
