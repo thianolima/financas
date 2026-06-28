@@ -22,6 +22,8 @@ public class SalvarDespesaImpl implements SalvarDespesa {
         log.info("DespesaEntity {}", despesa);
         var despesaEntity = new DespesaEntity(despesa);
         entityManager.merge(despesaEntity);
+
+
         return despesaEntity.toModel();
     }
 }

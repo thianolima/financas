@@ -19,7 +19,7 @@ public class SqsConfiguration {
 
     public SqsConfiguration(AwsProperties awsProperties) {
         this.awsProperties = awsProperties;
-        this.region = Region.of(awsProperties.getRegion());
+        this.region = Region.of(awsProperties.getRegion().toLowerCase().trim());
     }
 
     @Bean

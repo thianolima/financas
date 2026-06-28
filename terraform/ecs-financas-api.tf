@@ -15,7 +15,7 @@ resource "aws_iam_role" "role_task_execution_financas_api" {
   })
 }
 
-# Política de Execução Consolidada (ECR + Logs + Secrets)
+# Política de Deploy (ECR + Logs + Secrets)
 resource "aws_iam_policy" "policy_task_execution_financas_api" {
   name        = "policy-task-execution-financas-api-${var.ambiente}"
   description = "Permissoes para o ECS puxar imagens do ECR, gravar logs e ler secrets"
@@ -62,7 +62,7 @@ resource "aws_iam_role_policy_attachment" "role_policy_ecs_task_execution_manage
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
 }
 
-# B. Task Role (Aplicação - S3)
+# B. Task Role (Aplicação)
 resource "aws_iam_role" "role_task_financas_api" {
   name = "role-task-financas-api-${var.ambiente}"
   assume_role_policy = jsonencode({
@@ -71,6 +71,7 @@ resource "aws_iam_role" "role_task_financas_api" {
   })
 }
 
+# Política da Aplicacao (ECR + Logs + Secrets)
 resource "aws_iam_policy" "policy_task_financas_api" {
   name = "policy-task-financas-api-${var.ambiente}"
   policy = jsonencode({
@@ -80,6 +81,20 @@ resource "aws_iam_policy" "policy_task_financas_api" {
         Effect = "Allow",
         Action = ["s3:*"],
         Resource = "*"
+      },
+      {
+        Effect = "Allow",
+        Action = [
+          "sqs:ReceiveMessage",
+          "sqs:DeleteMessage",
+          "sqs:GetQueueAttributes",
+          "sqs:GetQueueUrl",
+          "sqs:SendMessage"
+        ],
+        Resource = [
+          "arn:aws:sqs:sa-east-1:841816327169:sqs-comando-processar-regras-${var.ambiente}.fifo",
+          "arn:aws:sqs:sa-east-1:841816327169:sqs-retorno-processar-regras-${var.ambiente}"
+        ]
       }
     ]
   })

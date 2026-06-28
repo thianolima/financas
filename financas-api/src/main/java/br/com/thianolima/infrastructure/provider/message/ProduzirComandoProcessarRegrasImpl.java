@@ -34,6 +34,9 @@ public class ProduzirComandoProcessarRegrasImpl implements ProduzirComandoProces
         var spanId = currentSpan.context().spanIdString();
         var comandoProcessarRegraDto = new ComandoProcessarRegraDto(comandoProcessarRegras);
 
+        log.info("INICIO - Envio Comando Processar Regras TraceId: {} SpanId: {} Mensagem: {} Fila: {}",
+                traceId, spanId, comandoProcessarRegraDto, nomeFila);
+
         sqsTemplate.send(options -> options
                 .queue(nomeFila)
                 .payload(comandoProcessarRegraDto)
@@ -43,6 +46,7 @@ public class ProduzirComandoProcessarRegrasImpl implements ProduzirComandoProces
                 .messageDeduplicationId(comandoProcessarRegras.despesaId() + "-" + comandoProcessarRegras.sequencialAtual())
         );
 
-        log.info("Envio Comando Processar Regras TraceId: {} SpanId: {} Mensagem: {}", traceId, spanId, comandoProcessarRegraDto);
+        log.info("FIM - Envio Comando Processar Regras TraceId: {} SpanId: {} Mensagem: {} Fila: {}",
+                traceId, spanId, comandoProcessarRegraDto, nomeFila);
     }
 }

@@ -27,6 +27,7 @@ public class SqsConfiguration {
         return SqsTemplate.builder()
                 .sqsAsyncClient(sqsAsyncClient)
                 .configureDefaultConverter(AbstractMessagingMessageConverter::doNotSendPayloadTypeHeader)
+                .configure(options -> options.queueNotFoundStrategy(QueueNotFoundStrategy.FAIL))
                 .build();
     }
 

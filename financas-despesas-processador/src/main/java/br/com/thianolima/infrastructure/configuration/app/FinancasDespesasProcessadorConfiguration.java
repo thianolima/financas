@@ -1,8 +1,10 @@
 package br.com.thianolima.infrastructure.configuration.app;
 
 import br.com.thianolima.core.provider.*;
+import br.com.thianolima.core.usecase.ClassificarDespesaPorRegraUseCase;
 import br.com.thianolima.core.usecase.ClassificarDespesaUseCase;
 import br.com.thianolima.core.usecase.ProcessarDespesaFaturaUseCase;
+import br.com.thianolima.core.usecase.ProcessarRegrasEmLoteUseCase;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -34,6 +36,30 @@ public class FinancasDespesasProcessadorConfiguration {
                 produzirRetornoNovaFatura,
                 buscarFaturaPorId,
                 salvarDespesa
+        );
+    }
+
+    @Bean
+    ClassificarDespesaPorRegraUseCase criarClassificarDespesaPorRegraUseCase(
+            BuscarRegraPorTermo buscarRegraPorTermo
+    ){
+        return new ClassificarDespesaPorRegraUseCase(
+                buscarRegraPorTermo
+        );
+    }
+
+    @Bean
+    ProcessarRegrasEmLoteUseCase criarProcessarRegrasEmLoteUseCase(
+            BuscarDespesaPorId buscarDespesaPorId,
+            ClassificarDespesaPorRegraUseCase classificarDespesaPorRegraUseCase,
+            SalvarDespesa salvarDespesa,
+            ProduzirRetornoProcessarRegras produzirRetornoProcessarRegras
+    ){
+        return new ProcessarRegrasEmLoteUseCase(
+            buscarDespesaPorId,
+            classificarDespesaPorRegraUseCase,
+            salvarDespesa,
+            produzirRetornoProcessarRegras
         );
     }
 }
