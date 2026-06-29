@@ -16,8 +16,7 @@ spring:
         secret-key: ${AWS_CREDENTIALS_SECRET_KEY:}
       s3:
         bucket:
-          fatura: ${AWS_S3_BUCKET_FATURA:bucket_name:thianolima-financas-faturas-dev}
-          extrato: ${AWS_S3_BUCKET_EXTRATO:bucket_name:thianolima-financas-extratos-dev}
+          fatura: ${AWS_S3_BUCKET_FATURA:bucket_name:financas-faturas-dev}
       sqs:
         queue:
           comando-processar-regras: ${AWS_SQS_COMANDO_PROCESSAR_REGRAS:sqs-comando-processar-regras-dev.fifo}

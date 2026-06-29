@@ -92,8 +92,8 @@ resource "aws_iam_policy" "policy_task_financas_api" {
           "sqs:SendMessage"
         ],
         Resource = [
-          "arn:aws:sqs:sa-east-1:841816327169:sqs-comando-processar-regras-${var.ambiente}.fifo",
-          "arn:aws:sqs:sa-east-1:841816327169:sqs-retorno-processar-regras-${var.ambiente}"
+          "arn:aws:sqs:${var.aws_region}:${data.aws_caller_identity.current.account_id}:sqs-comando-processar-regras-${var.ambiente}.fifo",
+          "arn:aws:sqs:${var.aws_region}:${data.aws_caller_identity.current.account_id}:sqs-retorno-processar-regras-${var.ambiente}"
         ]
       }
     ]

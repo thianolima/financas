@@ -13,8 +13,7 @@ ARG MODULE_NAME=financas-api
 COPY --from=build /app/${MODULE_NAME}/target/*.jar app.jar
 
 ENV AWS_RDS_URL="jdbc:mysql://rds-financas.cjkk4wk6acu9.sa-east-1.rds.amazonaws.com:3306/financasdb?useSSL=false&allowPublicKeyRetrieval=true"
-ENV AWS_S3_BUCKET_EXTRATO=thianolima-financas-extratos-dev
-ENV AWS_S3_BUCKET_FATURA=thianolima-financas-faturas-dev
+ENV AWS_S3_BUCKET_FATURA=financas-faturas-dev
 ENV AWS_SQS_COMANDO_NOVA_FATURA=sqs-comando-nova-fatura-dev
 ENV AWS_SQS_RETORNO_NOVA_FATURA=sqs-retorno-nova-fatura-dev
 ENV AWS_SQS_COMANDO_NOVA_DESPESA=sqs-comando-nova-despesa-dev.fifo
