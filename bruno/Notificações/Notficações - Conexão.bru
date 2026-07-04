@@ -1,0 +1,20 @@
+meta {
+  name: Notficações - Conexão
+  type: http
+  seq: 8
+}
+
+get {
+  url: {{URL_SERVER}}/notificacoes/stream
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{TOKEN}}
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

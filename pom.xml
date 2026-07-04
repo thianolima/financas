@@ -23,6 +23,7 @@
 		<module>financas-despesas-integrador</module>
 		<module>financas-despesas-processador</module>
         <module>financas-seguranca</module>
+        <module>financas-notificacoes</module>
     </modules>
 
 	<url/>

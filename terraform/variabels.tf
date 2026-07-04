@@ -33,8 +33,8 @@ variable "sqs_comando_processar_regras_dlq" {
   type        = string
 }
 
-variable "sqs_retorno_processar_regras" {
-  description = "Nome do sqs que ira receber o retorno do processamento de regras de uma despesa"
+variable "sqs_comando_nova_notificacao" {
+  description = "Nome do sqs que ira receber comando para notificar o usuario no front-end"
   type        = string
 }
 

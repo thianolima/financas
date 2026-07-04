@@ -1,7 +1,7 @@
 package br.com.thianolima.core.usecase;
 
 import br.com.thianolima.core.provider.BuscarDespesaPorId;
-import br.com.thianolima.core.provider.ProduzirRetornoProcessarRegras;
+import br.com.thianolima.core.provider.ProduzirComandoNovaNotificacao;
 import br.com.thianolima.core.provider.SalvarDespesa;
 
 public class ProcessarRegrasEmLoteUseCase {
@@ -9,18 +9,18 @@ public class ProcessarRegrasEmLoteUseCase {
     private final BuscarDespesaPorId buscarDespesaPorId;
     private final ClassificarDespesaPorRegraUseCase classificarDespesaPorRegraUseCase;
     private final SalvarDespesa salvarDespesa;
-    private final ProduzirRetornoProcessarRegras produzirRetornoProcessarRegras;
+    private final ProduzirComandoNovaNotificacao produzirComandoNovaNotificacao;
 
     public ProcessarRegrasEmLoteUseCase(
             BuscarDespesaPorId buscarDespesaPorId,
             ClassificarDespesaPorRegraUseCase classificarDespesaPorRegraUseCase,
             SalvarDespesa salvarDespesa,
-            ProduzirRetornoProcessarRegras produzirRetornoProcessarRegras
+            ProduzirComandoNovaNotificacao produzirComandoNovaNotificacao
     ) {
         this.buscarDespesaPorId = buscarDespesaPorId;
         this.classificarDespesaPorRegraUseCase = classificarDespesaPorRegraUseCase;
         this.salvarDespesa = salvarDespesa;
-        this.produzirRetornoProcessarRegras = produzirRetornoProcessarRegras;
+        this.produzirComandoNovaNotificacao = produzirComandoNovaNotificacao;
     }
 
     public void executar(
@@ -35,11 +35,15 @@ public class ProcessarRegrasEmLoteUseCase {
                         var despesaClassificada = classificarDespesaPorRegraUseCase.executar(despesaSalva);
                         salvarDespesa.executar(despesaClassificada);
                         if(sequencialAtual == sequencialFinal){
-                            //produzirRetornoProcessarRegras
+                            produzirComandoNovaNotificacao.executar(
+                                    usuarioId,
+                                    "ProcessarRegrasEmLote",
+                                    "Termino da aplicação de regras de categorização nas despesas enviadas em lote!"
+                            );
                         }
                     },
                     () -> {
-                        throw new RuntimeException("A despesa "+ despesaId +" não pertence ao usuário autenticado!");
+                        throw new RuntimeException("ERRRO: A despesa "+ despesaId +" não pertence ao usuário autenticado!");
                     }
             );
     }

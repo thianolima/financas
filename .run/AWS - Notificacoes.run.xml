@@ -1,0 +1,26 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="AWS - Notificacoes" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" activateToolWindowBeforeRun="false">
+    <envs>
+      <env name="AWS_CREDENTIALS_ACCESS_KEY" value="AKIA4IABJYQAZP3IZTP7" />
+      <env name="AWS_CREDENTIALS_SECRET_KEY" value="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" />
+      <env name="AWS_RDS_PASSWORD" value="Lth1an01985" />
+      <env name="AWS_RDS_URL" value="jdbc:mysql://rds-financas.cjkk4wk6acu9.sa-east-1.rds.amazonaws.com:3306/financasdb?useSSL=false&amp;allowPublicKeyRetrieval=true" />
+      <env name="AWS_RDS_USER" value="admin" />
+      <env name="AWS_REGION" value="sa-east-1" />
+      <env name="SQS_COMANDO_NOVA_NOTIFICACAO" value="sqs-comando-nova-despesa-dev" />
+    </envs>
+    <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UnknownPolicyInFreeMode" />
+    <option name="INCLUDE_PROVIDED_SCOPE" value="false" />
+    <module name="financas-notificacoes" />
+    <option name="SPRING_BOOT_MAIN_CLASS" value="br.com.thianolima.FinancasNotificacoesApplication" />
+    <extension name="coverage">
+      <pattern>
+        <option name="PATTERN" value="br.com.thianolima.*" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+    </extension>
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

@@ -89,7 +89,7 @@ resource "aws_iam_policy" "policy_task_financas_despesas_processador" {
         "arn:aws:sqs:${var.aws_region}:${data.aws_caller_identity.current.account_id}:sqs-retorno-nova-fatura-${var.ambiente}",
         "arn:aws:sqs:${var.aws_region}:${data.aws_caller_identity.current.account_id}:sqs-comando-processar-regras-${var.ambiente}-dlq",
         "arn:aws:sqs:${var.aws_region}:${data.aws_caller_identity.current.account_id}:sqs-comando-processar-regras-${var.ambiente}.fifo",
-        "arn:aws:sqs:${var.aws_region}:${data.aws_caller_identity.current.account_id}:sqs-retorno-processar-regras-${var.ambiente}"
+        "arn:aws:sqs:${var.aws_region}:${data.aws_caller_identity.current.account_id}:sqs-comando-nova-notificacao-${var.ambiente}"
       ]
     }]
   })

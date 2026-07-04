@@ -1,9 +1,12 @@
 server:
-  port: ${SERVER_PORT:8084}
+  port: ${SERVER_PORT:8080}
 
 spring:
   application:
-    name: financas-despesas-processador
+    name: financas-notificacoes
+
+  config:
+    import: "optional:classpath:application-seguranca.yaml"
 
   cloud:
     aws:
@@ -13,10 +16,6 @@ spring:
         secret-key: ${AWS_CREDENTIALS_SECRET_KEY:}
       sqs:
         queue:
-          comando-nova-despesa: ${AWS_SQS_COMANDO_NOVA_DESPESA:sqs-comando-nova-despesa-dev.fifo}
-          retorno-nova-fatura: ${AWS_SQS_RETORNO_NOVA_FATURA:sqs-retorno-nova-fatura-dev}
-          comando-processar-regras: ${AWS_SQS_COMANDO_PROCESSAR_REGRAS:sqs-comando-processar-regras-dev.fifo}
-          comando-processar-regras-dlq: ${AWS_SQS_COMANDO_PROCESSAR_REGRAS_DLQ:sqs-comando-processar-regras-dev-dlq}
           comando-nova-notificacao: ${AWS_SQS_COMANDO_NOVA_NOTIFICACAO:sqs-comando-nova-notificacao-dev}
 
   datasource:
@@ -30,11 +29,10 @@ spring:
     hibernate:
       ddl-auto: none
     properties:
-      properties:
-        hibernate:
-          dialect: org.hibernate.dialect.MySQL8Dialect
-        use_sql_comments: true
-        format_sql: true
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+      use_sql_comments: true
+      format_sql: true
 
 ### ACTUATOR / MICROMETER
 management:

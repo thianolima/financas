@@ -22,22 +22,6 @@ spring:
           comando-processar-regras: ${AWS_SQS_COMANDO_PROCESSAR_REGRAS:sqs-comando-processar-regras-dev.fifo}
           retorno-processar-regras: ${AWS_SQS_RETORNO_PROCESSAR_REGRAS:sqs-retorno-processar-regras}
 
-  datasource:
-    url: ${AWS_RDS_URL:}
-    username: ${AWS_RDS_USER:admin}
-    password: ${AWS_RDS_PASSWORD:admin}
-    driver-class-name: com.mysql.cj.jdbc.Driver
-
-  jpa:
-    show-sql: true
-    hibernate:
-      ddl-auto: none
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.MySQL8Dialect
-      use_sql_comments: true
-      format_sql: true
-
 ### ACTUATOR / MICROMETER
 management:
   endpoints:

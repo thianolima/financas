@@ -29,9 +29,10 @@ public class PorcessarRegrasEmLoteUseCase {
         int sequencialFinal = despesasIds.size();
         int sequencialAtual = 1;
         while (sequencialAtual <= despesasIds.size()){
+            var despesaId = despesasIds.get(sequencialAtual-1);
             var comandoProcessarRegra = new ComandoProcessarRegras(
-                    despesasIds.get(sequencialAtual-1),
                     usuarioId,
+                    despesaId,
                     sequencialAtual,
                     sequencialFinal
             );

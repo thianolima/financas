@@ -1,7 +1,5 @@
 package br.com.thianolima.entrypoint.sqs;
 
-import br.com.thianolima.core.usecase.ProcessarRegrasEmLoteUseCase;
-import br.com.thianolima.entrypoint.dto.ComandoProcessarRegraDto;
 import brave.Span;
 import brave.Tracer;
 import brave.propagation.TraceContext;
@@ -13,24 +11,21 @@ import org.springframework.stereotype.Service;
 
 @Slf4j
 @Service
-public class ComandoProcessarRegrasListener {
+public class ComandoNovaNotificacaoListener {
 
     private final ObjectMapper objectMapper;
     private final Tracer tracer;
-    private final ProcessarRegrasEmLoteUseCase processarRegrasEmLoteUseCase;
 
-    public ComandoProcessarRegrasListener(
+    public ComandoNovaNotificacaoListener(
             ObjectMapper objectMapper,
-            Tracer tracer,
-            ProcessarRegrasEmLoteUseCase processarRegrasEmLoteUseCase
+            Tracer tracer
     ) {
         this.objectMapper = objectMapper;
         this.tracer = tracer;
-        this.processarRegrasEmLoteUseCase = processarRegrasEmLoteUseCase;
     }
 
     @SqsListener(
-            value = "${spring.cloud.aws.sqs.queue.comando-processar-regras}",
+            value = "${spring.cloud.aws.sqs.queue.comando-nova-notificacao}",
             factory = "defaultSqsMessageListenerContainerFactory"
     )
     public void receberMensagem(
@@ -46,13 +41,7 @@ public class ComandoProcessarRegrasListener {
         Span newSpan = tracer.newChild(context).name("comando-processar-regras").start();
         try (Tracer.SpanInScope spanInScope = tracer.withSpanInScope(newSpan)){
             log.info("INICIO - Comando Processar Regras TraceId: {} SpanId: {} Mensagem: {}", traceId, spanId, mensagem);
-            var comandoProcessarRegraDto = objectMapper.readValue(mensagem, ComandoProcessarRegraDto.class);
-            processarRegrasEmLoteUseCase.executar(
-                    comandoProcessarRegraDto.getUsuarioId(),
-                    comandoProcessarRegraDto.getDespesaId(),
-                    comandoProcessarRegraDto.getSequencialAtual(),
-                    comandoProcessarRegraDto.getSequencialFinal()
-            );
+
             log.info("FIM - Comando Processar Regras TraceId: {} SpanId: {} Mensagem: {}", traceId, spanId, mensagem);
         } catch (Exception exception) {
             log.error("ERRO: {} Mensagem: {}", exception.getMessage(), mensagem);

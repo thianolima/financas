@@ -42,8 +42,8 @@ public class ProduzirComandoProcessarRegrasImpl implements ProduzirComandoProces
                 .payload(comandoProcessarRegraDto)
                 .header("traceId", traceId)
                 .header("spanId", spanId)
-                .messageGroupId(comandoProcessarRegras.despesaId().toString())
-                .messageDeduplicationId(comandoProcessarRegras.despesaId() + "-" + comandoProcessarRegras.sequencialAtual())
+                .messageGroupId(traceId)
+                .messageDeduplicationId(comandoProcessarRegras.despesaId() + "-" + traceId)
         );
 
         log.info("FIM - Envio Comando Processar Regras TraceId: {} SpanId: {} Mensagem: {} Fila: {}",

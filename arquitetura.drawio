@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36" pages="8">
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36" pages="9">
   <diagram id="aJ86ZamUgzcQIibefgaR" name="AWS NETWORK">
     <mxGraphModel dx="1888" dy="1618" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
@@ -312,6 +312,152 @@
         </mxCell>
         <mxCell id="t0LrMYdE1FVeBpcMYqn5-34" parent="1" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;align=center;" value="Essa role é responsável &lt;br&gt;por dar as permissões para a task que irá executar a aplicação liberando acesso aos recursos como: S3, SQS, RDS, etc" vertex="1">
           <mxGeometry height="120" width="230" x="210" y="66.5" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="4vDKoXVhZSRDvGX60jy1" name="Fluxo Processar Regras">
+    <mxGraphModel dx="1169" dy="340" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="SluQCMNhZqapA3Pw6eAa-25" edge="1" parent="1" source="SluQCMNhZqapA3Pw6eAa-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="SluQCMNhZqapA3Pw6eAa-3">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="410" y="280" />
+              <mxPoint x="410" y="280" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="SluQCMNhZqapA3Pw6eAa-26" connectable="0" parent="SluQCMNhZqapA3Pw6eAa-25" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="FUN OUT &lt;br&gt;DESPESAS" vertex="1">
+          <mxGeometry relative="1" x="-0.0641" as="geometry">
+            <mxPoint y="-20" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="SluQCMNhZqapA3Pw6eAa-1" parent="1" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;strokeColor=#ffffff;fillColor=#232F3E;dashed=0;verticalLabelPosition=middle;verticalAlign=bottom;align=center;html=1;whiteSpace=wrap;fontSize=10;fontStyle=1;spacing=3;shape=mxgraph.aws4.productIcon;prIcon=mxgraph.aws4.ecs;" value="ECS &lt;br&gt;FINANCAS &lt;br&gt;API" vertex="1">
+          <mxGeometry height="130" width="80" x="240" y="240" as="geometry" />
+        </mxCell>
+        <mxCell id="SluQCMNhZqapA3Pw6eAa-18" edge="1" parent="1" source="SluQCMNhZqapA3Pw6eAa-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="SluQCMNhZqapA3Pw6eAa-1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="190" y="280" />
+              <mxPoint x="190" y="280" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="SluQCMNhZqapA3Pw6eAa-28" connectable="0" parent="SluQCMNhZqapA3Pw6eAa-18" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="POST - http://server/despesas/processar-regras" vertex="1">
+          <mxGeometry relative="1" x="-0.0374" y="3" as="geometry">
+            <mxPoint y="-7" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="SluQCMNhZqapA3Pw6eAa-47" connectable="0" parent="SluQCMNhZqapA3Pw6eAa-18" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="&lt;div&gt;Payload: {&lt;span style=&quot;background-color: light-dark(#ffffff, var(--ge-dark-color, #121212)); color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;&quot;despesasIds&quot; : [6350, 6348]&lt;/span&gt;&lt;span style=&quot;background-color: light-dark(#ffffff, var(--ge-dark-color, #121212)); color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;}&lt;/span&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry relative="1" x="0.5926" y="-2" as="geometry">
+            <mxPoint x="-91" y="8" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="SluQCMNhZqapA3Pw6eAa-2" parent="1" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;strokeColor=#ffffff;fillColor=#232F3E;dashed=0;verticalLabelPosition=middle;verticalAlign=bottom;align=center;html=1;whiteSpace=wrap;fontSize=10;fontStyle=1;spacing=3;shape=mxgraph.aws4.productIcon;prIcon=mxgraph.aws4.application_load_balancer;" value="ALB&lt;div&gt;FINANCAS&lt;/div&gt;" vertex="1">
+          <mxGeometry height="120" width="80" x="-130" y="240" as="geometry" />
+        </mxCell>
+        <mxCell id="SluQCMNhZqapA3Pw6eAa-27" edge="1" parent="1" source="SluQCMNhZqapA3Pw6eAa-3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="SluQCMNhZqapA3Pw6eAa-4">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="540" y="280" />
+              <mxPoint x="540" y="280" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="SluQCMNhZqapA3Pw6eAa-34" edge="1" parent="1" source="SluQCMNhZqapA3Pw6eAa-3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="SluQCMNhZqapA3Pw6eAa-31">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="SluQCMNhZqapA3Pw6eAa-36" connectable="0" parent="SluQCMNhZqapA3Pw6eAa-34" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="EXCEDEU NUMERO&lt;div&gt;DE RETRY&lt;/div&gt;" vertex="1">
+          <mxGeometry relative="1" x="-0.1003" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="SluQCMNhZqapA3Pw6eAa-3" parent="1" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;strokeColor=#ffffff;fillColor=#232F3E;dashed=0;verticalLabelPosition=middle;verticalAlign=bottom;align=center;html=1;whiteSpace=wrap;fontSize=10;fontStyle=1;spacing=3;shape=mxgraph.aws4.productIcon;prIcon=mxgraph.aws4.sqs;" value="SQS COMANDO PROCESSAR REGRAS&lt;div&gt;FIFO&lt;/div&gt;" vertex="1">
+          <mxGeometry height="150" width="80" x="440" y="240" as="geometry" />
+        </mxCell>
+        <mxCell id="SluQCMNhZqapA3Pw6eAa-29" edge="1" parent="1" source="SluQCMNhZqapA3Pw6eAa-4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="SluQCMNhZqapA3Pw6eAa-6">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="730" y="280" />
+              <mxPoint x="730" y="280" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="SluQCMNhZqapA3Pw6eAa-30" connectable="0" parent="SluQCMNhZqapA3Pw6eAa-29" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="NOTIFICAR TERMINO DO LOTE DE DESPESAS" vertex="1">
+          <mxGeometry relative="1" x="-0.1121" y="1" as="geometry">
+            <mxPoint x="3" y="-9" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="SluQCMNhZqapA3Pw6eAa-48" connectable="0" parent="SluQCMNhZqapA3Pw6eAa-29" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="(SEQUENCIA_ATUAL == SEQUENCIA_FINAL)" vertex="1">
+          <mxGeometry relative="1" x="0.3861" y="1" as="geometry">
+            <mxPoint x="-78" y="11" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="SluQCMNhZqapA3Pw6eAa-4" parent="1" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;strokeColor=#ffffff;fillColor=#232F3E;dashed=0;verticalLabelPosition=middle;verticalAlign=bottom;align=center;html=1;whiteSpace=wrap;fontSize=10;fontStyle=1;spacing=3;shape=mxgraph.aws4.productIcon;prIcon=mxgraph.aws4.ecs;" value="ECS &lt;br&gt;FINANCAS DESPESAS PROCESSADOR" vertex="1">
+          <mxGeometry height="140" width="80" x="600" y="240" as="geometry" />
+        </mxCell>
+        <mxCell id="SluQCMNhZqapA3Pw6eAa-41" edge="1" parent="1" source="SluQCMNhZqapA3Pw6eAa-5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="SluQCMNhZqapA3Pw6eAa-7">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="SluQCMNhZqapA3Pw6eAa-44" connectable="0" parent="SluQCMNhZqapA3Pw6eAa-41" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="SALVAR NOTIFICACAO&amp;nbsp;&lt;div&gt;NA BASE DADOS&lt;/div&gt;" vertex="1">
+          <mxGeometry relative="1" x="-0.1189" y="-2" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="SluQCMNhZqapA3Pw6eAa-49" edge="1" parent="1" source="SluQCMNhZqapA3Pw6eAa-5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="SluQCMNhZqapA3Pw6eAa-9">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="920" y="480" />
+              <mxPoint x="920" y="480" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="SluQCMNhZqapA3Pw6eAa-50" connectable="0" parent="SluQCMNhZqapA3Pw6eAa-49" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="PUBLICA NOTIFICACAO NO TOPICO&amp;nbsp;&lt;span style=&quot;background-color: light-dark(#ffffff, var(--ge-dark-color, #121212)); color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;DO&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); background-color: light-dark(#ffffff, var(--ge-dark-color, #121212));&quot;&gt;ELASTICACHE&lt;/span&gt;" vertex="1">
+          <mxGeometry relative="1" x="0.0311" y="-3" as="geometry">
+            <mxPoint x="9" y="-10" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="SluQCMNhZqapA3Pw6eAa-5" parent="1" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;strokeColor=#ffffff;fillColor=#232F3E;dashed=0;verticalLabelPosition=middle;verticalAlign=bottom;align=center;html=1;whiteSpace=wrap;fontSize=10;fontStyle=1;spacing=3;shape=mxgraph.aws4.productIcon;prIcon=mxgraph.aws4.ecs;" value="ECS FINANCAS NOTIFCACOES" vertex="1">
+          <mxGeometry height="120" width="80" x="1000" y="440" as="geometry" />
+        </mxCell>
+        <mxCell id="SluQCMNhZqapA3Pw6eAa-40" edge="1" parent="1" source="SluQCMNhZqapA3Pw6eAa-6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="SluQCMNhZqapA3Pw6eAa-5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="SluQCMNhZqapA3Pw6eAa-6" parent="1" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;strokeColor=#ffffff;fillColor=#232F3E;dashed=0;verticalLabelPosition=middle;verticalAlign=bottom;align=center;html=1;whiteSpace=wrap;fontSize=10;fontStyle=1;spacing=3;shape=mxgraph.aws4.productIcon;prIcon=mxgraph.aws4.sqs;" value="SQS&amp;nbsp; COMANDO NOVA NOTIFICACAO" vertex="1">
+          <mxGeometry height="140" width="80" x="1000" y="235" as="geometry" />
+        </mxCell>
+        <mxCell id="SluQCMNhZqapA3Pw6eAa-7" parent="1" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;strokeColor=#ffffff;fillColor=#232F3E;dashed=0;verticalLabelPosition=middle;verticalAlign=bottom;align=center;html=1;whiteSpace=wrap;fontSize=10;fontStyle=1;spacing=3;shape=mxgraph.aws4.productIcon;prIcon=mxgraph.aws4.dynamodb;" value="&lt;div&gt;NOTIFICACOES&lt;/div&gt;" vertex="1">
+          <mxGeometry height="110" width="80" x="1000" y="680" as="geometry" />
+        </mxCell>
+        <mxCell id="SluQCMNhZqapA3Pw6eAa-9" parent="1" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;strokeColor=#ffffff;fillColor=#232F3E;dashed=0;verticalLabelPosition=middle;verticalAlign=bottom;align=center;html=1;whiteSpace=wrap;fontSize=10;fontStyle=1;spacing=3;shape=mxgraph.aws4.productIcon;prIcon=mxgraph.aws4.elasticache_for_redis;" value="Amazon ElastiCache for Redis" vertex="1">
+          <mxGeometry height="120" width="80" x="600" y="435" as="geometry" />
+        </mxCell>
+        <mxCell id="SluQCMNhZqapA3Pw6eAa-37" edge="1" parent="1" source="SluQCMNhZqapA3Pw6eAa-31" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="SluQCMNhZqapA3Pw6eAa-35">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="560" y="40" />
+              <mxPoint x="560" y="40" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="SluQCMNhZqapA3Pw6eAa-31" parent="1" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;strokeColor=#ffffff;fillColor=#232F3E;dashed=0;verticalLabelPosition=middle;verticalAlign=bottom;align=center;html=1;whiteSpace=wrap;fontSize=10;fontStyle=1;spacing=3;shape=mxgraph.aws4.productIcon;prIcon=mxgraph.aws4.sqs;" value="SQS COMANDO PROCESSAR REGRAS&lt;div&gt;DLQ&lt;/div&gt;" vertex="1">
+          <mxGeometry height="150" width="80" x="440" as="geometry" />
+        </mxCell>
+        <mxCell id="SluQCMNhZqapA3Pw6eAa-38" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="SluQCMNhZqapA3Pw6eAa-6">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="679.9999999999998" y="40" as="sourcePoint" />
+            <mxPoint x="1040" y="205" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="SluQCMNhZqapA3Pw6eAa-39" connectable="0" parent="SluQCMNhZqapA3Pw6eAa-38" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="NOTIFICAR DESPESA QUE HOUVE ERRO" vertex="1">
+          <mxGeometry relative="1" x="-0.4595" y="3" as="geometry">
+            <mxPoint y="-7" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="SluQCMNhZqapA3Pw6eAa-35" parent="1" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;strokeColor=#ffffff;fillColor=#232F3E;dashed=0;verticalLabelPosition=middle;verticalAlign=bottom;align=center;html=1;whiteSpace=wrap;fontSize=10;fontStyle=1;spacing=3;shape=mxgraph.aws4.productIcon;prIcon=mxgraph.aws4.ecs;" value="ECS &lt;br&gt;FINANCAS DESPESAS PROCESSADOR" vertex="1">
+          <mxGeometry height="140" width="80" x="600" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>

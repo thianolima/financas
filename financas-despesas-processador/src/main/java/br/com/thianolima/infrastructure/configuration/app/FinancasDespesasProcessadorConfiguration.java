@@ -53,13 +53,13 @@ public class FinancasDespesasProcessadorConfiguration {
             BuscarDespesaPorId buscarDespesaPorId,
             ClassificarDespesaPorRegraUseCase classificarDespesaPorRegraUseCase,
             SalvarDespesa salvarDespesa,
-            ProduzirRetornoProcessarRegras produzirRetornoProcessarRegras
+            ProduzirComandoNovaNotificacao produzirComandoNovaNotificacao
     ){
         return new ProcessarRegrasEmLoteUseCase(
             buscarDespesaPorId,
             classificarDespesaPorRegraUseCase,
             salvarDespesa,
-            produzirRetornoProcessarRegras
+            produzirComandoNovaNotificacao
         );
     }
 }
