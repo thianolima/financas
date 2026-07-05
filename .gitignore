@@ -31,6 +31,7 @@ credentials
 ### IDEs ###
 # IntelliJ
 .idea/
+.run/
 *.iws
 *.iml
 *.ipr
