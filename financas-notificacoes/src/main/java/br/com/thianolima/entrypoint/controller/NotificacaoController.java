@@ -1,5 +1,7 @@
 package br.com.thianolima.entrypoint.controller;
 
+import br.com.thianolima.core.usecase.BuscarNotificacoesUseCase;
+import br.com.thianolima.entrypoint.controller.response.NotificacaoResponse;
 import br.com.thianolima.infrastructure.service.ConexaoSseService;
 import io.micrometer.tracing.ScopedSpan;
 import io.micrometer.tracing.Tracer;
@@ -11,6 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Slf4j
 @RestController
 @RequestMapping("/notificacoes")
@@ -18,13 +23,16 @@ public class NotificacaoController {
 
     private final Tracer tracer;
     private final ConexaoSseService conexaoSseService;
+    private final BuscarNotificacoesUseCase buscarNotificacoesUseCase;
 
     public NotificacaoController(
             Tracer tracer,
-            ConexaoSseService conexaoSseService
+            ConexaoSseService conexaoSseService,
+            BuscarNotificacoesUseCase buscarNotificacoesUseCase
     ) {
         this.tracer = tracer;
         this.conexaoSseService = conexaoSseService;
+        this.buscarNotificacoesUseCase = buscarNotificacoesUseCase;
     }
 
     @GetMapping("/stream")
@@ -36,6 +44,25 @@ public class NotificacaoController {
         try{
             var usuarioId = extrairUsuarioIdDoToken(token);
             return conexaoSseService.criarConexao(usuarioId);
+        } catch (Exception exception) {
+            log.error("Erro: {}", exception.getMessage());
+            throw new RuntimeException(exception);
+        } finally {
+            span.end();
+        }
+    }
+
+    @GetMapping()
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'BASICO')")
+    public List<NotificacaoResponse> listar(
+            JwtAuthenticationToken token
+    ) {
+        ScopedSpan span = tracer.startScopedSpan("notificacoes-listar");
+        try{
+            var usuarioId = extrairUsuarioIdDoToken(token);
+            return buscarNotificacoesUseCase.executar(usuarioId).stream()
+                    .map(NotificacaoResponse::new)
+                    .collect(Collectors.toList());
         } catch (Exception exception) {
             log.error("Erro: {}", exception.getMessage());
             throw new RuntimeException(exception);

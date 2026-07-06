@@ -1,8 +1,7 @@
 package br.com.thianolima.entrypoint.controller;
 
-import br.com.thianolima.core.usecase.SalvarRegraUseCase;
+import br.com.thianolima.core.usecase.CriarRegraUseCase;
 import br.com.thianolima.entrypoint.request.RegraRequest;
-import br.com.thianolima.model.Regra;
 import io.micrometer.tracing.ScopedSpan;
 import io.micrometer.tracing.Tracer;
 import jakarta.validation.Valid;
@@ -21,14 +20,14 @@ import org.springframework.web.bind.annotation.RestController;
 public class RegraController {
 
     private final Tracer tracer;
-    private final SalvarRegraUseCase salvarRegraUseCase;
+    private final CriarRegraUseCase criarRegraUseCase;
 
     public RegraController(
             Tracer tracer,
-            SalvarRegraUseCase salvarRegraUseCase
+            CriarRegraUseCase criarRegraUseCase
     ) {
         this.tracer = tracer;
-        this.salvarRegraUseCase = salvarRegraUseCase;
+        this.criarRegraUseCase = criarRegraUseCase;
     }
 
     @PostMapping
@@ -42,7 +41,7 @@ public class RegraController {
             var usuarioId = extrairUsuarioIdDoToken(token);
             var regra = request.toModel();
             regra.setUsuarioId(usuarioId);
-            salvarRegraUseCase.executar(regra);
+            criarRegraUseCase.executar(regra);
             return ResponseEntity.ok().build();
         } catch (Exception exception) {
             log.error("Erro: {}", exception.getMessage());

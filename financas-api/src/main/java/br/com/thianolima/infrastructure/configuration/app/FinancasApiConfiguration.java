@@ -84,11 +84,11 @@ public class FinancasApiConfiguration {
     }
 
     @Bean
-    public SalvarRegraUseCase criarSavarRegraUseCase(
+    public CriarRegraUseCase criarRegraUseCase(
             SalvarRegra salvarRegra,
             BuscarRegraPorTermoBusca buscarRegraPorTermoBusc
     ){
-        return new SalvarRegraUseCase(
+        return new CriarRegraUseCase(
                 salvarRegra,
                 buscarRegraPorTermoBusc
         );

@@ -4,10 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbAttribute;
-import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbBean;
-import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbPartitionKey;
-import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbSortKey;
+import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.*;
 
 @Data
 @Builder
@@ -22,6 +19,9 @@ public class NotificacaoEntity {
     private String mensagem;
     private Long dataExpurgo;
 
+    public static final String NOME_TABELA = "notificacoes";
+    public static final String INDICE_USUARIO = "idx_notificacoes_usuario";
+
     @DynamoDbPartitionKey
     @DynamoDbAttribute("notificacao_id")
     public String getId() {
@@ -29,6 +29,7 @@ public class NotificacaoEntity {
     }
 
     @DynamoDbSortKey
+    @DynamoDbSecondarySortKey(indexNames = NotificacaoEntity.INDICE_USUARIO)
     @DynamoDbAttribute("data_hora_criacao")
     public String getDataHoraCriacao() {
         return dataHoraCriacao;
@@ -49,6 +50,7 @@ public class NotificacaoEntity {
         return tipo;
     }
 
+    @DynamoDbSecondaryPartitionKey(indexNames = NotificacaoEntity.INDICE_USUARIO)
     @DynamoDbAttribute("usuario_id")
     public Long getUsuarioId() {
         return usuarioId;

@@ -1,0 +1,20 @@
+meta {
+  name: Notficações - Listar por usuario
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{URL_SERVER}}/notificacoes
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{TOKEN}}
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

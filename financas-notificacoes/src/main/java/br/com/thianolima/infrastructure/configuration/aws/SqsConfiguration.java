@@ -8,9 +8,12 @@ import io.awspring.cloud.sqs.support.converter.AbstractMessagingMessageConverter
 import io.awspring.cloud.sqs.support.converter.SqsMessagingMessageConverter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
 import software.amazon.awssdk.auth.credentials.DefaultCredentialsProvider;
+import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.sqs.SqsAsyncClient;
+import software.amazon.awssdk.utils.StringUtils;
 
 @Configuration
 public class SqsConfiguration {
@@ -35,9 +38,7 @@ public class SqsConfiguration {
     public SqsAsyncClient sqsAsyncClient() {
         return SqsAsyncClient.builder()
                 .region(region)
-                .credentialsProvider(
-                        DefaultCredentialsProvider.create()
-                )
+                .credentialsProvider(obterCredentialsProvider())
                 .build();
     }
 
@@ -52,5 +53,17 @@ public class SqsConfiguration {
                         .messageConverter(new SqsMessagingMessageConverter())
                 )
                 .build();
+    }
+
+    private software.amazon.awssdk.auth.credentials.AwsCredentialsProvider obterCredentialsProvider() {
+        String accessKey = awsProperties.getCredentials().getAccessKey();
+        String secretKey = awsProperties.getCredentials().getSecretKey();
+
+        if (StringUtils.isNotBlank(accessKey) && StringUtils.isNotBlank(secretKey)) {
+            AwsBasicCredentials credentials = AwsBasicCredentials.create(accessKey, secretKey);
+            return StaticCredentialsProvider.create(credentials);
+        }
+
+        return DefaultCredentialsProvider.create();
     }
 }

@@ -21,8 +21,8 @@ spring:
 
   datasource:
     url: ${AWS_RDS_URL:}
-    username: ${AWS_RDS_USER:admin}
-    password: ${AWS_RDS_PASSWORD:admin}
+    username: ${AWS_RDS_USER:}
+    password: ${AWS_RDS_PASSWORD:}
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
