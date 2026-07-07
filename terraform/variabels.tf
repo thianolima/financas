@@ -93,6 +93,11 @@ variable "ecr_financas_api" {
   type        = string
 }
 
+variable "ecr_financas_notificacoes" {
+  description = "Nome do repositorio para modulo notificacoes"
+  type        = string
+}
+
 variable "ecs_tasks_desejadas" {
   description = "Tempo padrão de espera para a mensagem ficar disponivel para leitura (em segundos)."
   type        = number
