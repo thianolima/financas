@@ -1,6 +1,7 @@
 package br.com.thianolima.infrastructure.configuration.app;
 
 import br.com.thianolima.core.provider.BuscarNotificacoes;
+import br.com.thianolima.core.provider.EnviarNotificacao;
 import br.com.thianolima.core.provider.SalvarNotificacao;
 import br.com.thianolima.core.usecase.BuscarNotificacoesUseCase;
 import br.com.thianolima.core.usecase.CriarNovaNotificacaoUseCase;
@@ -12,10 +13,12 @@ public class FinancasNotificacoesConfiguration {
 
     @Bean
     public CriarNovaNotificacaoUseCase criarNovaNotificacaoUseCase(
-            SalvarNotificacao salvarNotificacao
+            SalvarNotificacao salvarNotificacao,
+            EnviarNotificacao enviarNotificacao
     ){
         return new CriarNovaNotificacaoUseCase(
-                salvarNotificacao
+                salvarNotificacao,
+                enviarNotificacao
         );
     }
 

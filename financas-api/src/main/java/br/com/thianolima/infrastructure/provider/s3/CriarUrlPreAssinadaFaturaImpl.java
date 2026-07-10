@@ -1,4 +1,4 @@
-package br.com.thianolima.infrastructure.provider.storage;
+package br.com.thianolima.infrastructure.provider.s3;
 
 import br.com.thianolima.core.provider.storage.CriarUrlPreAssinadaFatura;
 import lombok.extern.slf4j.Slf4j;
@@ -14,14 +14,14 @@ import java.time.Duration;
 
 @Slf4j
 @Service
-public class CriarUrlPreAssinadaFaturaS3Impl implements CriarUrlPreAssinadaFatura {
+public class CriarUrlPreAssinadaFaturaImpl implements CriarUrlPreAssinadaFatura {
 
     private final S3Presigner s3Presigner;
 
     @Value("${spring.cloud.aws.s3.bucket.fatura}")
     private String bucket;
 
-    public CriarUrlPreAssinadaFaturaS3Impl(S3Presigner s3Presigner) {
+    public CriarUrlPreAssinadaFaturaImpl(S3Presigner s3Presigner) {
         this.s3Presigner = s3Presigner;
     }
 

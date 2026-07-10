@@ -2,7 +2,7 @@ package br.com.thianolima.entrypoint.controller;
 
 import br.com.thianolima.core.usecase.BuscarNotificacoesUseCase;
 import br.com.thianolima.entrypoint.controller.response.NotificacaoResponse;
-import br.com.thianolima.infrastructure.service.ConexaoSseService;
+import br.com.thianolima.infrastructure.sse.SseService;
 import io.micrometer.tracing.ScopedSpan;
 import io.micrometer.tracing.Tracer;
 import lombok.extern.slf4j.Slf4j;
@@ -22,16 +22,16 @@ import java.util.stream.Collectors;
 public class NotificacaoController {
 
     private final Tracer tracer;
-    private final ConexaoSseService conexaoSseService;
+    private final SseService sseService;
     private final BuscarNotificacoesUseCase buscarNotificacoesUseCase;
 
     public NotificacaoController(
             Tracer tracer,
-            ConexaoSseService conexaoSseService,
+            SseService sseService,
             BuscarNotificacoesUseCase buscarNotificacoesUseCase
     ) {
         this.tracer = tracer;
-        this.conexaoSseService = conexaoSseService;
+        this.sseService = sseService;
         this.buscarNotificacoesUseCase = buscarNotificacoesUseCase;
     }
 
@@ -43,7 +43,7 @@ public class NotificacaoController {
         ScopedSpan span = tracer.startScopedSpan("notificacoes-stream");
         try{
             var usuarioId = extrairUsuarioIdDoToken(token);
-            return conexaoSseService.criarConexao(usuarioId);
+            return sseService.criarConexao(usuarioId);
         } catch (Exception exception) {
             log.error("Erro: {}", exception.getMessage());
             throw new RuntimeException(exception);

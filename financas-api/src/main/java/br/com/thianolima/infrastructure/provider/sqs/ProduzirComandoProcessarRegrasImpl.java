@@ -1,4 +1,4 @@
-package br.com.thianolima.infrastructure.provider.message;
+package br.com.thianolima.infrastructure.provider.sqs;
 
 import br.com.thianolima.core.model.ComandoProcessarRegras;
 import br.com.thianolima.core.provider.message.ProduzirComandoProcessarRegras;
@@ -7,6 +7,8 @@ import io.awspring.cloud.sqs.operations.SqsTemplate;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+
+import java.util.UUID;
 
 @Slf4j
 @Service
@@ -42,8 +44,8 @@ public class ProduzirComandoProcessarRegrasImpl implements ProduzirComandoProces
                 .payload(comandoProcessarRegraDto)
                 .header("traceId", traceId)
                 .header("spanId", spanId)
-                .messageGroupId(traceId)
-                .messageDeduplicationId(comandoProcessarRegras.despesaId() + "-" + traceId)
+                .messageGroupId(comandoProcessarRegras.despesaId() + "-" + traceId)
+                .messageDeduplicationId(UUID.randomUUID().toString())
         );
 
         log.info("FIM - Envio Comando Processar Regras TraceId: {} SpanId: {} Mensagem: {} Fila: {}",

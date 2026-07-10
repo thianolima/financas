@@ -1,4 +1,4 @@
-package br.com.thianolima.infrastructure.provider.storage;
+package br.com.thianolima.infrastructure.provider.s3;
 
 import br.com.thianolima.model.DespesaCsv;
 import br.com.thianolima.core.provider.CarregarFatura;

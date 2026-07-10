@@ -1,4 +1,4 @@
-package br.com.thianolima.infrastructure.provider.message;
+package br.com.thianolima.infrastructure.provider.sqs;
 
 import br.com.thianolima.core.model.ComandoProcessarRegras;
 import lombok.AllArgsConstructor;

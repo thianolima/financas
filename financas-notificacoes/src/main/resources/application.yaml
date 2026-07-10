@@ -5,6 +5,10 @@ spring:
   application:
     name: financas-notificacoes
 
+  threads:
+    virtual:
+      enabled: true
+
   config:
     import: "optional:classpath:application-seguranca.yaml"
 

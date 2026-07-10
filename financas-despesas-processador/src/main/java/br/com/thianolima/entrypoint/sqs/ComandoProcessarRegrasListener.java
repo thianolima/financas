@@ -46,6 +46,7 @@ public class ComandoProcessarRegrasListener {
         Span newSpan = tracer.newChild(context).name("comando-processar-regras").start();
         try (Tracer.SpanInScope spanInScope = tracer.withSpanInScope(newSpan)){
             log.info("INICIO - Comando Processar Regras TraceId: {} SpanId: {} Mensagem: {}", traceId, spanId, mensagem);
+
             var comandoProcessarRegraDto = objectMapper.readValue(mensagem, ComandoProcessarRegraDto.class);
             processarRegrasEmLoteUseCase.executar(
                     comandoProcessarRegraDto.getUsuarioId(),
@@ -53,6 +54,7 @@ public class ComandoProcessarRegrasListener {
                     comandoProcessarRegraDto.getSequencialAtual(),
                     comandoProcessarRegraDto.getSequencialFinal()
             );
+
             log.info("FIM - Comando Processar Regras TraceId: {} SpanId: {} Mensagem: {}", traceId, spanId, mensagem);
         } catch (Exception exception) {
             log.error("ERRO: {} Mensagem: {}", exception.getMessage(), mensagem);

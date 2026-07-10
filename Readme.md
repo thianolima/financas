@@ -1,3 +1,23 @@
+# Intellij
+
+## Enviroments
+Todas as enviroments utilizadas no Intellij para os modulos do projeto.
+Os valores abaixo são apenas para desenvolvimento local, favor conferilos antes de subir em produção.
+
+```
+AWS_CREDENTIALS_ACCESS_KEY=fake;
+AWS_CREDENTIALS_SECRET_KEY=fake;
+AWS_RDS_PASSWORD=admin;
+AWS_RDS_URL="jdbc:localhost:3306/financasdb?useSSL=true&allowPublicKeyRetrieval=true";
+AWS_RDS_USER=admin;
+AWS_REGION=us-east-1;
+AWS_S3_BUCKET_FATURA=thianolima-financas-faturas-dev;
+AWS_SQS_RETORNO_NOVA_FATURA=sqs-retorno-nova-fatura-dev;
+AWS_SQS_COMANDO_NOVA_DESPESA=sqs-comando-nova-despesa-dev.fifo;
+AWS_SQS_COMANDO_PROCESSAR_REGRAS=sqs-comando-processar-regras-dev.fifo;
+AWS_SQS_COMANDO_NOVA_NOTIFICACAO=sqs-comando-nova-notificacao-dev;
+```
+
 # ECR
 Segue abaixo o passo a passo para atualizar o ECR com uma nova imagem para os modulos através do aws-cli.
 
@@ -44,22 +64,4 @@ docker push 841816327169.dkr.ecr.us-east-1.amazonaws.com/ecr_financas_notificaco
 ```
 ------------------------------------------------------------------------
 
-# Intellij
 
-## Enviroments
-Todas as enviroments utilizadas no Intellij para os modulos do projeto.
-Os valores abaixo são apenas para desenvolvimento local, favor conferilos antes de subir em produção.
-
-```
-AWS_CREDENTIALS_ACCESS_KEY=fake;
-AWS_CREDENTIALS_SECRET_KEY=fake;
-AWS_RDS_PASSWORD=admin;
-AWS_RDS_URL="jdbc:localhost:3306/financasdb?useSSL=true&allowPublicKeyRetrieval=true";
-AWS_RDS_USER=admin;
-AWS_REGION=us-east-1;
-AWS_S3_BUCKET_FATURA=thianolima-financas-faturas-dev;
-AWS_SQS_RETORNO_NOVA_FATURA=sqs-retorno-nova-fatura-dev;
-AWS_SQS_COMANDO_NOVA_DESPESA=sqs-comando-nova-despesa-dev.fifo;
-AWS_SQS_COMANDO_PROCESSAR_REGRAS=sqs-comando-processar-regras-dev.fifo;
-AWS_SQS_COMANDO_NOVA_NOTIFICACAO=sqs-comando-nova-notificacao-dev;
-```
