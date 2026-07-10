@@ -16,7 +16,7 @@ public class ExcluirDespesaUseCase {
     }
 
     public void executar(Long despesaId, Long usuarioId){
-        var despesa = buscarDespesaPorId.executar(despesaId,usuarioId)
+        buscarDespesaPorId.executar(despesaId,usuarioId)
                 .orElseThrow(() -> new RuntimeException("Despesa não encontrada"));
 
         excluirDespesa.executar(despesaId);

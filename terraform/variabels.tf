@@ -23,6 +23,21 @@ variable "sqs_comando_nova_despesa" {
   type        = string
 }
 
+variable "sqs_comando_processar_regras" {
+  description = "Nome do sqs que ira receber uma despesa para processar as regras"
+  type        = string
+}
+
+variable "sqs_comando_processar_regras_dlq" {
+  description = "Nome do sqs que ira receber os erros do preocessamento de regras de uma despesa"
+  type        = string
+}
+
+variable "sqs_comando_nova_notificacao" {
+  description = "Nome do sqs que ira receber comando para notificar o usuario no front-end"
+  type        = string
+}
+
 variable "common_tags" {
   description = "Um mapa de tags comuns que serão aplicadas a todos os recursos"
   type        = map(string)
@@ -75,6 +90,11 @@ variable "ecr_financas_despesas_processador" {
 
 variable "ecr_financas_api" {
   description = "Nome do repositorio para modulo api"
+  type        = string
+}
+
+variable "ecr_financas_notificacoes" {
+  description = "Nome do repositorio para modulo notificacoes"
   type        = string
 }
 

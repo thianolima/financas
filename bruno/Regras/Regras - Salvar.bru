@@ -1,0 +1,28 @@
+meta {
+  name: Regras - Salvar
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{URL_SERVER}}/regras
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{TOKEN}}
+}
+
+body:json {
+  {    
+    "categoriaId":7,
+    "descricao":"CACAU SHOW",  
+    "termoBusca":"CACAU RONDON"
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

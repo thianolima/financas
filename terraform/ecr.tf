@@ -90,3 +90,34 @@ resource "aws_ecr_lifecycle_policy" "policy_ecr_financas_api" {
     }]
   })
 }
+
+# Repositorio Financas Notificacoes
+resource "aws_ecr_repository" "ecr_financas_notificacoes" {
+  name = var.ecr_financas_notificacoes
+  image_tag_mutability = "MUTABLE"
+
+  image_scanning_configuration {
+    scan_on_push = true
+  }
+
+  tags = var.common_tags
+}
+
+resource "aws_ecr_lifecycle_policy" "policy_ecr_financas_notificacoes" {
+  repository = aws_ecr_repository.ecr_financas_notificacoes.name
+
+  policy = jsonencode({
+    rules = [{
+      rulePriority = 1
+      description  = "Manter apenas as últimas 3 imagens para economizar espaço"
+      selection = {
+        tagStatus     = "any"
+        countType     = "imageCountMoreThan"
+        countNumber   = 3
+      }
+      action = {
+        type = "expire"
+      }
+    }]
+  })
+}

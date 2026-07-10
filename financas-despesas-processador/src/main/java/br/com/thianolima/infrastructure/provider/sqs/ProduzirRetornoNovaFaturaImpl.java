@@ -23,7 +23,8 @@ public class ProduzirRetornoNovaFaturaImpl implements ProduzirRetornoNovaFatura 
     public ProduzirRetornoNovaFaturaImpl(
             SqsTemplate sqsTemplate,
             @Value("${spring.cloud.aws.sqs.queue.retorno-nova-fatura}")
-            String nomeFila, Tracer tracer
+            String nomeFila,
+            Tracer tracer
     ) {
         this.sqsTemplate = sqsTemplate;
         this.nomeFila = nomeFila;

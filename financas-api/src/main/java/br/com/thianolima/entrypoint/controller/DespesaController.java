@@ -4,8 +4,9 @@ import br.com.thianolima.core.model.TipoDespesaEnum;
 import br.com.thianolima.core.usecase.AlterarDespesaUsecase;
 import br.com.thianolima.core.usecase.BuscarDespesasPorUsuarioUseCase;
 import br.com.thianolima.core.usecase.ExcluirDespesaUseCase;
+import br.com.thianolima.core.usecase.PorcessarRegrasEmLoteUseCase;
 import br.com.thianolima.entrypoint.request.DespesaRequest;
-import br.com.thianolima.entrypoint.request.ReclassificarRequest;
+import br.com.thianolima.entrypoint.request.ProcessarRegrasRequest;
 import br.com.thianolima.entrypoint.response.DespesaPaginadaResponse;
 import io.micrometer.tracing.ScopedSpan;
 import io.micrometer.tracing.Tracer;
@@ -28,18 +29,21 @@ public class DespesaController {
     private final BuscarDespesasPorUsuarioUseCase buscarDespesasPorUsuarioUseCase;
     private final AlterarDespesaUsecase alterarDespesaUsecase;
     private final ExcluirDespesaUseCase excluirDespesaUseCase;
+    private final PorcessarRegrasEmLoteUseCase processarRegrasEmLoteUseCase;
 
 
     public DespesaController(
             Tracer tracer,
             BuscarDespesasPorUsuarioUseCase buscarDespesasPorUsuarioUseCase,
             AlterarDespesaUsecase alterarDespesaUsecase,
-            ExcluirDespesaUseCase excluirDespesaUseCase
+            ExcluirDespesaUseCase excluirDespesaUseCase,
+            PorcessarRegrasEmLoteUseCase processarRegrasEmLoteUseCase
     ) {
         this.tracer = tracer;
         this.buscarDespesasPorUsuarioUseCase = buscarDespesasPorUsuarioUseCase;
         this.alterarDespesaUsecase = alterarDespesaUsecase;
         this.excluirDespesaUseCase = excluirDespesaUseCase;
+        this.processarRegrasEmLoteUseCase = processarRegrasEmLoteUseCase;
     }
 
     @GetMapping
@@ -78,7 +82,7 @@ public class DespesaController {
     @PreAuthorize("hasAnyAuthority('ADMIN', 'BASICO')")
     public ResponseEntity<?> alterar(
             @PathVariable(value = "id") Long despesaId,
-            @RequestBody DespesaRequest request,
+            @RequestBody @Valid DespesaRequest request,
             JwtAuthenticationToken token
     ){
         ScopedSpan span = tracer.startScopedSpan("despesas-alterar");
@@ -116,15 +120,16 @@ public class DespesaController {
         }
     }
 
-    @PostMapping("/reclassificar")
+    @PostMapping("/processar-regras")
     @PreAuthorize("hasAnyAuthority('ADMIN', 'BASICO')")
-    public ResponseEntity<?> reclassificar(
-        @RequestBody @Valid ReclassificarRequest request,
+    public ResponseEntity<?> processarRegras(
+        @RequestBody @Valid ProcessarRegrasRequest request,
         JwtAuthenticationToken token
     ){
-        ScopedSpan span = tracer.startScopedSpan("despesas-reclassificar");
+        ScopedSpan span = tracer.startScopedSpan("despesas-processar-regras");
         try{
             var usuarioId = extrairUsuarioIdDoToken(token);
+            processarRegrasEmLoteUseCase.executar(request.getDespesasIds(), usuarioId);
             return ResponseEntity.ok().build();
         } catch (Exception exception) {
             log.error("Erro: {}", exception.getMessage());

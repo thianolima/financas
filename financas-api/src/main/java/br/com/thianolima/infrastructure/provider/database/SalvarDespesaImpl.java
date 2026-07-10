@@ -22,7 +22,7 @@ public class SalvarDespesaImpl implements SalvarDespesa {
     @Override
     public Despesa executar(Despesa despesa) {
         var novaDespesa = new DespesaEntity(despesa);
-        var despesaAtualziada = entityManager.merge(novaDespesa);
-        return despesaAtualziada.toModel();
+        var despesaSalva = entityManager.merge(novaDespesa);
+        return despesaSalva.toModel();
     }
 }

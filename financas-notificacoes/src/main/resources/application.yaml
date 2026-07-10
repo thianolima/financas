@@ -1,0 +1,55 @@
+server:
+  port: ${SERVER_PORT:8080}
+
+spring:
+  application:
+    name: financas-notificacoes
+
+  threads:
+    virtual:
+      enabled: true
+
+  config:
+    import: "optional:classpath:application-seguranca.yaml"
+
+  cloud:
+    aws:
+      region: ${AWS_REGION:us-east-1}
+      credentials:
+        access-key: ${AWS_CREDENTIALS_ACCESS_KEY:}
+        secret-key: ${AWS_CREDENTIALS_SECRET_KEY:}
+      sqs:
+        queue:
+          comando-nova-notificacao: ${AWS_SQS_COMANDO_NOVA_NOTIFICACAO:sqs-comando-nova-notificacao-dev}
+
+  datasource:
+    url: ${AWS_RDS_URL:}
+    username: ${AWS_RDS_USER:admin}
+    password: ${AWS_RDS_PASSWORD:admin}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+      use_sql_comments: true
+      format_sql: true
+
+### ACTUATOR / MICROMETER
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, beans
+  endpoint:
+    health:
+      show-details: always
+  tracing:
+    enabled: true
+    sampling:
+      probability: 1.0
+    propagation:
+      type: b3

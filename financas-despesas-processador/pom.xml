@@ -11,10 +11,6 @@
 
     <artifactId>financas-despesas-processador</artifactId>
 
-    <properties>
-        <kotlin.version>1.9.25</kotlin.version>
-    </properties>
-
     <dependencies>
         <dependency>
             <groupId>br.com.thianolima</groupId>

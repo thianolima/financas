@@ -1,6 +1,5 @@
 package br.com.thianolima.infrastructure.provider.database.entity;
 
-import br.com.thianolima.model.Fornecedor;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,7 +23,7 @@ public class FornecedorEntity {
     Long usuarioId;
 
     @Column(name = "categoria_id")
-    Long cartegoriaId;
+    Long categoriaId;
 
     String nome;
 

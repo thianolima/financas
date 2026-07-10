@@ -7,7 +7,7 @@ spring:
 
   cloud:
     aws:
-      region: ${AWS_REGION:sa-east-1}
+      region: ${AWS_REGION:us-east-1}
       credentials:
         access-key: ${AWS_CREDENTIALS_ACCESS_KEY:}
         secret-key: ${AWS_CREDENTIALS_SECRET_KEY:}
@@ -15,11 +15,14 @@ spring:
         queue:
           comando-nova-despesa: ${AWS_SQS_COMANDO_NOVA_DESPESA:sqs-comando-nova-despesa-dev.fifo}
           retorno-nova-fatura: ${AWS_SQS_RETORNO_NOVA_FATURA:sqs-retorno-nova-fatura-dev}
+          comando-processar-regras: ${AWS_SQS_COMANDO_PROCESSAR_REGRAS:sqs-comando-processar-regras-dev.fifo}
+          comando-processar-regras-dlq: ${AWS_SQS_COMANDO_PROCESSAR_REGRAS_DLQ:sqs-comando-processar-regras-dev-dlq}
+          comando-nova-notificacao: ${AWS_SQS_COMANDO_NOVA_NOTIFICACAO:sqs-comando-nova-notificacao-dev}
 
   datasource:
     url: ${AWS_RDS_URL:}
-    username: ${AWS_RDS_USER:admin}
-    password: ${AWS_RDS_PASSWORD:admin}
+    username: ${AWS_RDS_USER:}
+    password: ${AWS_RDS_PASSWORD:}
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:

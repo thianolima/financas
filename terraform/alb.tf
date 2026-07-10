@@ -39,11 +39,13 @@ resource "aws_lb" "alb_financas_api" {
     aws_subnet.subnet_financas_publica_az_b.id
   ]
 
+  enable_deletion_protection = false
+
   tags = merge(var.common_tags, { Name = "alb-financas-api-${var.ambiente}" })
 }
 
 # ==========================================================
-# 3. TARGET GROUP
+# 3. TARGET GROUP DA API PRINCIPAL
 # ==========================================================
 resource "aws_lb_target_group" "tg_financas_api" {
   name        = "tg-financas-api-${var.ambiente}"
@@ -72,7 +74,7 @@ resource "aws_lb_listener" "api_listener_http" {
   port              = "80"
   protocol          = "HTTP"
 
-  # Tudo que chegar na porta 80 do ALB é encaminhado para os containers do Target Group
+  # Ação padrão: Tudo que não casar com regras específicas cai na API principal
   default_action {
     type             = "forward"
     target_group_arn = aws_lb_target_group.tg_financas_api.arn
@@ -80,9 +82,43 @@ resource "aws_lb_listener" "api_listener_http" {
 }
 
 # ==========================================================
-# OUTPUT
+# 5. NOVO TARGET GROUP PARA NOTIFICAÇÕES (SSE)
 # ==========================================================
-output "api_url_acesso" {
-  value       = aws_lb.alb_financas_api.dns_name
-  description = "Acesse sua API remotamente através deste endereço"
+resource "aws_lb_target_group" "tg_financas_notificacoes" {
+  name        = "tg-financas-notificacoes-${var.ambiente}"
+  port        = 8080
+  protocol    = "HTTP"
+  vpc_id      = aws_vpc.vpc_financas.id
+  target_type = "ip" # Obrigatório para o modo Fargate
+
+  health_check {
+    path                = "/actuator/health"
+    interval            = 30
+    timeout             = 15
+    healthy_threshold   = 2
+    unhealthy_threshold = 5
+    matcher             = "200"
+  }
+
+  tags = merge(var.common_tags, { Name = "tg-financas-notificacoes-${var.ambiente}" })
+}
+
+# ==========================================================
+# 6. REGRA DE ROTEAMENTO PARA AS NOTIFICAÇÕES (/notificacoes/*)
+# ==========================================================
+resource "aws_lb_listener_rule" "routing_notificacoes" {
+  listener_arn = aws_lb_listener.api_listener_http.arn
+  priority     = 10 # Prioridade baixa avaliada antes da "default action"
+
+  action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.tg_financas_notificacoes.arn
+  }
+
+  # Condição de Caminho (Path)
+  condition {
+    path_pattern {
+      values = ["/notificacoes","/notificacoes/*"]
+    }
+  }
 }

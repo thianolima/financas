@@ -13,7 +13,6 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class DespesaPaginadaItem {
-
     private Long id;
     private Long cartaoId;
     private String cartaoNome;
@@ -22,6 +21,7 @@ public class DespesaPaginadaItem {
     private String descricao;
     private Integer parcelaAtual;
     private Integer totalParcelas;
+    private LocalDate dataDespesa;
     private LocalDate dataVencimento;
     private BigDecimal valor;
     private String observacao;

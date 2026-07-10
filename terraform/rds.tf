@@ -29,6 +29,10 @@ resource "aws_db_instance" "rds_financas" {
   engine               = "mysql"
   engine_version       = "8.4.7"
   parameter_group_name = "default.mysql8.4"
+
+  #Aplicando spnashot do banco de dados
+  # snapshot_identifier  = "rds-financas-snapshot"
+
   db_name              = "financasdb"
   username             = var.rds_username
   password             = var.rds_password
