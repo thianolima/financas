@@ -36,6 +36,11 @@ resource "aws_sqs_queue" "sqs-comando-processar-regras" {
   visibility_timeout_seconds = var.sqs_visibility_timeout_seconds
   message_retention_seconds = var.sqs_retention_seconds
   tags  = var.common_tags
+
+  redrive_policy = jsonencode({
+    deadLetterTargetArn = aws_sqs_queue.sqs-comando-processar-regras-dlq.arn
+    maxReceiveCount     = 5
+  })
 }
 
 resource "aws_sqs_queue" "sqs-comando-processar-regras-dlq" {
