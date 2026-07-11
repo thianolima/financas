@@ -18,7 +18,7 @@ ENV AWS_SQS_COMANDO_NOVA_FATURA=sqs-comando-nova-fatura-dev
 ENV AWS_SQS_RETORNO_NOVA_FATURA=sqs-retorno-nova-fatura-dev
 ENV AWS_SQS_COMANDO_NOVA_DESPESA=sqs-comando-nova-despesa-dev.fifo
 ENV AWS_SQS_COMANDO_PROCESSAR_REGRAS=sqs-comando-processar-regras-dev.fifo
-ENV AWS_SQS_COMANDO_PROCESSAR_REGRAS_DLQ=sqs-comando-processar-regras-dev-dlq
+ENV AWS_SQS_COMANDO_PROCESSAR_REGRAS_DLQ=sqs-comando-processar-regras-dev-dlq.fifo
 ENV AWS_SQS_RETORNO_PROCESSAR_REGRAS=sqs-retorno-processar-regras-dev
 ENV AWS_SQS_COMANDO_NOVA_NOTIFICACAO=sqs-comando-nova-notificacao-dev
 

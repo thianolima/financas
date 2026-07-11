@@ -1,7 +1,6 @@
 package br.com.thianolima.entrypoint.sqs;
 
-import br.com.thianolima.core.usecase.ProcessarErroRegraEmLoteUseCase;
-import br.com.thianolima.core.usecase.ProcessarRegrasEmLoteUseCase;
+import br.com.thianolima.core.usecase.ProcessarErroRegrasEmLoteUseCase;
 import br.com.thianolima.entrypoint.dto.ComandoProcessarRegraDto;
 import brave.Span;
 import brave.Tracer;
@@ -18,12 +17,12 @@ public class ErroComandoProcessarRegrasListener {
 
     private final ObjectMapper objectMapper;
     private final Tracer tracer;
-    private final ProcessarErroRegraEmLoteUseCase processarErroRegrasEmLoteUseCase;
+    private final ProcessarErroRegrasEmLoteUseCase processarErroRegrasEmLoteUseCase;
 
     public ErroComandoProcessarRegrasListener(
             ObjectMapper objectMapper,
             Tracer tracer,
-            ProcessarErroRegraEmLoteUseCase processarErroRegrasEmLoteUseCase
+            ProcessarErroRegrasEmLoteUseCase processarErroRegrasEmLoteUseCase
     ) {
         this.objectMapper = objectMapper;
         this.tracer = tracer;
@@ -31,7 +30,7 @@ public class ErroComandoProcessarRegrasListener {
     }
 
     @SqsListener(
-            value = "${spring.cloud.aws.sqs.queue.comando-processar-regras}",
+            value = "${spring.cloud.aws.sqs.queue.comando-processar-regras-dlq}",
             factory = "defaultSqsMessageListenerContainerFactory"
     )
     public void receberMensagem(

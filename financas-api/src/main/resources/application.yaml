@@ -8,7 +8,7 @@ spring:
   datasource:
     url: ${AWS_RDS_URL:}
     username: ${AWS_RDS_USER:admin}
-    password: ${AWS_RDS_PASSWORD:admin}
+    password: ${AWS_RDS_PASSWORD:}
     driver-class-name: com.mysql.cj.jdbc.Driver
 
 #    # Configurações do Pool de Conexões (HikariCP)

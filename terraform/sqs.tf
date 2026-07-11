@@ -44,7 +44,13 @@ resource "aws_sqs_queue" "sqs-comando-processar-regras" {
 }
 
 resource "aws_sqs_queue" "sqs-comando-processar-regras-dlq" {
-  name =  var.sqs_comando_processar_regras_dlq
+  name =  "${var.sqs_comando_processar_regras_dlq}.fifo"
+  fifo_queue = true
+
+  content_based_deduplication = false
+  deduplication_scope = "messageGroup"
+  fifo_throughput_limit = "perMessageGroupId"
+
   delay_seconds = var.sqs_delay_seconds
   visibility_timeout_seconds = var.sqs_visibility_timeout_seconds
   message_retention_seconds = var.sqs_retention_seconds

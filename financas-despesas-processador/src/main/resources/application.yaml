@@ -16,12 +16,12 @@ spring:
           comando-nova-despesa: ${AWS_SQS_COMANDO_NOVA_DESPESA:sqs-comando-nova-despesa-dev.fifo}
           retorno-nova-fatura: ${AWS_SQS_RETORNO_NOVA_FATURA:sqs-retorno-nova-fatura-dev}
           comando-processar-regras: ${AWS_SQS_COMANDO_PROCESSAR_REGRAS:sqs-comando-processar-regras-dev.fifo}
-          comando-processar-regras-dlq: ${AWS_SQS_COMANDO_PROCESSAR_REGRAS_DLQ:sqs-comando-processar-regras-dev-dlq}
+          comando-processar-regras-dlq: ${AWS_SQS_COMANDO_PROCESSAR_REGRAS_DLQ:sqs-comando-processar-regras-dev-dlq.fifo}
           comando-nova-notificacao: ${AWS_SQS_COMANDO_NOVA_NOTIFICACAO:sqs-comando-nova-notificacao-dev}
 
   datasource:
     url: ${AWS_RDS_URL:}
-    username: ${AWS_RDS_USER:}
+    username: ${AWS_RDS_USER:admin}
     password: ${AWS_RDS_PASSWORD:}
     driver-class-name: com.mysql.cj.jdbc.Driver
 
