@@ -1,18 +1,18 @@
 package br.com.thianolima.core.usecase;
 
 import br.com.thianolima.core.provider.database.BuscarCartaoPorId;
-import br.com.thianolima.core.provider.storage.CriarUrlPreAssinadaFatura;
+import br.com.thianolima.core.provider.storage.CriarUrlPreAssinadaS3;
 
 public class UploadFaturaCartaoUseCase {
 
-    private CriarUrlPreAssinadaFatura criarUrlPreAssinadaFatura;
+    private CriarUrlPreAssinadaS3 criarUrlPreAssinadaS3;
     private BuscarCartaoPorId buscarCartaoPorId;
 
     public UploadFaturaCartaoUseCase(
-            CriarUrlPreAssinadaFatura criarUrlPreAssinadaFatura,
+            CriarUrlPreAssinadaS3 criarUrlPreAssinadaS3,
             BuscarCartaoPorId buscarCartaoPorId
     ){
-        this.criarUrlPreAssinadaFatura = criarUrlPreAssinadaFatura;
+        this.criarUrlPreAssinadaS3 = criarUrlPreAssinadaS3;
         this.buscarCartaoPorId = buscarCartaoPorId;
     }
 
@@ -21,13 +21,17 @@ public class UploadFaturaCartaoUseCase {
             Long usuarioId,
             String anoMes,
             String nomeArquivo
+    ) {
+        if (!cartaoPertenceUsuario(cartaoId, usuarioId)) {
+            throw new RuntimeException("Cartao nao pertence ao usuario");
+        }
+        return criarUrlPreAssinadaS3.executar(cartaoId, usuarioId, anoMes, nomeArquivo);
+    }
+
+    private Boolean cartaoPertenceUsuario(
+            Long cartaoId,
+            Long usuarioId
     ){
-        var cartao = buscarCartaoPorId.executar(cartaoId, usuarioId)
-                .orElseThrow(() -> new RuntimeException());
-
-        if(!cartao.getUsuarioId().equals(usuarioId))
-            throw new RuntimeException("Usuario nao pertencete ao cartao");
-
-        return criarUrlPreAssinadaFatura.executar(cartaoId, usuarioId, anoMes, nomeArquivo);
+        return buscarCartaoPorId.executar(cartaoId, usuarioId).isPresent();
     }
 }

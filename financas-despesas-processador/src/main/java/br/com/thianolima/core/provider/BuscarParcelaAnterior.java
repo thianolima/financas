@@ -8,10 +8,6 @@ import java.util.Optional;
 
 public interface BuscarParcelaAnterior {
 
-    Optional<Despesa> executar(
-            LocalDate dataDespesa,
-            BigDecimal valor,
-            Long cartaoId,
-            Integer parcela
-    );
+    Optional<Despesa> executar(Despesa despesa);
+
 }

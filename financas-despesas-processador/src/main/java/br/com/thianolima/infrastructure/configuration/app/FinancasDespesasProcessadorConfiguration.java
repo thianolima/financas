@@ -12,12 +12,15 @@ public class FinancasDespesasProcessadorConfiguration {
     ClassificarDespesaUseCase criarClassificarDespesaUseCase(
             BuscarFornecedoresPorUsuarioId buscarFornecedoresPorUsuarioId,
             BuscarParcelaAnterior buscarParcelaAnterior,
-            BuscarDespesaRecorrente buscarDespesaRecorrente
+            BuscarDespesaRecorrente buscarDespesaRecorrente,
+            ClassificarDespesaPorRegraUseCase classificarDespesaPorRegraUseCase
+
     ){
         return new ClassificarDespesaUseCase(
                 buscarFornecedoresPorUsuarioId,
                 buscarParcelaAnterior,
-                buscarDespesaRecorrente
+                buscarDespesaRecorrente,
+                classificarDespesaPorRegraUseCase
         );
     }
 
@@ -68,6 +71,21 @@ public class FinancasDespesasProcessadorConfiguration {
         return new ProcessarErroRegrasEmLoteUseCase(
                 produzirComandoNovaNotificacao,
                 buscarDespesaPorId
+        );
+    }
+
+    @Bean
+    ProcessarComandoNovaDespesaUseCase criarProcessarComandoNovaDespesaUseCase(
+            ClassificarDespesaPorRegraUseCase classificarDespesaPorRegraUseCase,
+            SalvarDespesa salvarDespesa,
+            ProduzirComandoNovaNotificacao produzirComandoNovaNotificacao,
+            BuscarParcelaAnterior buscarParcelaAnterior
+    ){
+        return new ProcessarComandoNovaDespesaUseCase(
+                classificarDespesaPorRegraUseCase,
+                salvarDespesa,
+                produzirComandoNovaNotificacao,
+                buscarParcelaAnterior
         );
     }
 }

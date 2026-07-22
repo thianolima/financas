@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @RequiredArgsConstructor
 public class ProcessarComandoNovaFaturaUseCase {
 
-    private final CarregarFatura carregarFatura;
+    private final CarregarFaturaCsv carregarFaturaCsv;
     private final BuscarFaturaPorCartaoIdEAnoMes buscarFaturaPorCartaoIdEAnoMes;
     private final SalvarFatura salvarFatura;
     private final ProduzirComandoNovaDespesa produzirComandoNovaDespesa;
@@ -38,7 +38,7 @@ public class ProcessarComandoNovaFaturaUseCase {
                 cartao.getDiaVencimento()
         );
 
-        var despesasCsv = carregarFatura.executar(s3Bucket, s3Key);
+        var despesasCsv = carregarFaturaCsv.executar(s3Bucket, s3Key);
 
         var fatura = salvarFatura.executar(
                 Fatura.builder()
@@ -78,7 +78,7 @@ public class ProcessarComandoNovaFaturaUseCase {
 
     private void validarDuplicidadeDaFatura(Long cartaoId, String anoMes){
         if(buscarFaturaPorCartaoIdEAnoMes.executar(cartaoId, anoMes).isPresent()){
-            throw new RuntimeException("Fatura ja importada para esse anoMes");
+            throw new RuntimeException("Fatura ja importada para esse ano e mes");
         }
     }
 

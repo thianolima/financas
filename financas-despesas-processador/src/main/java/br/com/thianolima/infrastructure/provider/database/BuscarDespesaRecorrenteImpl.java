@@ -17,7 +17,7 @@ public class BuscarDespesaRecorrenteImpl implements BuscarDespesaRecorrente {
     private EntityManager entityManager;
 
     @Override
-    public Optional<Despesa> executar(
+    public Optional<Despesa>executar(
             String descricaoOriginal,
             BigDecimal valor,
             Long cartaoId

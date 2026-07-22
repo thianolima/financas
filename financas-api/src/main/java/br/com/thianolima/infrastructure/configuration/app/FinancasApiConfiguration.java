@@ -2,7 +2,7 @@ package br.com.thianolima.infrastructure.configuration.app;
 
 import br.com.thianolima.core.provider.database.*;
 import br.com.thianolima.core.provider.message.ProduzirComandoProcessarRegras;
-import br.com.thianolima.core.provider.storage.CriarUrlPreAssinadaFatura;
+import br.com.thianolima.core.provider.storage.CriarUrlPreAssinadaS3;
 import br.com.thianolima.core.usecase.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,11 +12,11 @@ public class FinancasApiConfiguration {
 
     @Bean
     public UploadFaturaCartaoUseCase criarUploarFaturaCartaoUseCase(
-            CriarUrlPreAssinadaFatura criarUrlPreAssinadaFatura,
+            CriarUrlPreAssinadaS3 criarUrlPreAssinadaS3,
             BuscarCartaoPorId buscarCartaoPorId
     ){
         return new UploadFaturaCartaoUseCase(
-                criarUrlPreAssinadaFatura,
+                criarUrlPreAssinadaS3,
                 buscarCartaoPorId
         );
     }

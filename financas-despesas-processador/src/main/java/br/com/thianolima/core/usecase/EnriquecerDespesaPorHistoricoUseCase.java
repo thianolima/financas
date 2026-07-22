@@ -15,12 +15,7 @@ public class EnriquecerDespesaPorHistoricoUseCase {
 
     public Despesa executar(Despesa despesa) {
         if (despesa.isParcelado() && !despesa.isPrimeiraParcela()) {
-            buscarParcelaAnterior.executar(
-                    despesa.getDataDespesa(),
-                    despesa.getValor(),
-                    despesa.getCartaoId(),
-                    despesa.getParcelaAnterior()
-            )
+            buscarParcelaAnterior.executar(despesa)
             .ifPresent(despesaHistorico -> {
                 despesa.setObservacao(despesaHistorico.getObservacao());
             });
