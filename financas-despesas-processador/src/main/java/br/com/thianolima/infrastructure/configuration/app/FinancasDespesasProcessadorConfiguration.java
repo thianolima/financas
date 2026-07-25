@@ -79,12 +79,14 @@ public class FinancasDespesasProcessadorConfiguration {
             ClassificarDespesaPorRegraUseCase classificarDespesaPorRegraUseCase,
             SalvarDespesa salvarDespesa,
             ProduzirComandoNovaNotificacao produzirComandoNovaNotificacao,
+            BuscarDespesaRecorrente buscarDespesaRecorrente,
             BuscarParcelaAnterior buscarParcelaAnterior
     ){
         return new ProcessarComandoNovaDespesaUseCase(
                 classificarDespesaPorRegraUseCase,
                 salvarDespesa,
                 produzirComandoNovaNotificacao,
+                buscarDespesaRecorrente,
                 buscarParcelaAnterior
         );
     }

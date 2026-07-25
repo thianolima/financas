@@ -5,6 +5,7 @@ import br.com.thianolima.model.Despesa;
 import br.com.thianolima.model.Fatura;
 import br.com.thianolima.model.FaturaSituacaoEnum;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -12,6 +13,7 @@ import java.util.HashMap;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+@Slf4j
 @RequiredArgsConstructor
 public class ProcessarComandoNovaFaturaExcelUseCase {
 
@@ -28,7 +30,7 @@ public class ProcessarComandoNovaFaturaExcelUseCase {
             String s3Bucket,
             String s3Key
     ) {
-        validarCartao(usuarioId, cartaoId, anoMes);
+        validarFaturaDoCartao(usuarioId, cartaoId, anoMes);
 
         var despesasExcel = carregarFaturaExcel.executar(usuarioId, s3Bucket, s3Key);
 
@@ -44,7 +46,7 @@ public class ProcessarComandoNovaFaturaExcelUseCase {
         // Salvar fatura para cada cartao utilizado
         HashMap<Long, Long> faturaIdPorCartao = new HashMap<>();
         cartoesIdFatura.forEach(cartaoIdFatura -> {
-            validarCartao(usuarioId, cartaoIdFatura, anoMes);
+            validarFaturaDoCartao(usuarioId, cartaoIdFatura, anoMes);
             var fatura = salvarFatura.executar(
                     Fatura.builder()
                             .dataCriacao(LocalDateTime.now())
@@ -74,14 +76,14 @@ public class ProcessarComandoNovaFaturaExcelUseCase {
         });
     }
 
-    private void validarCartao(Long usuarioId, Long cartaoId, String anoMes){
+    private void validarFaturaDoCartao(Long usuarioId, Long cartaoId, String anoMes){
         //TODO: Alterar busca de cartao de credito por cartaoId e usuarioId
         buscarCartaoPorId.executar(cartaoId)
                 .orElseThrow(() -> new RuntimeException("Cartao nao encontrado"));
 
         buscarFaturaPorCartaoIdEAnoMes.executar(cartaoId, anoMes)
                 .ifPresent(fatura -> {
-                    throw new RuntimeException("Fatura ja importada para esse ano e mes");
+                    throw new RuntimeException("Fatura ja importada para o anoMes: " + anoMes);
                 });
     }
 }

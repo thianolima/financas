@@ -25,8 +25,9 @@ public class BuscarParcelaAnteriorImpl implements BuscarParcelaAnterior {
                SELECT d FROM DespesaEntity d
                WHERE d.cartaoId = :cartaoId
                AND d.valor = :valor
-               AND d.dataDespesa < :dataDespesa
+               AND d.dataDespesa = :dataDespesa
                AND d.parcelaAtual < :parcela
+               ORDER BY d.parcelaAtual desc
            """;
 
         return entityManager.createQuery(consulta, DespesaEntity.class)

@@ -32,7 +32,8 @@ public class ProcessarRegrasEmLoteUseCase {
         buscarDespesaPorId.executar(despesaId, usuarioId)
             .ifPresentOrElse(
                     despesaSalva -> {
-                        var despesaClassificada = classificarDespesaPorRegraUseCase.executar(despesaSalva);
+                        var despesaClassificada = classificarDespesaPorRegraUseCase.executar(despesaSalva)
+                                .orElseThrow(() -> new RuntimeException("Nao foi possivel categorizar a despesa!"));
                         salvarDespesa.executar(despesaClassificada);
                         if(sequencialAtual == sequencialFinal){
                             produzirComandoNovaNotificacao.executar(
@@ -43,7 +44,7 @@ public class ProcessarRegrasEmLoteUseCase {
                         }
                     },
                     () -> {
-                        throw new RuntimeException("ERRRO: A despesa "+ despesaId +" não pertence ao usuário autenticado!");
+                        throw new RuntimeException("ERRRO: A despesa não pertence ao usuário autenticado!");
                     }
             );
     }

@@ -106,8 +106,7 @@ public class ClassificarDespesaUseCase {
 //    }
 
         private Optional<Despesa> categorizarDespesa(Despesa despesa){
-            var despesaClassificada = classificarDespesaPorRegraUseCase.executar(despesa);
-            return Optional.of(despesaClassificada);
+            return classificarDespesaPorRegraUseCase.executar(despesa);
         }
 
 
