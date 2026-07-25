@@ -44,7 +44,8 @@ public class ProduzirComandoProcessarRegrasImpl implements ProduzirComandoProces
                 .payload(comandoProcessarRegraDto)
                 .header("traceId", traceId)
                 .header("spanId", spanId)
-                .messageGroupId(comandoProcessarRegras.despesaId() + "-" + traceId)
+//                .messageGroupId(comandoProcessarRegras.despesaId() + "-" + traceId) --funcionava
+                .messageGroupId(traceId)
                 .messageDeduplicationId(UUID.randomUUID().toString())
         );
 

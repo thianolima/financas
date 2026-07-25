@@ -20,7 +20,7 @@ resource "aws_s3_bucket_acl" "s3_acl" {
 }
 
 # 4. Permissão para o S3 postar na fila SQS
-resource "aws_sqs_queue_policy" "s3_notificacao_policy" {
+resource "aws_sqs_queue_policy" "s3_comando_nova_fatura_policy" {
   queue_url = aws_sqs_queue.sqs-comando-nova-fatura.id
 
   policy = jsonencode({
@@ -43,11 +43,11 @@ resource "aws_sqs_queue_policy" "s3_notificacao_policy" {
 resource "aws_s3_bucket_notification" "s3_comando_nova_fatura" {
   bucket = aws_s3_bucket.s3_financeiro.id
   queue {
-    id            = "notificacao-fatura-csv"
+    id            = "s3_comando_nova_fatura"
     queue_arn     = aws_sqs_queue.sqs-comando-nova-fatura.arn
     events        = ["s3:ObjectCreated:*"]
     # Filtro: Apenas arquivos .csv
-    filter_suffix = ".csv"
+    # filter_suffix = ".csv"
   }
-  depends_on = [aws_sqs_queue_policy.s3_notificacao_policy]
+  depends_on = [aws_sqs_queue_policy.s3_comando_nova_fatura_policy]
 }

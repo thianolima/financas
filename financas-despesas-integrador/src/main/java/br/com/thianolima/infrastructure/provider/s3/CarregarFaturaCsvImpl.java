@@ -1,7 +1,7 @@
 package br.com.thianolima.infrastructure.provider.s3;
 
 import br.com.thianolima.model.DespesaCsv;
-import br.com.thianolima.core.provider.CarregarFatura;
+import br.com.thianolima.core.provider.CarregarFaturaCsv;
 import org.springframework.stereotype.Service;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.GetObjectRequest;
@@ -17,11 +17,11 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 @Service
-public class CarregarFaturaImpl implements CarregarFatura {
+public class CarregarFaturaCsvImpl implements CarregarFaturaCsv {
 
     private final S3Client s3Client;
 
-    public CarregarFaturaImpl(S3Client s3Client) {
+    public CarregarFaturaCsvImpl(S3Client s3Client) {
         this.s3Client = s3Client;
     }
 

@@ -22,8 +22,8 @@ public class BuscarCartaoPorIdImpl implements BuscarCartaoPorId {
     }
 
     @Override
-    public Optional<Cartao> executar(Long id) {
-        CartaoEntity cartaoEntity = entityManager.find(CartaoEntity.class, id);
+    public Optional<Cartao> executar(Long cartaoId) {
+        CartaoEntity cartaoEntity = entityManager.find(CartaoEntity.class, cartaoId);
         return cartaoEntity == null ? Optional.empty() : Optional.of(cartaoEntity.toModel());
     }
 }

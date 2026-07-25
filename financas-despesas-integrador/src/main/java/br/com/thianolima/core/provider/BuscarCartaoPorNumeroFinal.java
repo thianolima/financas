@@ -4,7 +4,7 @@ import br.com.thianolima.model.Cartao;
 
 import java.util.Optional;
 
-public interface BuscarCartaoPorId {
+public interface BuscarCartaoPorNumeroFinal {
 
-    Optional<Cartao> executar(Long cartaoId);
+    Optional<Cartao> executar(String numeroFinal, Long usuarioId);
 }

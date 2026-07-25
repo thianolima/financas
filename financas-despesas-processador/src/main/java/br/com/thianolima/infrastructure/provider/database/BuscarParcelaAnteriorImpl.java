@@ -19,23 +19,22 @@ public class BuscarParcelaAnteriorImpl implements BuscarParcelaAnterior {
 
 
     @Override
-    public Optional<Despesa> executar(
-            LocalDate dataDespesa,
-            BigDecimal valor,
-            Long cartaoId,
-            Integer parcela
-    ) {
-        var consulta = "SELECT d FROM DespesaEntity d " +
-                       "WHERE d.cartaoId = :cartaoId " +
-                       "and d.valor = :valor " +
-                       "and d.dataDespesa = :dataDespesa " +
-                       "and d.parcelaAtual <= :parcela ";
+    public Optional<Despesa> executar(Despesa despesa) {
+        var consulta =
+           """
+               SELECT d FROM DespesaEntity d
+               WHERE d.cartaoId = :cartaoId
+               AND d.valor = :valor
+               AND d.dataDespesa = :dataDespesa
+               AND d.parcelaAtual < :parcela
+               ORDER BY d.parcelaAtual desc
+           """;
 
         return entityManager.createQuery(consulta, DespesaEntity.class)
-                .setParameter("cartaoId", cartaoId)
-                .setParameter("valor", valor)
-                .setParameter("dataDespesa", dataDespesa)
-                .setParameter("parcela", parcela)
+                .setParameter("cartaoId", despesa.getCartaoId())
+                .setParameter("valor", despesa.getValor())
+                .setParameter("dataDespesa", despesa.getDataDespesa())
+                .setParameter("parcela", despesa.getParcelaAtual())
                 .getResultList()
                 .stream()
                 .map(DespesaEntity::toModel)

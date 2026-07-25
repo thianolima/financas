@@ -11,7 +11,7 @@ AWS_RDS_PASSWORD=admin;
 AWS_RDS_URL="jdbc:localhost:3306/financasdb?useSSL=true&allowPublicKeyRetrieval=true";
 AWS_RDS_USER=admin;
 AWS_REGION=us-east-1;
-AWS_S3_BUCKET_FATURA=thianolima-financas-faturas-dev;
+AWS_S3_BUCKET_FATURA=financas-faturas-dev;
 AWS_SQS_RETORNO_NOVA_FATURA=sqs-retorno-nova-fatura-dev;
 AWS_SQS_COMANDO_NOVA_DESPESA=sqs-comando-nova-despesa-dev.fifo;
 AWS_SQS_COMANDO_PROCESSAR_REGRAS=sqs-comando-processar-regras-dev.fifo;

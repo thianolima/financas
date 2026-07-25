@@ -1,6 +1,6 @@
 package br.com.thianolima.infrastructure.provider.s3;
 
-import br.com.thianolima.core.provider.storage.CriarUrlPreAssinadaFatura;
+import br.com.thianolima.core.provider.storage.CriarUrlPreAssinadaS3;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -14,14 +14,14 @@ import java.time.Duration;
 
 @Slf4j
 @Service
-public class CriarUrlPreAssinadaFaturaImpl implements CriarUrlPreAssinadaFatura {
+public class CriarUrlPreAssinadaS3Impl implements CriarUrlPreAssinadaS3 {
 
     private final S3Presigner s3Presigner;
 
     @Value("${spring.cloud.aws.s3.bucket.fatura}")
     private String bucket;
 
-    public CriarUrlPreAssinadaFaturaImpl(S3Presigner s3Presigner) {
+    public CriarUrlPreAssinadaS3Impl(S3Presigner s3Presigner) {
         this.s3Presigner = s3Presigner;
     }
 
@@ -33,7 +33,6 @@ public class CriarUrlPreAssinadaFaturaImpl implements CriarUrlPreAssinadaFatura 
             PutObjectRequest putObjectRequest = PutObjectRequest.builder()
                     .bucket(bucket)
                     .key(objectKey)
-//                    .contentType("text/csv")
                     .build();
 
             PutObjectPresignRequest presignRequest = PutObjectPresignRequest.builder()

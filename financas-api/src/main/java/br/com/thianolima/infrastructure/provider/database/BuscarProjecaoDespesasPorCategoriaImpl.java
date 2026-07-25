@@ -58,5 +58,6 @@ public class BuscarProjecaoDespesasPorCategoriaImpl implements BuscarProjecaoDes
         return jdbcClient.sql(sqlNativa)
                 .param("usuarioId", usuarioId)
                 .query(ProjecaoDespesaMensalItens.class)
-                .list();    }
+                .list();
+    }
 }

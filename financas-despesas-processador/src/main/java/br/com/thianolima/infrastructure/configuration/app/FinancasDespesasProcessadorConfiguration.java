@@ -1,10 +1,7 @@
 package br.com.thianolima.infrastructure.configuration.app;
 
 import br.com.thianolima.core.provider.*;
-import br.com.thianolima.core.usecase.ClassificarDespesaPorRegraUseCase;
-import br.com.thianolima.core.usecase.ClassificarDespesaUseCase;
-import br.com.thianolima.core.usecase.ProcessarDespesaFaturaUseCase;
-import br.com.thianolima.core.usecase.ProcessarRegrasEmLoteUseCase;
+import br.com.thianolima.core.usecase.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -15,12 +12,15 @@ public class FinancasDespesasProcessadorConfiguration {
     ClassificarDespesaUseCase criarClassificarDespesaUseCase(
             BuscarFornecedoresPorUsuarioId buscarFornecedoresPorUsuarioId,
             BuscarParcelaAnterior buscarParcelaAnterior,
-            BuscarDespesaRecorrente buscarDespesaRecorrente
+            BuscarDespesaRecorrente buscarDespesaRecorrente,
+            ClassificarDespesaPorRegraUseCase classificarDespesaPorRegraUseCase
+
     ){
         return new ClassificarDespesaUseCase(
                 buscarFornecedoresPorUsuarioId,
                 buscarParcelaAnterior,
-                buscarDespesaRecorrente
+                buscarDespesaRecorrente,
+                classificarDespesaPorRegraUseCase
         );
     }
 
@@ -60,6 +60,34 @@ public class FinancasDespesasProcessadorConfiguration {
             classificarDespesaPorRegraUseCase,
             salvarDespesa,
             produzirComandoNovaNotificacao
+        );
+    }
+
+    @Bean
+    ProcessarErroRegrasEmLoteUseCase criarProcessarErroRegrasEmLoteUseCase(
+            ProduzirComandoNovaNotificacao produzirComandoNovaNotificacao,
+            BuscarDespesaPorId buscarDespesaPorId
+    ){
+        return new ProcessarErroRegrasEmLoteUseCase(
+                produzirComandoNovaNotificacao,
+                buscarDespesaPorId
+        );
+    }
+
+    @Bean
+    ProcessarComandoNovaDespesaUseCase criarProcessarComandoNovaDespesaUseCase(
+            ClassificarDespesaPorRegraUseCase classificarDespesaPorRegraUseCase,
+            SalvarDespesa salvarDespesa,
+            ProduzirComandoNovaNotificacao produzirComandoNovaNotificacao,
+            BuscarDespesaRecorrente buscarDespesaRecorrente,
+            BuscarParcelaAnterior buscarParcelaAnterior
+    ){
+        return new ProcessarComandoNovaDespesaUseCase(
+                classificarDespesaPorRegraUseCase,
+                salvarDespesa,
+                produzirComandoNovaNotificacao,
+                buscarDespesaRecorrente,
+                buscarParcelaAnterior
         );
     }
 }

@@ -15,16 +15,20 @@ public class ClassificarDespesaUseCase {
     private final BuscarFornecedoresPorUsuarioId buscarFornecedoresPorUsuarioId;
     private final BuscarParcelaAnterior buscarParcelaAnterior;
     private final BuscarDespesaRecorrente buscarDespesaRecorrente;
+    private final ClassificarDespesaPorRegraUseCase classificarDespesaPorRegraUseCase;
+
     private static final Pattern PARCELA_PATTERN = Pattern.compile("(\\d+)/(\\d+)$");
 
     public ClassificarDespesaUseCase(
             BuscarFornecedoresPorUsuarioId buscarFornecedoresPorUsuarioId,
             BuscarParcelaAnterior buscarParcelaAnterior,
-            BuscarDespesaRecorrente buscarDespesaRecorrente
+            BuscarDespesaRecorrente buscarDespesaRecorrente,
+            ClassificarDespesaPorRegraUseCase classificarDespesaPorRegraUseCase
     ) {
         this.buscarFornecedoresPorUsuarioId = buscarFornecedoresPorUsuarioId;
         this.buscarParcelaAnterior = buscarParcelaAnterior;
         this.buscarDespesaRecorrente = buscarDespesaRecorrente;
+        this.classificarDespesaPorRegraUseCase = classificarDespesaPorRegraUseCase;
     }
 
     public Despesa executar(Despesa despesa){
@@ -52,12 +56,7 @@ public class ClassificarDespesaUseCase {
 
     private Optional<Despesa> buscarDadosParcelaAnterior(Despesa novaDespesa){
         if (novaDespesa.isParcelado() && !novaDespesa.isPrimeiraParcela()){
-            return buscarParcelaAnterior.executar(
-                    novaDespesa.getDataDespesa(),
-                    novaDespesa.getValor(),
-                    novaDespesa.getCartaoId(),
-                    novaDespesa.getParcelaAnterior()
-            );
+            return buscarParcelaAnterior.executar(novaDespesa);
         }
         return Optional.empty();
     }
@@ -86,25 +85,30 @@ public class ClassificarDespesaUseCase {
         return 0;
     }
 
-    private Optional<Despesa> categorizarDespesa(Despesa despesa){
-        var fornecedores = buscarFornecedoresPorUsuarioId.executar(despesa.getUsuarioId());
-        String descricaoOriginal = despesa.getDescricaoOriginal().toUpperCase();
-        return fornecedores.stream()
-                .flatMap(fornecedor -> Arrays.stream(fornecedor.getPalavrasChave().split(","))
-                        .map(palavra -> new FornecedorMatch(palavra.trim().toUpperCase(), fornecedor))
-                )
-                .sorted(Comparator.comparingInt((FornecedorMatch m) -> m.palavraChave().length()).reversed())
-                .filter(match -> descricaoOriginal.contains(match.palavraChave()))
-                .map(FornecedorMatch::fornecedor)
-                .findFirst()
-                .map(f -> Despesa.builder()
-                        .categoriaId(f.getCategoriaId())
-                        .descricaoProcessada(f.getNome())
-                        .fornecedorId(f.getId())
-                        .recorrente(false)
-                        .build()
-                );
-    }
+//    private Optional<Despesa> categorizarDespesa(Despesa despesa){
+//        var fornecedores = buscarFornecedoresPorUsuarioId.executar(despesa.getUsuarioId());
+//        String descricaoOriginal = despesa.getDescricaoOriginal().toUpperCase();
+//        return fornecedores.stream()
+//                .flatMap(fornecedor -> Arrays.stream(fornecedor.getPalavrasChave().split(","))
+//                        .map(palavra -> new FornecedorMatch(palavra.trim().toUpperCase(), fornecedor))
+//                )
+//                .sorted(Comparator.comparingInt((FornecedorMatch m) -> m.palavraChave().length()).reversed())
+//                .filter(match -> descricaoOriginal.contains(match.palavraChave()))
+//                .map(FornecedorMatch::fornecedor)
+//                .findFirst()
+//                .map(f -> Despesa.builder()
+//                        .categoriaId(f.getCategoriaId())
+//                        .descricaoProcessada(f.getNome())
+//                        .fornecedorId(f.getId())
+//                        .recorrente(false)
+//                        .build()
+//                );
+//    }
 
-    private record FornecedorMatch(String palavraChave, Fornecedor fornecedor) {}
+        private Optional<Despesa> categorizarDespesa(Despesa despesa){
+            return classificarDespesaPorRegraUseCase.executar(despesa);
+        }
+
+
+//    private record FornecedorMatch(String palavraChave, Fornecedor fornecedor) {}
 }

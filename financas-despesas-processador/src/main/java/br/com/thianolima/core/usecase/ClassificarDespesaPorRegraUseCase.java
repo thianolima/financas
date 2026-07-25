@@ -3,6 +3,8 @@ package br.com.thianolima.core.usecase;
 import br.com.thianolima.core.provider.BuscarRegraPorTermo;
 import br.com.thianolima.model.Despesa;
 
+import java.util.Optional;
+
 public class ClassificarDespesaPorRegraUseCase {
 
     private final BuscarRegraPorTermo buscarRegraPorTermo;
@@ -14,7 +16,7 @@ public class ClassificarDespesaPorRegraUseCase {
         this.buscarRegraPorTermo = buscarRegraPorTermo;
     }
 
-    public Despesa executar(Despesa despesa){
+    public Optional<Despesa> executar(Despesa despesa){
         buscarRegraPorTermo.executar(
                 despesa.getDescricaoOriginal(),
                 despesa.getUsuarioId()
@@ -29,6 +31,6 @@ public class ClassificarDespesaPorRegraUseCase {
                     despesa.setDescricaoProcessada(despesa.getDescricaoOriginal());
                 }
         );
-        return despesa;
+        return Optional.of(despesa);
     }
 }

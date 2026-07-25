@@ -18,6 +18,8 @@ public class CartaoEntity {
     @Column(name = "cartao_id")
     Long id;
 
+    Long usuarioId;
+
     String nome;
 
     @Enumerated(EnumType.STRING)
@@ -26,12 +28,16 @@ public class CartaoEntity {
     @Column(name = "dia_vencimento")
     Integer diaVencimento;
 
+    @Column(name = "numero_final")
+    String numeroFinal;
+
     public Cartao toModel(){
         return Cartao.builder()
                 .id(this.id)
                 .bandeira(this.bandeira)
                 .nome(this.nome)
                 .diaVencimento(this.diaVencimento)
+                .usuarioId(this.usuarioId)
                 .build();
     }
 }

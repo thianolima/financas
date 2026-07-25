@@ -1,7 +1,7 @@
 package br.com.thianolima.entrypoint.sqs;
 
-import br.com.thianolima.core.usecase.ProcessarDespesaFaturaUseCase;
-import br.com.thianolima.entrypoint.dto.FaturaItemDto;
+import br.com.thianolima.core.usecase.ProcessarComandoNovaDespesaUseCase;
+import br.com.thianolima.entrypoint.dto.ComandoNovaDespesaDto;
 import brave.Span;
 import brave.Tracer;
 import brave.propagation.TraceContext;
@@ -16,16 +16,17 @@ import org.springframework.stereotype.Service;
 public class ComandoNovaDespesaListener {
 
     private final ObjectMapper objectMapper;
-    private final ProcessarDespesaFaturaUseCase processarDespesaFaturaUseCase;
+    private final ProcessarComandoNovaDespesaUseCase processarComandoNovaDespesaUseCase;
     private final Tracer tracer;
 
     public ComandoNovaDespesaListener(
             ObjectMapper objectMapper,
-            ProcessarDespesaFaturaUseCase processarDespesaFaturaUseCase,
+
+            ProcessarComandoNovaDespesaUseCase processarComandoNovaDespesaUseCase,
             Tracer tracer
     ) {
         this.objectMapper = objectMapper;
-        this.processarDespesaFaturaUseCase = processarDespesaFaturaUseCase;
+        this.processarComandoNovaDespesaUseCase = processarComandoNovaDespesaUseCase;
         this.tracer = tracer;
     }
 
@@ -49,11 +50,16 @@ public class ComandoNovaDespesaListener {
         Span newSpan = tracer.newChild(context).name("processar-comando-nova-despesa").start();
 
         try (Tracer.SpanInScope spanInScope = tracer.withSpanInScope(newSpan)){
-            var despesaCsv = objectMapper.readValue(mensagem, FaturaItemDto.class);
-            processarDespesaFaturaUseCase.executar(despesaCsv.toDespesa());
-            log.info("Sucesso Mensagem: {}", mensagem);
+            log.info("INICIO - Comando Nova Despesa Listener: {}", mensagem);
+            var comandoNovaDespesaDto = objectMapper.readValue(mensagem, ComandoNovaDespesaDto.class);
+            processarComandoNovaDespesaUseCase.executar(
+                    comandoNovaDespesaDto.toDespesa(),
+                    comandoNovaDespesaDto.getSequencialAtual(),
+                    comandoNovaDespesaDto.getSequencialFinal()
+            );
+            log.info("FIM - Comando Nova Despesa Listener: {}", mensagem);
         } catch (Exception exception) {
-            log.error("Erro: {} Mensagem: {}", exception.getMessage(), mensagem);
+            log.error("ERRO: {} Mensagem: {}", exception.getMessage(), mensagem);
             throw new RuntimeException(exception);
         } finally {
             newSpan.finish();

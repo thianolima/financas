@@ -3,13 +3,13 @@ package br.com.thianolima.core.usecase;
 import br.com.thianolima.core.provider.BuscarDespesaPorId;
 import br.com.thianolima.core.provider.ProduzirComandoNovaNotificacao;
 
-public class ProcessarErroRegraEmLoteUseCase {
+public class ProcessarErroRegrasEmLoteUseCase {
 
     private final ProduzirComandoNovaNotificacao produzirComandoNovaNotificacao;
     private final BuscarDespesaPorId buscarDespesaPorId;
 
 
-    public ProcessarErroRegraEmLoteUseCase(
+    public ProcessarErroRegrasEmLoteUseCase(
             ProduzirComandoNovaNotificacao produzirComandoNovaNotificacao,
             BuscarDespesaPorId buscarDespesaPorId
     ) {
