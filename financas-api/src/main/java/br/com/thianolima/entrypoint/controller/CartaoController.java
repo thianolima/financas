@@ -45,6 +45,7 @@ public class CartaoController {
     @GetMapping
     @PreAuthorize("hasAnyAuthority('ADMIN', 'BASICO')")
     public ResponseEntity<?> listar(
+            @RequestParam(value = "incluirSaldoLimite", defaultValue = "false") Boolean incluirSaldoLimite,
             JwtAuthenticationToken token
     ) {
         ScopedSpan span = tracer.startScopedSpan("cartoes-por-usuario");

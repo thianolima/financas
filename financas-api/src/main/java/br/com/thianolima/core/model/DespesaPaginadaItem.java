@@ -17,6 +17,7 @@ public class DespesaPaginadaItem {
     private Long cartaoId;
     private String cartaoNome;
     private Long categoriaId;
+    private String cartaoCor;
     private String categoriaNome;
     private String descricao;
     private Integer parcelaAtual;

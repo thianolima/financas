@@ -13,6 +13,7 @@ public class DespesaPaginadaItemResponse {
     private Long id;
     private Long cartaoId;
     private String cartaoNome;
+    private String cartaoCor;
     private Long categoriaId;
     private String categoriaNome;
     private String descricao;
@@ -30,6 +31,7 @@ public class DespesaPaginadaItemResponse {
         this.id = despesaPaginadaItem.getId();
         this.cartaoId = despesaPaginadaItem.getCartaoId();
         this.cartaoNome = despesaPaginadaItem.getCartaoNome();
+        this.cartaoCor = despesaPaginadaItem.getCartaoCor();
         this.categoriaId = despesaPaginadaItem.getCategoriaId();
         this.categoriaNome = despesaPaginadaItem.getCategoriaNome();
         this.descricao = despesaPaginadaItem.getDescricao();

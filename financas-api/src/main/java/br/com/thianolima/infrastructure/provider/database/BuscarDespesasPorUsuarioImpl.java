@@ -36,6 +36,7 @@ public class BuscarDespesasPorUsuarioImpl implements BuscarDespesasPorUsuario {
                     d.despesa_id as id, 
                     d.cartao_id, 
                     t.nome as cartao_nome, 
+                    t.cor as cartao_cor,
                     d.categoria_id, 
                     c.nome as categoria_nome, 
                     d.descricao_processada as descricao, 
