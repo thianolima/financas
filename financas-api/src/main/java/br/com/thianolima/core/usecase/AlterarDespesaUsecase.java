@@ -60,7 +60,7 @@ public class AlterarDespesaUsecase {
            return despesaSalva;
         }
 
-        // CAMPOS EXCLUSIVOS PARA DESPESAS QUE NAO ORIGINARAM DE UM FATURA
+        // CAMPOS EXCLUSIVOS PARA DESPESAS QUE NAO ORIGINARAM DE UMA FATURA
         despesaSalva.setCartaoId(despesaNova.getCartaoId());
         despesaSalva.setParcelaAtual(despesaNova.getParcelaAtual());
         despesaSalva.setTotalParcelas(despesaNova.getTotalParcelas());

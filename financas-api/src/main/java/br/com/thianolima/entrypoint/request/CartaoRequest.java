@@ -1,56 +1,48 @@
-package br.com.thianolima.infrastructure.provider.database.entity;
+package br.com.thianolima.entrypoint.request;
 
 import br.com.thianolima.model.BandeiraEnum;
 import br.com.thianolima.model.Cartao;
-import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 
-@Data
-@NoArgsConstructor
+@Builder
+@Getter
 @AllArgsConstructor
-@Entity
-@Table(name = "tb_cartoes")
-public class CartaoEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "cartao_id")
-    Long id;
-
-    Long usuarioId;
-
+@NoArgsConstructor
+public class CartaoRequest {
+    @NotEmpty
     String nome;
 
-    @Enumerated(EnumType.STRING)
     BandeiraEnum bandeira;
 
-    @Column(name = "dia_vencimento")
     Integer diaVencimento;
 
-    @Column(name = "numero_final")
+    @NotEmpty
     String numeroFinal;
 
     String titular;
 
-    @Column(name = "valor_limite")
+    @NotNull
     BigDecimal valorLimite;
 
+    @NotNull
     String cor;
 
-    @Column(name = "cartao_adicional")
+    @NotNull
     Boolean cartaoAdicional = false;
 
     public Cartao toModel(){
         return Cartao.builder()
-                .id(this.id)
-                .bandeira(this.bandeira)
-                .usuarioId(this.usuarioId)
                 .nome(this.nome)
-                .diaVencimento(this.diaVencimento)
+                .bandeira(this.bandeira)
                 .numeroFinal(this.numeroFinal)
+                .diaVencimento(this.diaVencimento)
                 .titular(this.titular)
                 .valorLimite(this.valorLimite)
                 .cor(this.cor)
@@ -58,5 +50,3 @@ public class CartaoEntity {
                 .build();
     }
 }
-
-

@@ -9,13 +9,17 @@ public class ExcluirDespesaUseCase {
     private final BuscarDespesaPorId buscarDespesaPorId;
 
     public ExcluirDespesaUseCase(
-            ExcluirDespesa excluirDespesa, BuscarDespesaPorId buscarDespesaPorId
+            ExcluirDespesa excluirDespesa,
+            BuscarDespesaPorId buscarDespesaPorId
     ) {
         this.excluirDespesa = excluirDespesa;
         this.buscarDespesaPorId = buscarDespesaPorId;
     }
 
-    public void executar(Long despesaId, Long usuarioId){
+    public void executar(
+            Long despesaId,
+            Long usuarioId
+    ){
         buscarDespesaPorId.executar(despesaId,usuarioId)
                 .orElseThrow(() -> new RuntimeException("Despesa não encontrada"));
 

@@ -84,11 +84,11 @@ public class FinancasApiConfiguration {
     }
 
     @Bean
-    public CriarRegraUseCase criarRegraUseCase(
+    public InserirRegraUseCase criarRegraUseCase(
             SalvarRegra salvarRegra,
             BuscarRegraPorTermoBusca buscarRegraPorTermoBusc
     ){
-        return new CriarRegraUseCase(
+        return new InserirRegraUseCase(
                 salvarRegra,
                 buscarRegraPorTermoBusc
         );
@@ -102,6 +102,43 @@ public class FinancasApiConfiguration {
         return  new PorcessarRegrasEmLoteUseCase(
                 validarDespesasPertecemUsuario,
                 produzirComandoProcessarRegras
+        );
+    }
+
+    @Bean
+    public InserirCartaoUseCase criarInserirCartaoUseCase(
+            SalvarCartao salvarCartao,
+            BuscarCartoesPorUsuario buscarCartoesPorUsuario
+    ){
+        return new InserirCartaoUseCase(
+                salvarCartao,
+                buscarCartoesPorUsuario
+        );
+    }
+
+    @Bean
+    public AlterarCartaoUseCase criarAlterarCartaoUseCase(
+            SalvarCartao salvarCartao,
+            BuscarCartoesPorUsuario buscarCartoesPorUsuario,
+            BuscarCartaoPorId buscarCartaoPorId
+    ){
+        return new AlterarCartaoUseCase(
+                salvarCartao,
+                buscarCartoesPorUsuario,
+                buscarCartaoPorId
+        );
+    }
+
+    @Bean
+    public ExcluirCartaoUseCase criarExcluirCartao(
+            BuscarCartaoPorId buscarCartaoPorId,
+            ExcluirCartao excluirCartao,
+            BuscarDespesasPorCartao buscarDespesasPorCartao
+    ){
+        return new ExcluirCartaoUseCase(
+                buscarCartaoPorId,
+                excluirCartao,
+                buscarDespesasPorCartao
         );
     }
 }

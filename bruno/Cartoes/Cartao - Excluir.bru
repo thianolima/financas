@@ -1,0 +1,33 @@
+meta {
+  name: Cartao - Excluir
+  type: http
+  seq: 7
+}
+
+delete {
+  url: {{URL_SERVER}}/cartoes/5
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{TOKEN}}
+}
+
+body:json {
+    {
+      "nome": "CARTAO TESTE NOVO ",
+      "bandeira": "MASTER",
+      "diaVencimento": 15,
+      "numeroFinal": "1234",
+      "titular":"THIANO LIMA",
+      "valorLimite": 75000,
+      "cor":"ROXO",
+      "cartaoAdicional": false
+    }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
