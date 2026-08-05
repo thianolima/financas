@@ -33,11 +33,15 @@ public class FaturaController {
         var urlPreAssinada = uploadFaturaCartaoUseCase.executar(
                 cartaoId,
                 extrairUsuarioIdDoToken(token),
-                request.anoMes(),
-                request.nomeArquivo()
+                request.getAnoMes(),
+                request.getNomeArquivo()
         );
 
-        return ResponseEntity.ok(new FaturaPreAssinadaResponse(urlPreAssinada));
+        return ResponseEntity.ok(
+                FaturaPreAssinadaResponse.builder()
+                        .url(urlPreAssinada)
+                        .build()
+        );
     }
 
     private Long extrairUsuarioIdDoToken(JwtAuthenticationToken token){

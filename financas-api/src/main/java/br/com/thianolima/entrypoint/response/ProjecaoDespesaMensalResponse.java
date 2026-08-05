@@ -1,14 +1,17 @@
 package br.com.thianolima.entrypoint.response;
 
-import br.com.thianolima.core.projection.ProjecaoDespesaMensalProjection;
+import br.com.thianolima.core.model.ProjecaoDespesaMensal;
+import lombok.Getter;
+import org.springframework.cglib.core.Local;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Collection;
 import java.util.List;
 
-public record ProjecaoDespesaMensalResponse(List<ProjecaoDespesaMensalItemResponse> data) {
+@Getter
+public class ProjecaoDespesaMensalResponse {
+    private final List<ProjecaoDespesaMensalItemResponse> data;
 
     public record ProjecaoDespesaMensalItemResponse(
             String anoMes,
@@ -36,33 +39,33 @@ public record ProjecaoDespesaMensalResponse(List<ProjecaoDespesaMensalItemRespon
             String categoriaNome
     ) {}
 
-    public ProjecaoDespesaMensalResponse(Collection<ProjecaoDespesaMensalProjection> despesas) {
-        this(despesas.stream().map(despesa ->
+    public ProjecaoDespesaMensalResponse(List<ProjecaoDespesaMensal> despesas) {
+        this.data = despesas.stream().map(despesa ->
                 new ProjecaoDespesaMensalItemResponse(
-                    despesa.anoMes().format(DateTimeFormatter.ofPattern("yyyyMM")),
-                    despesa.valorTotal(),
-                    despesa.valorTotalParcelado(),
-                    despesa.valorTotalRecorrente(),
-                    despesa.valorTotalAvulso(),
-                    despesa.despesas().stream().map(detalhe ->
+                    despesa.getAnoMes().format(DateTimeFormatter.ofPattern("yyyyMM")),
+                    despesa.getValorTotal(),
+                    despesa.getValorTotalParcelado(),
+                    despesa.getValorTotalRecorrente(),
+                    despesa.getValorTotalAvulso(),
+                    despesa.getDespesas().stream().map(detalhe ->
                             new ProjecaoDespesaMensalItemDespesasResponse(
-                                detalhe.descricaoProcessada(),
-                                detalhe.valor(),
-                                detalhe.observacao(),
+                                detalhe.getDescricaoProcessada(),
+                                detalhe.getValor(),
+                                detalhe.getObservacao(),
                                 detalhe.isRecorrente(),
                                 detalhe.isParcelado(),
                                 detalhe.isAvulso(),
-                                detalhe.cartaoId(),
-                                detalhe.cartaoNome(),
-                                detalhe.parcelaAtual(),
-                                detalhe.totalParcelas(),
-                                detalhe.dataDespesa(),
-                                detalhe.dataVencimento(),
-                                detalhe.categoriaId(),
-                                detalhe.categoriaNome()
+                                detalhe.getCartaoId(),
+                                detalhe.getCartaoNome(),
+                                detalhe.getParcelaAtual(),
+                                detalhe.getTotalParcelas(),
+                                detalhe.getDataDespesa(),
+                                detalhe.getDataVencimento(),
+                                detalhe.getCategoriaId(),
+                                detalhe.getCategoriaNome()
                             )
                     ).toList()
                 )
-        ).toList());
+        ).toList();
     }
 }

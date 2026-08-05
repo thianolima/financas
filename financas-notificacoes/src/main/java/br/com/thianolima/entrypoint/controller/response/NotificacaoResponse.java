@@ -1,6 +1,6 @@
 package br.com.thianolima.entrypoint.controller.response;
 
-import br.com.thianolima.core.projection.Notificacao;
+import br.com.thianolima.core.model.Notificacao;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

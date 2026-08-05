@@ -1,18 +1,21 @@
 package br.com.thianolima.entrypoint.response;
 
 import br.com.thianolima.model.Categoria;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-public record CategoriaResponse(
-        Long id,
-        String nome,
-        Boolean incluirProjecao
-) {
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class CategoriaResponse {
+    Long id;
+    String nome;
+    Boolean incluirProjecao;
 
     public CategoriaResponse(Categoria categoria) {
-        this(
-                categoria.getId(),
-                categoria.getNome(),
-                categoria.getIncluirProjecao()
-        );
+        this.id = categoria.getId();
+        this.nome = categoria.getNome();
+        this.incluirProjecao = categoria.getIncluirProjecao();
     }
 }

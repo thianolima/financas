@@ -1,11 +1,19 @@
 package br.com.thianolima.entrypoint.request;
 
-import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import software.amazon.awssdk.annotations.NotNull;
 
 import java.util.List;
 
-public record ProcessarRegrasRequest(
-        @NotNull
-        List<Long> despesasIds
-) {}
+@Builder
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
+public class ProcessarRegrasRequest {
+    @NotNull
+    List<Long> despesasIds;
+}
 

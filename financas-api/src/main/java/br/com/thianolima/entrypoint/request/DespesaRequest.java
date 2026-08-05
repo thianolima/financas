@@ -3,33 +3,41 @@ package br.com.thianolima.entrypoint.request;
 import br.com.thianolima.model.Despesa;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-public record DespesaRequest(
-        Long cartaoId,
-        Long categoriaId,
-        @NotBlank
-        String descricao,
-        Integer parcelaAtual,
-        Integer totalParcelas,
-        @NotNull
-        LocalDate dataDespesa,
-        @NotNull
-        LocalDate dataVencimento,
-        @NotNull
-        BigDecimal valor,
-        String observacao,
-        Boolean recorrente
-) {
+@Builder
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
+public class DespesaRequest {
+    private Long cartaoId;
 
-    public DespesaRequest {
-        categoriaId = categoriaId != null ? categoriaId : 0L;
-        parcelaAtual = parcelaAtual != null ? parcelaAtual : 0;
-        totalParcelas = totalParcelas != null ? totalParcelas : 0;
-        recorrente = recorrente != null ? recorrente : false;
-    }
+    private Long categoriaId = 0l;
+
+    @NotBlank
+    private String descricao;
+
+    private Integer parcelaAtual = 0;
+    private Integer totalParcelas = 0;
+
+    @NotNull
+    private LocalDate dataDespesa;
+
+    @NotNull
+    private LocalDate dataVencimento;
+
+    @NotNull
+    private BigDecimal valor;
+
+    private String observacao;
+
+    private Boolean recorrente = false;
 
     public Despesa toModel(){
         return Despesa.builder()

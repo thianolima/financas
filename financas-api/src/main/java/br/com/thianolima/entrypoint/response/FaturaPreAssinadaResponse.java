@@ -1,3 +1,14 @@
 package br.com.thianolima.entrypoint.response;
 
-public record FaturaPreAssinadaResponse(String url) {}
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class FaturaPreAssinadaResponse {
+    String url;
+}

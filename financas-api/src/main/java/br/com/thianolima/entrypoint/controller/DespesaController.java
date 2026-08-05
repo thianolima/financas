@@ -1,6 +1,6 @@
 package br.com.thianolima.entrypoint.controller;
 
-import br.com.thianolima.core.projection.TipoDespesaEnum;
+import br.com.thianolima.core.model.TipoDespesaEnum;
 import br.com.thianolima.core.usecase.AlterarDespesaUsecase;
 import br.com.thianolima.core.usecase.BuscarDespesasPorUsuarioUseCase;
 import br.com.thianolima.core.usecase.ExcluirDespesaUseCase;
@@ -129,7 +129,7 @@ public class DespesaController {
         ScopedSpan span = tracer.startScopedSpan("despesas-processar-regras");
         try{
             var usuarioId = extrairUsuarioIdDoToken(token);
-            processarRegrasEmLoteUseCase.executar(request.despesasIds(), usuarioId);
+            processarRegrasEmLoteUseCase.executar(request.getDespesasIds(), usuarioId);
             return ResponseEntity.ok().build();
         } catch (Exception exception) {
             log.error("Erro: {}", exception.getMessage());

@@ -1,6 +1,6 @@
 package br.com.thianolima.core.usecase;
 
-import br.com.thianolima.core.projection.ComandoProcessarRegrasProjection;
+import br.com.thianolima.core.model.ComandoProcessarRegras;
 import br.com.thianolima.core.provider.database.ValidarDespesasPertecemUsuario;
 import br.com.thianolima.core.provider.message.ProduzirComandoProcessarRegras;
 
@@ -30,7 +30,7 @@ public class PorcessarRegrasEmLoteUseCase {
         int sequencialAtual = 1;
         while (sequencialAtual <= despesasIds.size()){
             var despesaId = despesasIds.get(sequencialAtual-1);
-            var comandoProcessarRegra = new ComandoProcessarRegrasProjection(
+            var comandoProcessarRegra = new ComandoProcessarRegras(
                     usuarioId,
                     despesaId,
                     sequencialAtual,
