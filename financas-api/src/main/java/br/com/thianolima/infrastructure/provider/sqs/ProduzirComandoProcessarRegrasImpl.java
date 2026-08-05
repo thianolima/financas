@@ -1,6 +1,6 @@
 package br.com.thianolima.infrastructure.provider.sqs;
 
-import br.com.thianolima.core.model.ComandoProcessarRegras;
+import br.com.thianolima.core.projection.ComandoProcessarRegras;
 import br.com.thianolima.core.provider.message.ProduzirComandoProcessarRegras;
 import brave.Tracer;
 import io.awspring.cloud.sqs.operations.SqsTemplate;

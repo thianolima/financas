@@ -1,6 +1,6 @@
 package br.com.thianolima.infrastructure.provider.database;
 
-import br.com.thianolima.core.model.ProjecaoDespesaMensalItens;
+import br.com.thianolima.core.projection.ProjecaoDespesaMensalItensProjection;
 import br.com.thianolima.core.provider.database.BuscarProjecaoDespesasPorCategoria;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Service;
@@ -16,7 +16,7 @@ public class BuscarProjecaoDespesasPorCategoriaImpl implements BuscarProjecaoDes
     }
 
     @Override
-    public List<ProjecaoDespesaMensalItens> executar(Long usuarioId) {
+    public List<ProjecaoDespesaMensalItensProjection> executar(Long usuarioId) {
         String sqlNativa =
                 """                        
                     SELECT 
@@ -57,7 +57,7 @@ public class BuscarProjecaoDespesasPorCategoriaImpl implements BuscarProjecaoDes
 
         return jdbcClient.sql(sqlNativa)
                 .param("usuarioId", usuarioId)
-                .query(ProjecaoDespesaMensalItens.class)
+                .query(ProjecaoDespesaMensalItensProjection.class)
                 .list();
     }
 }

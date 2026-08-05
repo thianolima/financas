@@ -1,19 +1,12 @@
 package br.com.thianolima.entrypoint.request;
 
 import jakarta.validation.constraints.NotEmpty;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
 
-@Builder
-@Getter
-@AllArgsConstructor
-@NoArgsConstructor
-public class FaturaRequest {
+
+public record FaturaRequest (
     @NotEmpty
-    private String anoMes;
+    String anoMes,
     @NotEmpty
-    private String nomeArquivo;
-}
+    String nomeArquivo
+) {}
 

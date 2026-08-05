@@ -11,35 +11,34 @@ import lombok.NoArgsConstructor;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-@Builder
-@Getter
-@AllArgsConstructor
-@NoArgsConstructor
-public class DespesaRequest {
-    private Long cartaoId;
+public record DespesaRequest(
+        Long cartaoId,
+        Long categoriaId,
+        @NotBlank String descricao,
+        Integer parcelaAtual,
+        Integer totalParcelas,
+        @NotNull LocalDate dataDespesa,
+        @NotNull LocalDate dataVencimento,
+        @NotNull BigDecimal valor,
+        String observacao,
+        Boolean recorrente
+) {
+    public DespesaRequest {
+        if (categoriaId == null) {
+            categoriaId = 0L;
+        }
+        if (parcelaAtual == null) {
+            parcelaAtual = 0;
+        }
+        if (totalParcelas == null) {
+            totalParcelas = 0;
+        }
+        if (recorrente == null) {
+            recorrente = false;
+        }
+    }
 
-    private Long categoriaId = 0l;
-
-    @NotBlank
-    private String descricao;
-
-    private Integer parcelaAtual = 0;
-    private Integer totalParcelas = 0;
-
-    @NotNull
-    private LocalDate dataDespesa;
-
-    @NotNull
-    private LocalDate dataVencimento;
-
-    @NotNull
-    private BigDecimal valor;
-
-    private String observacao;
-
-    private Boolean recorrente = false;
-
-    public Despesa toModel(){
+    public Despesa toModel() {
         return Despesa.builder()
                 .cartaoId(cartaoId)
                 .categoriaId(categoriaId)

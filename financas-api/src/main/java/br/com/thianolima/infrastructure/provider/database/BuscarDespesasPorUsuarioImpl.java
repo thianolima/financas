@@ -1,7 +1,8 @@
 package br.com.thianolima.infrastructure.provider.database;
 
-import br.com.thianolima.core.model.DespesaPaginadaItem;
-import br.com.thianolima.core.model.TipoDespesaEnum;
+
+import br.com.thianolima.core.projection.DespesaPaginadaItemProjection;
+import br.com.thianolima.core.projection.TipoDespesaEnum;
 import br.com.thianolima.core.provider.database.BuscarDespesasPorUsuario;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -23,7 +24,7 @@ public class BuscarDespesasPorUsuarioImpl implements BuscarDespesasPorUsuario {
     }
 
     @Override
-    public List<DespesaPaginadaItem> executar(
+    public List<DespesaPaginadaItemProjection> executar(
             Long usuarioId,
             YearMonth anomes,
             Long cartaoId,
@@ -84,7 +85,7 @@ public class BuscarDespesasPorUsuarioImpl implements BuscarDespesasPorUsuario {
         return jdbcTemplate.query(
                     sql.toString(),
                     params,
-                    new BeanPropertyRowMapper<>(DespesaPaginadaItem.class)
+                    new BeanPropertyRowMapper<>(DespesaPaginadaItemProjection.class)
                );
     }
 }

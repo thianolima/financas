@@ -1,8 +1,8 @@
 package br.com.thianolima.core.usecase;
 
+import br.com.thianolima.core.projection.TipoDespesaEnum;
 import br.com.thianolima.core.projection.DespesaPaginadaItemProjection;
 import br.com.thianolima.core.projection.DespesaPaginadaProjection;
-import br.com.thianolima.core.projection.TipoDespesaEnum;
 import br.com.thianolima.core.provider.database.BuscarDespesasPorUsuario;
 
 import java.math.BigDecimal;

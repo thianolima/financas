@@ -1,6 +1,6 @@
 package br.com.thianolima.core.usecase;
 
-import br.com.thianolima.core.model.ComandoProcessarRegras;
+import br.com.thianolima.core.projection.ComandoProcessarRegras;
 import br.com.thianolima.core.provider.database.ValidarDespesasPertecemUsuario;
 import br.com.thianolima.core.provider.message.ProduzirComandoProcessarRegras;
 

@@ -33,8 +33,8 @@ public class FaturaController {
         var urlPreAssinada = uploadFaturaCartaoUseCase.executar(
                 cartaoId,
                 extrairUsuarioIdDoToken(token),
-                request.getAnoMes(),
-                request.getNomeArquivo()
+                request.anoMes(),
+                request.nomeArquivo()
         );
 
         return ResponseEntity.ok(
