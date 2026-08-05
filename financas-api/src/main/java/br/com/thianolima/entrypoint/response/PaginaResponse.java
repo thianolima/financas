@@ -2,18 +2,33 @@ package br.com.thianolima.entrypoint.response;
 
 import java.util.List;
 
-public class PaginaResponse {
-    private Integer paginaAtual;
-    private Integer totalPaginas;
-    private Integer totalRegistros;
-    private Integer registrosPorPagina;
-    private List<?> items;
+public record PaginaResponse(
+        Integer paginaAtual,
+        Integer totalPaginas,
+        Integer totalRegistros,
+        Integer registrosPorPagina,
+        List<?> items
+) {
 
     public PaginaResponse(
             List<?> itens,
             Integer pagina,
             Integer tamanho
     ){
+        this(calcularPagina(itens, pagina, tamanho));
+    }
+
+    private PaginaResponse(PaginaResponse paginaResponse) {
+        this(
+                paginaResponse.paginaAtual,
+                paginaResponse.totalPaginas,
+                paginaResponse.totalRegistros,
+                paginaResponse.registrosPorPagina,
+                paginaResponse.items
+        );
+    }
+
+    private static PaginaResponse calcularPagina(List<?> itens, Integer pagina, Integer tamanho) {
         var totalRegistros = itens.size();
         var totalPaginas = Math.abs(totalRegistros / tamanho);
         var paginaAtual = Math.min(pagina,totalPaginas);
@@ -21,10 +36,12 @@ public class PaginaResponse {
         var fim = inicio + tamanho;
         var itensPaginado = itens.subList(inicio, Math.min(fim, itens.size()));
 
-        this.paginaAtual = paginaAtual;
-        this.totalPaginas = totalPaginas;
-        this.totalRegistros = totalRegistros;
-        this.registrosPorPagina = tamanho;
-        this.items = itensPaginado;
+        return new PaginaResponse(
+                paginaAtual,
+                totalPaginas,
+                totalRegistros,
+                tamanho,
+                itensPaginado
+        );
     }
 }

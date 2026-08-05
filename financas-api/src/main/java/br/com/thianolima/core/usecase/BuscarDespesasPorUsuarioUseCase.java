@@ -1,8 +1,8 @@
 package br.com.thianolima.core.usecase;
 
-import br.com.thianolima.core.model.DespesaPaginada;
-import br.com.thianolima.core.model.DespesaPaginadaItem;
-import br.com.thianolima.core.model.TipoDespesaEnum;
+import br.com.thianolima.core.projection.DespesaPaginadaProjection;
+import br.com.thianolima.core.projection.DespesaPaginadaItemProjection;
+import br.com.thianolima.core.projection.TipoDespesaEnum;
 import br.com.thianolima.core.provider.database.BuscarDespesasPorUsuario;
 
 import java.math.BigDecimal;
@@ -19,7 +19,7 @@ public class BuscarDespesasPorUsuarioUseCase {
         this.buscarDespesasPorUsuario = buscarDespesasPorUsuario;
     }
 
-    public DespesaPaginada executar(
+    public DespesaPaginadaProjection executar(
             Long usuarioId,
             YearMonth anoMes,
             Integer pagina,
@@ -47,43 +47,43 @@ public class BuscarDespesasPorUsuarioUseCase {
         var fim = inicio + tamanho;
         var despesasPaginada = despesas.subList(inicio, Math.min(fim, despesas.size()));
 
-        return DespesaPaginada.builder()
-                .totalRegistros(totalRegistros)
-                .paginaAtual(paginaAtual)
-                .totalPaginas(totalPaginas)
-                .registrosPorPagina(tamanho)
-                .valorTotal(valorTotal)
-                .valorTotalParcelado(valorTotalParcelado)
-                .valorTotalRecorrente(valorTotalRecorrente)
-                .valorTotalAvulso(valorTotalAvulso)
-                .despesas(despesasPaginada)
-                .build();
+        return new DespesaPaginadaProjection(
+                paginaAtual,
+                totalPaginas,
+                totalRegistros,
+                tamanho,
+                valorTotal,
+                valorTotalParcelado,
+                valorTotalRecorrente,
+                valorTotalAvulso,
+                despesasPaginada
+        );
     }
 
-    private BigDecimal calcularValorTotal(List<DespesaPaginadaItem> despesas){
+    private BigDecimal calcularValorTotal(List<DespesaPaginadaItemProjection> despesas){
         return despesas.stream()
-                .map(DespesaPaginadaItem::getValor)
+                .map(DespesaPaginadaItemProjection::valor)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
-    private BigDecimal calcularValorTotalParcelado(List<DespesaPaginadaItem> despesas){
+    private BigDecimal calcularValorTotalParcelado(List<DespesaPaginadaItemProjection> despesas){
         return despesas.stream()
-                .filter(DespesaPaginadaItem::isParcelado)
-                .map(DespesaPaginadaItem::getValor)
+                .filter(DespesaPaginadaItemProjection::isParcelado)
+                .map(DespesaPaginadaItemProjection::valor)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
-    private BigDecimal calcularValorTotalRcorrente(List<DespesaPaginadaItem> despesas){
+    private BigDecimal calcularValorTotalRcorrente(List<DespesaPaginadaItemProjection> despesas){
         return despesas.stream()
-                .filter(DespesaPaginadaItem::isRecorrente)
-                .map(DespesaPaginadaItem::getValor)
+                .filter(DespesaPaginadaItemProjection::isRecorrente)
+                .map(DespesaPaginadaItemProjection::valor)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
-    private BigDecimal calcularValorTotalAvulso(List<DespesaPaginadaItem> despesas){
+    private BigDecimal calcularValorTotalAvulso(List<DespesaPaginadaItemProjection> despesas){
         return despesas.stream()
-                .filter(DespesaPaginadaItem::isAvulso)
-                .map(DespesaPaginadaItem::getValor)
+                .filter(DespesaPaginadaItemProjection::isAvulso)
+                .map(DespesaPaginadaItemProjection::valor)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 }

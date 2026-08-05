@@ -1,7 +1,8 @@
 package br.com.thianolima.infrastructure.provider.sqs;
 
-import br.com.thianolima.core.model.ComandoProcessarRegras;
+import br.com.thianolima.core.projection.ComandoProcessarRegrasProjection;
 import br.com.thianolima.core.provider.message.ProduzirComandoProcessarRegras;
+import br.com.thianolima.infrastructure.provider.sqs.dto.ComandoProcessarRegraDto;
 import brave.Tracer;
 import io.awspring.cloud.sqs.operations.SqsTemplate;
 import lombok.extern.slf4j.Slf4j;
@@ -30,11 +31,11 @@ public class ProduzirComandoProcessarRegrasImpl implements ProduzirComandoProces
     }
 
     @Override
-    public void executar(ComandoProcessarRegras comandoProcessarRegras) {
+    public void executar(ComandoProcessarRegrasProjection comandoProcessarRegrasProjection) {
         var currentSpan = tracer.currentSpan();
         var traceId =  currentSpan.context().traceIdString();
         var spanId = currentSpan.context().spanIdString();
-        var comandoProcessarRegraDto = new ComandoProcessarRegraDto(comandoProcessarRegras);
+        var comandoProcessarRegraDto = new ComandoProcessarRegraDto(comandoProcessarRegrasProjection);
 
         log.info("INICIO - Envio Comando Processar Regras TraceId: {} SpanId: {} Mensagem: {} Fila: {}",
                 traceId, spanId, comandoProcessarRegraDto, nomeFila);

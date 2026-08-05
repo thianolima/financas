@@ -1,6 +1,6 @@
-package br.com.thianolima.core.model;
+package br.com.thianolima.core.projection;
 
-public record ComandoProcessarRegras (
+public record ComandoProcessarRegrasProjection(
         Long usuarioId,
         Long despesaId,
         Integer sequencialAtual,

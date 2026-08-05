@@ -1,6 +1,6 @@
 package br.com.thianolima.infrastructure.dabatase;
 
-import br.com.thianolima.core.model.Notificacao;
+import br.com.thianolima.core.projection.Notificacao;
 import br.com.thianolima.core.provider.SalvarNotificacao;
 import org.springframework.stereotype.Service;
 import software.amazon.awssdk.enhanced.dynamodb.DynamoDbEnhancedClient;

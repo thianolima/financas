@@ -1,6 +1,4 @@
-package br.com.thianolima.core.model;
-
-import lombok.AllArgsConstructor;
+package br.com.thianolima.core.projection;
 
 public record Notificacao (
     String id,

@@ -1,6 +1,6 @@
 package br.com.thianolima.infrastructure.sse;
 
-import br.com.thianolima.core.model.Notificacao;
+import br.com.thianolima.core.projection.Notificacao;
 import br.com.thianolima.core.provider.EnviarNotificacao;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

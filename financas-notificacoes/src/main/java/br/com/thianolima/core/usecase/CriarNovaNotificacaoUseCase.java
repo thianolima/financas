@@ -1,10 +1,8 @@
 package br.com.thianolima.core.usecase;
 
-import br.com.thianolima.core.model.Notificacao;
+import br.com.thianolima.core.projection.Notificacao;
 import br.com.thianolima.core.provider.EnviarNotificacao;
 import br.com.thianolima.core.provider.SalvarNotificacao;
-
-import java.time.LocalDateTime;
 
 public class CriarNovaNotificacaoUseCase {
 

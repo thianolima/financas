@@ -1,6 +1,6 @@
 package br.com.thianolima.infrastructure.provider.database;
 
-import br.com.thianolima.core.model.ProjecaoDespesaMensalItens;
+import br.com.thianolima.core.projection.ProjecaoDespesaMensalItensProjection;
 import br.com.thianolima.core.provider.database.BuscarCartoesComLimteUtilizado;
 import org.springframework.jdbc.core.simple.JdbcClient;
 
@@ -37,7 +37,7 @@ public class BuscarCartoesComLimteUtilizadoImpl implements BuscarCartoesComLimte
 
         jdbcClient.sql(sqlNativa)
                 .param("usuarioId", usuarioId)
-                .query(ProjecaoDespesaMensalItens.class)
+                .query(ProjecaoDespesaMensalItensProjection.class)
                 .list();
     }
 }
