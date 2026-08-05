@@ -19,15 +19,15 @@ public record DespesaPaginadaResponse(
 
     public DespesaPaginadaResponse(DespesaPaginadaProjection despesaPaginadaProjection){
         this(
-                despesaPaginadaProjection.paginaAtual(),
-                despesaPaginadaProjection.totalPaginas(),
-                despesaPaginadaProjection.totalRegistros(),
-                despesaPaginadaProjection.registrosPorPagina(),
-                despesaPaginadaProjection.valorTotal(),
-                despesaPaginadaProjection.valorTotalParcelado(),
-                despesaPaginadaProjection.valorTotalRecorrente(),
-                despesaPaginadaProjection.valorTotalAvulso(),
-                despesaPaginadaProjection.despesas().stream().map(DespesaPaginadaItemResponse::new).toList()
+                despesaPaginadaProjection.getPaginaAtual(),
+                despesaPaginadaProjection.getTotalPaginas(),
+                despesaPaginadaProjection.getTotalRegistros(),
+                despesaPaginadaProjection.getRegistrosPorPagina(),
+                despesaPaginadaProjection.getValorTotal(),
+                despesaPaginadaProjection.getValorTotalParcelado(),
+                despesaPaginadaProjection.getValorTotalRecorrente(),
+                despesaPaginadaProjection.getValorTotalAvulso(),
+                despesaPaginadaProjection.getDespesas().stream().map(DespesaPaginadaItemResponse::new).toList()
         );
     }
 }
