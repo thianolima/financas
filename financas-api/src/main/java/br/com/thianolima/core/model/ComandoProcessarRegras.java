@@ -1,4 +1,4 @@
-package br.com.thianolima.core.projection;
+package br.com.thianolima.core.model;
 
 public record ComandoProcessarRegras (
         Long usuarioId,

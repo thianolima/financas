@@ -38,9 +38,7 @@ public class FaturaController {
         );
 
         return ResponseEntity.ok(
-                FaturaPreAssinadaResponse.builder()
-                        .url(urlPreAssinada)
-                        .build()
+                new FaturaPreAssinadaResponse(urlPreAssinada)
         );
     }
 

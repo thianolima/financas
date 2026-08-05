@@ -1,6 +1,6 @@
 package br.com.thianolima.entrypoint.controller;
 
-import br.com.thianolima.core.projection.TipoDespesaEnum;
+import br.com.thianolima.core.model.TipoDespesaEnum;
 import br.com.thianolima.core.usecase.AlterarDespesaUsecase;
 import br.com.thianolima.core.usecase.BuscarDespesasPorUsuarioUseCase;
 import br.com.thianolima.core.usecase.ExcluirDespesaUseCase;

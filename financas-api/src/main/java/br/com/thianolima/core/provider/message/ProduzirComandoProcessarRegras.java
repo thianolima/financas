@@ -1,6 +1,6 @@
 package br.com.thianolima.core.provider.message;
 
-import br.com.thianolima.core.projection.ComandoProcessarRegras;
+import br.com.thianolima.core.model.ComandoProcessarRegras;
 
 public interface ProduzirComandoProcessarRegras {
 
