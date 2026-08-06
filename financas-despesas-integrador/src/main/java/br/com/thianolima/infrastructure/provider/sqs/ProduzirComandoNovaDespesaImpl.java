@@ -1,6 +1,5 @@
 package br.com.thianolima.infrastructure.provider.sqs;
 
-import br.com.thianolima.core.dto.FaturaItemDto;
 import br.com.thianolima.core.provider.ProduzirComandoNovaDespesa;
 import br.com.thianolima.infrastructure.provider.sqs.dto.ComandoNovaDespesaDto;
 import br.com.thianolima.model.Despesa;
@@ -29,26 +28,6 @@ public class ProduzirComandoNovaDespesaImpl implements ProduzirComandoNovaDespes
         this.sqsTemplate = sqsTemplate;
         this.nomeFila = nomeFila;
         this.tracer = tracer;
-    }
-
-    @Override
-    public boolean executar(FaturaItemDto faturaItem) {
-        var currentSpan = tracer.currentSpan();
-        var traceId =  currentSpan.context().traceIdString();
-        var spanId = currentSpan.context().spanIdString();
-
-        log.info("TraceId: {} SpanId: {} Mensagem: {}", traceId, spanId, faturaItem);
-
-        sqsTemplate.send(options -> options
-                .queue(nomeFila)
-                .payload(faturaItem)
-                .header("traceId", traceId)
-                .header("spanId", spanId)
-                .messageGroupId(faturaItem.getFaturaId().toString())
-                .messageDeduplicationId(faturaItem.getFaturaId() + "-" + faturaItem.getSequencia())
-        );
-
-        return true;
     }
 
     @Override
