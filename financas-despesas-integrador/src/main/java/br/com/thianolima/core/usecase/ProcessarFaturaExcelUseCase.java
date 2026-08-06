@@ -15,7 +15,7 @@ import java.util.stream.IntStream;
 
 @Slf4j
 @RequiredArgsConstructor
-public class ProcessarComandoNovaFaturaExcelUseCase {
+public class ProcessarFaturaExcelUseCase {
 
     private final CarregarFaturaExcel carregarFaturaExcel;
     private final ProduzirComandoNovaDespesa produzirComandoNovaDespesa;
