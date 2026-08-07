@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 @Data
@@ -30,6 +31,7 @@ public class Despesa {
     private BigDecimal valor;
     private String observacao;
     private Boolean recorrente = false;
+    private List<Tag> tags;
 
     public boolean isParcelado(){
         return this.totalParcelas > 0;

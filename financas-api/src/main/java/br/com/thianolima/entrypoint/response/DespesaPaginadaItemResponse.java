@@ -4,6 +4,7 @@ import br.com.thianolima.core.projection.DespesaPaginadaItemProjection;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 
 public record DespesaPaginadaItemResponse(
         Long id,
@@ -21,7 +22,8 @@ public record DespesaPaginadaItemResponse(
         String observacao,
         Boolean recorrente,
         Boolean avulso,
-        Boolean parcelado
+        Boolean parcelado,
+        List<String> tags
 ) {
 
     public DespesaPaginadaItemResponse(DespesaPaginadaItemProjection despesaPaginadaItemProjection){
@@ -41,7 +43,8 @@ public record DespesaPaginadaItemResponse(
                 despesaPaginadaItemProjection.getObservacao(),
                 despesaPaginadaItemProjection.isRecorrente(),
                 despesaPaginadaItemProjection.isAvulso(),
-                despesaPaginadaItemProjection.isParcelado()
+                despesaPaginadaItemProjection.isParcelado(),
+                despesaPaginadaItemProjection.getTags()
         );
     }
 }

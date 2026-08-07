@@ -141,4 +141,26 @@ public class FinancasApiConfiguration {
                 buscarDespesasPorCartao
         );
     }
+
+    @Bean
+    public InserirTagUseCase criarInserirTagUseCase(
+            SalvarTag salvarTag,
+            BuscarTagPorNome buscarTagPorNome
+    ){
+        return new InserirTagUseCase(
+                salvarTag,
+                buscarTagPorNome
+        );
+    }
+
+    @Bean
+    public AlterarTagUseCase criarAlterarTagUseCase(
+            SalvarTag salvarTag,
+            BuscarTagPorNome buscarTagPorNome
+    ){
+        return new AlterarTagUseCase(
+                salvarTag,
+                buscarTagPorNome
+        );
+    }
 }

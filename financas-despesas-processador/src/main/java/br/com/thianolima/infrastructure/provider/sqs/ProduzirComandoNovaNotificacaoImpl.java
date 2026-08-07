@@ -37,11 +37,11 @@ public class ProduzirComandoNovaNotificacaoImpl implements ProduzirComandoNovaNo
         var traceId =  currentSpan.context().traceIdString();
         var spanId = currentSpan.context().spanIdString();
 
-        var notificacaoDto = NotificacaoDto.builder()
-                .usuarioId(usuarioId)
-                .tipo(tipo)
-                .mensagem(mensagem)
-                .build();
+        var notificacaoDto = new NotificacaoDto(
+                usuarioId,
+                tipo,
+                mensagem
+        );
 
         sqsTemplate.send(options -> options
                 .queue(nomeFila)

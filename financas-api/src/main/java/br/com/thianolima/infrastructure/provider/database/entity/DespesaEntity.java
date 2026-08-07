@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -49,6 +50,7 @@ public class DespesaEntity {
     private BigDecimal valor;
     private String observacao;
     private Boolean recorrente = false;
+//    private List<TagEntity> tags;
 
     public boolean isParcelado(){
         return parcelaAtual > 0 && totalParcelas > 0;

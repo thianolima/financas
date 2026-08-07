@@ -47,10 +47,19 @@ public class BuscarDespesasPorUsuarioImpl implements BuscarDespesasPorUsuario {
                     d.data_vencimento, 
                     d.valor, 
                     d.observacao, 
-                    d.recorrente 
+                    d.recorrente,
+                    dt.tags                    
                 FROM tb_despesas d 
                 LEFT JOIN tb_categorias c ON c.categoria_id = d.categoria_id 
                 LEFT JOIN tb_cartoes t ON t.cartao_id = d.cartao_id 
+                LEFT JOIN (
+                    SELECT
+                        dr.despesa_id,
+                        GROUP_CONCAT(tg.nome ORDER BY tg.nome) AS tags
+                    FROM tb_despesas_tags dr
+                    LEFT JOIN tb_tags tg ON tg.tag_id = dr.tag_id
+                    GROUP BY dr.despesa_id
+                ) dt ON dt.despesa_id = d.despesa_id
                 WHERE d.usuario_id = :usuarioId 
                 AND EXTRACT(YEAR FROM d.data_vencimento) = :ano 
                 AND EXTRACT(MONTH FROM d.data_vencimento) = :mes
@@ -82,10 +91,32 @@ public class BuscarDespesasPorUsuarioImpl implements BuscarDespesasPorUsuario {
 
         sql.append(" ORDER BY d.data_vencimento DESC ");
 
-        return jdbcTemplate.query(
-                    sql.toString(),
-                    params,
-                    new BeanPropertyRowMapper<>(DespesaPaginadaItemProjection.class)
-               );
+        return jdbcTemplate.query(sql.toString(), params, (rs, rowNum) -> {
+            var tagsConcat = rs.getString("tags");
+
+            List<String> tags = (tagsConcat == null || tagsConcat.isBlank())
+                    ? List.of()
+                    : java.util.Arrays.stream(tagsConcat.split(","))
+                    .filter(s -> s != null && !s.isBlank())
+                    .toList();
+
+            return DespesaPaginadaItemProjection.builder()
+                    .id(rs.getLong("id"))
+                    .cartaoId(rs.getLong("cartao_id"))
+                    .cartaoNome(rs.getString("cartao_nome"))
+                    .cartaoCor(rs.getString("cartao_cor"))
+                    .categoriaId(rs.getLong("categoria_id"))
+                    .categoriaNome(rs.getString("categoria_nome"))
+                    .descricao(rs.getString("descricao"))
+                    .parcelaAtual(rs.getInt("parcela_atual"))
+                    .totalParcelas(rs.getInt("total_parcelas"))
+                    .dataDespesa(rs.getDate("data_despesa").toLocalDate())
+                    .dataVencimento(rs.getDate("data_vencimento").toLocalDate())
+                    .valor(rs.getBigDecimal("valor"))
+                    .observacao(rs.getString("observacao"))
+                    .recorrente(rs.getBoolean("recorrente"))
+                    .tags(tags)
+                    .build();
+        });
     }
 }
