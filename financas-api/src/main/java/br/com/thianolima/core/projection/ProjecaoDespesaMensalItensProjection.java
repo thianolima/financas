@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -18,6 +19,7 @@ public class ProjecaoDespesaMensalItensProjection {
     private Long usuarioId;
     private Long cartaoId;
     private String cartaoNome;
+    private String cartaoCor;
     private Long categoriaId;
     private String categoriaNome;
     private String descricaoOriginal;
@@ -30,6 +32,7 @@ public class ProjecaoDespesaMensalItensProjection {
     private BigDecimal valor;
     private String observacao;
     private Boolean recorrente;
+    private List<String> tags;
 
     public boolean isParcelado(){
         return parcelaAtual > 0 && totalParcelas > 0;

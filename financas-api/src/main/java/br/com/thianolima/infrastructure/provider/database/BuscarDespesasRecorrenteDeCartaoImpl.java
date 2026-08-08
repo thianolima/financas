@@ -30,6 +30,7 @@ public class BuscarDespesasRecorrenteDeCartaoImpl implements BuscarDespesasRecor
                          d.usuario_id,
                          d.cartao_id, 
                          t.nome as cartao_nome, 
+                         t.cor as cartao_cor,
                          d.categoria_id, 
                          c.nome as categoria_nome, 
                          MAX(d.descricao_original) as descricao_original, 
@@ -41,10 +42,19 @@ public class BuscarDespesasRecorrenteDeCartaoImpl implements BuscarDespesasRecor
                          MAX(d.data_vencimento) as data_vencimento, 
                          d.valor, 
                          d.recorrente,
-                         d.observacao 
+                         d.observacao, 
+                         dt.tags 
                     FROM tb_despesas d 
                     LEFT JOIN tb_categorias c ON c.categoria_id = d.categoria_id 
                     LEFT JOIN tb_cartoes t ON t.cartao_id = d.cartao_id 
+                    LEFT JOIN (
+                        SELECT
+                            dr.despesa_id,
+                            GROUP_CONCAT(tg.nome ORDER BY tg.nome) AS tags
+                        FROM tb_despesas_tags dr
+                        LEFT JOIN tb_tags tg ON tg.tag_id = dr.tag_id
+                        GROUP BY dr.despesa_id
+                    ) dt ON dt.despesa_id = d.despesa_id
                     WHERE d.usuario_id = :usuarioId 
                       AND d.cartao_id IS NOT NULL 
                       AND d.fatura_id IS NOT NULL 

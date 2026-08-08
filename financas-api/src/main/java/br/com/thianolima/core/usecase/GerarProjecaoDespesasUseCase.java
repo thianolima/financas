@@ -78,12 +78,14 @@ public class GerarProjecaoDespesasUseCase {
                                 .categoriaNome(despesa.getCategoriaNome())
                                 .cartaoId(despesa.getCartaoId())
                                 .cartaoNome(despesa.getCartaoNome())
+                                .cartaoCor(despesa.getCartaoCor())
                                 .parcelaAtual(despesa.getParcelaAtual() + proximaParcela)
                                 .totalParcelas(despesa.getTotalParcelas())
                                 .dataVencimento(despesa.getDataVencimento().plusMonths(proximaParcela))
                                 .observacao(despesa.getObservacao())
                                 .recorrente(despesa.isRecorrente())
                                 .valor(despesa.getValor())
+                                .tags(despesa.getTags())
                                 .build()
                 );
 
@@ -123,12 +125,14 @@ public class GerarProjecaoDespesasUseCase {
                                 .categoriaNome(despesa.getCategoriaNome())
                                 .cartaoId(despesa.getCartaoId())
                                 .cartaoNome(despesa.getCartaoNome())
+                                .cartaoCor(despesa.getCartaoCor())
                                 .parcelaAtual(despesa.getParcelaAtual() + proximaMes)
                                 .totalParcelas(despesa.getTotalParcelas())
                                 .dataVencimento(despesa.getDataVencimento().plusMonths(proximaMes))
                                 .observacao(despesa.getObservacao())
                                 .recorrente(despesa.isRecorrente())
                                 .valor(despesa.getValor())
+                                .tags(despesa.getTags())
                                 .build()
                 );
             }
@@ -192,12 +196,14 @@ public class GerarProjecaoDespesasUseCase {
                                 .categoriaNome(despesa.getCategoriaNome())
                                 .cartaoId(despesa.getCartaoId())
                                 .cartaoNome(despesa.getCartaoNome())
+                                .cartaoCor(despesa.getCartaoCor())
                                 .parcelaAtual(despesa.getParcelaAtual() + proximoMes)
                                 .totalParcelas(despesa.getTotalParcelas())
                                 .dataVencimento(despesa.getDataVencimento().plusMonths(proximoMes))
                                 .observacao(despesa.getObservacao())
                                 .recorrente(despesa.isRecorrente())
                                 .valor(despesa.getValor())
+                                .tags(despesa.getTags())
                                 .build()
                 );
             }

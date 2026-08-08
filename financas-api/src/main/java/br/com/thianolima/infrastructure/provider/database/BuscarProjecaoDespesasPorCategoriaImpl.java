@@ -25,6 +25,7 @@ public class BuscarProjecaoDespesasPorCategoriaImpl implements BuscarProjecaoDes
                         d.usuario_id, 
                         d.cartao_id, 
                         t.nome as cartao_nome, 
+                        t.cor as cartao_cor,
                         d.categoria_id, 
                         c.nome as categoria_nome, 
                         CONCAT('PROJECAO CATEGORIA - ', c.nome) as descricao_original, 

@@ -30,8 +30,12 @@ public class AlterarDespesaUsecase {
 
     public void executar(Despesa despesa) {
         var despesaSalva = existeDespesa(despesa.getId(), despesa.getUsuarioId());
-        existeCartao(despesa.getCartaoId(), despesa.getUsuarioId());
+
         existeCategoria(despesa.getCategoriaId(), despesa.getUsuarioId());
+
+        if(despesa.getCartaoId() != null) {
+            existeCartao(despesa.getCartaoId(), despesa.getUsuarioId());
+        }
 
         if(despesa.getTags() != null) {
             despesa.setTags(

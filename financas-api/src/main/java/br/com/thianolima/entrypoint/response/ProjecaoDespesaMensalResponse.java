@@ -30,12 +30,14 @@ public class ProjecaoDespesaMensalResponse {
             Boolean avulso,
             Long cartaoId,
             String cartaoNome,
+            String cartaoCor,
             Integer parcelaAtual,
             Integer totalParcelas,
             LocalDate dataDespesa,
             LocalDate dataVencimento,
             Long categoriaId,
-            String categoriaNome
+            String categoriaNome,
+            List<String> tags
     ) {}
 
     public ProjecaoDespesaMensalResponse(List<ProjecaoDespesaMensalProjection> despesas) {
@@ -56,12 +58,14 @@ public class ProjecaoDespesaMensalResponse {
                                         detalhe.isAvulso(),
                                         detalhe.getCartaoId(),
                                         detalhe.getCartaoNome(),
+                                        detalhe.getCartaoCor(),
                                         detalhe.getParcelaAtual(),
                                         detalhe.getTotalParcelas(),
                                         detalhe.getDataDespesa(),
                                         detalhe.getDataVencimento(),
                                         detalhe.getCategoriaId(),
-                                        detalhe.getCategoriaNome()
+                                        detalhe.getCategoriaNome(),
+                                        detalhe.getTags()
                                 )
                         ).toList()
                 )
