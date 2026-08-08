@@ -1,6 +1,7 @@
 package br.com.thianolima.entrypoint.request;
 
 import br.com.thianolima.model.Despesa;
+import br.com.thianolima.model.Tag;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -10,6 +11,7 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 
 public record DespesaRequest(
         Long cartaoId,
@@ -21,35 +23,22 @@ public record DespesaRequest(
         @NotNull LocalDate dataVencimento,
         @NotNull BigDecimal valor,
         String observacao,
-        Boolean recorrente
+        Boolean recorrente,
+        List<String> tags
 ) {
-    public DespesaRequest {
-        if (categoriaId == null) {
-            categoriaId = 0L;
-        }
-        if (parcelaAtual == null) {
-            parcelaAtual = 0;
-        }
-        if (totalParcelas == null) {
-            totalParcelas = 0;
-        }
-        if (recorrente == null) {
-            recorrente = false;
-        }
-    }
-
     public Despesa toModel() {
         return Despesa.builder()
-                .cartaoId(cartaoId)
-                .categoriaId(categoriaId)
-                .descricaoProcessada(descricao)
-                .parcelaAtual(parcelaAtual)
-                .totalParcelas(totalParcelas)
-                .dataDespesa(dataDespesa)
-                .dataVencimento(dataVencimento)
-                .valor(valor)
-                .observacao(observacao)
-                .recorrente(recorrente)
+                .cartaoId(this.cartaoId)
+                .categoriaId(this.categoriaId)
+                .descricaoProcessada(this.descricao)
+                .parcelaAtual(this.parcelaAtual)
+                .totalParcelas(this.totalParcelas)
+                .dataDespesa(this.dataDespesa)
+                .dataVencimento(this.dataVencimento)
+                .valor(this.valor)
+                .observacao(this.observacao)
+                .recorrente(this.recorrente)
+                .tags(this.tags != null ? this.tags.stream().map(tag -> new Tag(null, tag, null)).toList() : null)
                 .build();
     }
 }

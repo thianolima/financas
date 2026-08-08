@@ -1,8 +1,11 @@
 package br.com.thianolima.entrypoint.controller;
 
+import br.com.thianolima.core.provider.database.BuscarTagsPorUsuarioId;
 import br.com.thianolima.core.usecase.AlterarTagUseCase;
 import br.com.thianolima.core.usecase.InserirTagUseCase;
 import br.com.thianolima.entrypoint.request.TagRequest;
+import br.com.thianolima.entrypoint.response.CategoriaResponse;
+import br.com.thianolima.entrypoint.response.TagResponse;
 import io.micrometer.tracing.ScopedSpan;
 import io.micrometer.tracing.Tracer;
 import jakarta.validation.Valid;
@@ -13,6 +16,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Slf4j
 @RestController
 @RequestMapping("/tags")
@@ -22,6 +27,7 @@ public class TagController {
     private final Tracer tracer;
     private final InserirTagUseCase inserirTagUseCase;
     private final AlterarTagUseCase alterarTagUseCase;
+    private final BuscarTagsPorUsuarioId buscarTagsPorUsuarioId;
 
     @GetMapping
     @PreAuthorize("hasAnyAuthority('ADMIN', 'BASICO')")
@@ -32,7 +38,9 @@ public class TagController {
         ScopedSpan span = tracer.startScopedSpan("cartoes-por-usuario");
         try{
             var usuarioId = extrairUsuarioIdDoToken(token);
-            return ResponseEntity.ok().build();
+            var resultado = buscarTagsPorUsuarioId.executar(usuarioId);
+            var response = !resultado.isEmpty() ? resultado.stream().map(TagResponse::new).toList() : List.of();
+            return ResponseEntity.ok(response);
         } catch (Exception exception) {
             log.error("Erro: {}", exception.getMessage());
             throw new RuntimeException(exception);

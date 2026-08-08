@@ -20,7 +20,6 @@ public class Despesa {
     private Long usuarioId;
     private Long cartaoId;
     private Long categoriaId;
-    private Long fornecedorId;
     private String descricaoOriginal;
     private String descricaoProcessada;
     private Integer parcelaAtual;

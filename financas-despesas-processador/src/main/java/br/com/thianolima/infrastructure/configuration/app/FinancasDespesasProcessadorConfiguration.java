@@ -10,14 +10,12 @@ public class FinancasDespesasProcessadorConfiguration {
 
     @Bean
     ClassificarDespesaUseCase criarClassificarDespesaUseCase(
-            BuscarFornecedoresPorUsuarioId buscarFornecedoresPorUsuarioId,
             BuscarParcelaAnterior buscarParcelaAnterior,
             BuscarDespesaRecorrente buscarDespesaRecorrente,
             ClassificarDespesaPorRegraUseCase classificarDespesaPorRegraUseCase
 
     ){
         return new ClassificarDespesaUseCase(
-                buscarFornecedoresPorUsuarioId,
                 buscarParcelaAnterior,
                 buscarDespesaRecorrente,
                 classificarDespesaPorRegraUseCase

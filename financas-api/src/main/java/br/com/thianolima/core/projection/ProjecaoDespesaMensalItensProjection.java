@@ -20,7 +20,6 @@ public class ProjecaoDespesaMensalItensProjection {
     private String cartaoNome;
     private Long categoriaId;
     private String categoriaNome;
-    private Long fornecedorId;
     private String descricaoOriginal;
     private String descricaoProcessada;
     private Integer parcelaAtual;

@@ -1,10 +1,10 @@
 package br.com.thianolima.core.usecase;
 
-import br.com.thianolima.core.provider.database.BuscarCartaoPorId;
-import br.com.thianolima.core.provider.database.BuscarCategoriaPorId;
-import br.com.thianolima.core.provider.database.BuscarDespesaPorId;
-import br.com.thianolima.core.provider.database.SalvarDespesa;
+import br.com.thianolima.core.provider.database.*;
 import br.com.thianolima.model.Despesa;
+import br.com.thianolima.model.Tag;
+
+import java.util.List;
 
 public class AlterarDespesaUsecase {
 
@@ -12,23 +12,37 @@ public class AlterarDespesaUsecase {
     private final BuscarDespesaPorId buscarDespesaPorId;
     private final BuscarCartaoPorId buscarCartaoPorId;
     private final BuscarCategoriaPorId buscarCategoriaPorId;
+    private final BuscarTagPorNome buscarTagPorNome;
 
     public AlterarDespesaUsecase(
             SalvarDespesa salvarDespesa,
             BuscarDespesaPorId buscarDespesaPorId,
             BuscarCartaoPorId buscarCartaoPorId,
-            BuscarCategoriaPorId buscarCategoriaPorId
+            BuscarCategoriaPorId buscarCategoriaPorId,
+            BuscarTagPorNome buscarTagPorNome
     ) {
         this.salvarDespesa = salvarDespesa;
         this.buscarDespesaPorId = buscarDespesaPorId;
         this.buscarCartaoPorId = buscarCartaoPorId;
         this.buscarCategoriaPorId = buscarCategoriaPorId;
+        this.buscarTagPorNome = buscarTagPorNome;
     }
 
     public void executar(Despesa despesa) {
         var despesaSalva = existeDespesa(despesa.getId(), despesa.getUsuarioId());
         existeCartao(despesa.getCartaoId(), despesa.getUsuarioId());
         existeCategoria(despesa.getCategoriaId(), despesa.getUsuarioId());
+
+        if(despesa.getTags() != null) {
+            despesa.setTags(
+                    despesa.getTags().stream()
+                            .map(tag -> existeTag(tag.getNome(), despesa.getUsuarioId()))
+                            .toList()
+            );
+        } else {
+            despesa.setTags(List.of());
+        }
+
         salvarDespesa.executar(
                 validarDados(despesaSalva, despesa)
         );
@@ -49,15 +63,21 @@ public class AlterarDespesaUsecase {
                 .orElseThrow(() -> new RuntimeException("Despesa não encontrada"));
     }
 
+    private Tag existeTag(String nome, Long usuarioId){
+        return buscarTagPorNome.executar(nome, usuarioId)
+                .orElseThrow(() -> new RuntimeException("Cartão não encontrado"));
+    }
+
     private Despesa validarDados(Despesa despesaSalva, Despesa despesaNova){
         // CAMPOS LIVRES PARA ALTERACAO
         despesaSalva.setDescricaoProcessada(despesaNova.getDescricaoProcessada());
         despesaSalva.setCategoriaId(despesaNova.getCategoriaId());
         despesaSalva.setObservacao(despesaNova.getObservacao());
         despesaSalva.setRecorrente(despesaNova.getRecorrente());
+        despesaSalva.setTags(despesaNova.getTags());
 
         if(despesaSalva.isOrigemFatura()){
-           return despesaSalva;
+            return despesaSalva;
         }
 
         // CAMPOS EXCLUSIVOS PARA DESPESAS QUE NAO ORIGINARAM DE UMA FATURA

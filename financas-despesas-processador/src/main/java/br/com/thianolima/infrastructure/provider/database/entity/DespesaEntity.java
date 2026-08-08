@@ -29,7 +29,6 @@ public class DespesaEntity {
     private Long cartaoId;
     private Long faturaId;
     private Long categoriaId;
-    private Long fornecedorId;
     private String descricaoOriginal;
     private String descricaoProcessada;
     private Integer parcelaAtual;
@@ -47,7 +46,6 @@ public class DespesaEntity {
         this.cartaoId = despesa.getCartaoId();
         this.faturaId = despesa.getFaturaId();
         this.categoriaId = despesa.getCategoriaId();
-        this.fornecedorId = despesa.getFornecedorId();
         this.descricaoOriginal = despesa.getDescricaoOriginal();
         this.descricaoProcessada = despesa.getDescricaoProcessada();
         this.parcelaAtual = despesa.getParcelaAtual();
@@ -67,7 +65,6 @@ public class DespesaEntity {
                 .cartaoId(this.cartaoId)
                 .faturaId(this.faturaId)
                 .categoriaId(this.categoriaId)
-                .fornecedorId(this.fornecedorId)
                 .descricaoOriginal(this.descricaoOriginal)
                 .descricaoProcessada(this.descricaoProcessada)
                 .parcelaAtual(this.parcelaAtual)

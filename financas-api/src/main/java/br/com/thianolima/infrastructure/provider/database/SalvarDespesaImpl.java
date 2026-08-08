@@ -3,10 +3,13 @@ package br.com.thianolima.infrastructure.provider.database;
 import br.com.thianolima.core.provider.database.SalvarDespesa;
 import br.com.thianolima.infrastructure.provider.database.entity.DespesaEntity;
 import br.com.thianolima.model.Despesa;
+import br.com.thianolima.model.Tag;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 public class SalvarDespesaImpl implements SalvarDespesa {

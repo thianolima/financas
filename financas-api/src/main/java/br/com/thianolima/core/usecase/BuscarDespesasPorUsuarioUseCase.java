@@ -41,7 +41,7 @@ public class BuscarDespesasPorUsuarioUseCase {
         var valorTotalAvulso = calcularValorTotalAvulso(despesas);
 
         var totalRegistros = despesas.size();
-        var totalPaginas = Math.abs(totalRegistros / tamanho);
+        var totalPaginas = ((totalRegistros % tamanho) > 0) ? (totalRegistros / tamanho) + 1 : totalRegistros / tamanho;
         var paginaAtual = Math.min(pagina,totalPaginas);
         var inicio = paginaAtual * tamanho;
         var fim = inicio + tamanho;

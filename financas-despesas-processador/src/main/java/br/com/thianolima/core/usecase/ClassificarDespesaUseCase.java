@@ -1,18 +1,15 @@
 package br.com.thianolima.core.usecase;
 
-import br.com.thianolima.core.provider.*;
+import br.com.thianolima.core.provider.BuscarDespesaRecorrente;
+import br.com.thianolima.core.provider.BuscarParcelaAnterior;
 import br.com.thianolima.model.Despesa;
-import br.com.thianolima.model.Fornecedor;
 
-import java.util.Arrays;
-import java.util.Comparator;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class ClassificarDespesaUseCase {
 
-    private final BuscarFornecedoresPorUsuarioId buscarFornecedoresPorUsuarioId;
     private final BuscarParcelaAnterior buscarParcelaAnterior;
     private final BuscarDespesaRecorrente buscarDespesaRecorrente;
     private final ClassificarDespesaPorRegraUseCase classificarDespesaPorRegraUseCase;
@@ -20,12 +17,10 @@ public class ClassificarDespesaUseCase {
     private static final Pattern PARCELA_PATTERN = Pattern.compile("(\\d+)/(\\d+)$");
 
     public ClassificarDespesaUseCase(
-            BuscarFornecedoresPorUsuarioId buscarFornecedoresPorUsuarioId,
             BuscarParcelaAnterior buscarParcelaAnterior,
             BuscarDespesaRecorrente buscarDespesaRecorrente,
             ClassificarDespesaPorRegraUseCase classificarDespesaPorRegraUseCase
     ) {
-        this.buscarFornecedoresPorUsuarioId = buscarFornecedoresPorUsuarioId;
         this.buscarParcelaAnterior = buscarParcelaAnterior;
         this.buscarDespesaRecorrente = buscarDespesaRecorrente;
         this.classificarDespesaPorRegraUseCase = classificarDespesaPorRegraUseCase;
@@ -46,7 +41,6 @@ public class ClassificarDespesaUseCase {
                 .ifPresent(depesaSalva -> {
                     despesa.setCategoriaId(depesaSalva.getCategoriaId());
                     despesa.setDescricaoProcessada(depesaSalva.getDescricaoProcessada());
-                    despesa.setFornecedorId(depesaSalva.getFornecedorId());
                     despesa.setObservacao(depesaSalva.getObservacao());
                     despesa.setRecorrente(depesaSalva.getRecorrente());
                 });
@@ -85,30 +79,7 @@ public class ClassificarDespesaUseCase {
         return 0;
     }
 
-//    private Optional<Despesa> categorizarDespesa(Despesa despesa){
-//        var fornecedores = buscarFornecedoresPorUsuarioId.executar(despesa.getUsuarioId());
-//        String descricaoOriginal = despesa.getDescricaoOriginal().toUpperCase();
-//        return fornecedores.stream()
-//                .flatMap(fornecedor -> Arrays.stream(fornecedor.getPalavrasChave().split(","))
-//                        .map(palavra -> new FornecedorMatch(palavra.trim().toUpperCase(), fornecedor))
-//                )
-//                .sorted(Comparator.comparingInt((FornecedorMatch m) -> m.palavraChave().length()).reversed())
-//                .filter(match -> descricaoOriginal.contains(match.palavraChave()))
-//                .map(FornecedorMatch::fornecedor)
-//                .findFirst()
-//                .map(f -> Despesa.builder()
-//                        .categoriaId(f.getCategoriaId())
-//                        .descricaoProcessada(f.getNome())
-//                        .fornecedorId(f.getId())
-//                        .recorrente(false)
-//                        .build()
-//                );
-//    }
-
-        private Optional<Despesa> categorizarDespesa(Despesa despesa){
-            return classificarDespesaPorRegraUseCase.executar(despesa);
-        }
-
-
-//    private record FornecedorMatch(String palavraChave, Fornecedor fornecedor) {}
+    private Optional<Despesa> categorizarDespesa(Despesa despesa){
+        return classificarDespesaPorRegraUseCase.executar(despesa);
+    }
 }

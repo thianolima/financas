@@ -62,13 +62,15 @@ public class FinancasApiConfiguration {
             SalvarDespesa salvarDespesa,
             BuscarDespesaPorId buscarDespesaPorId,
             BuscarCartaoPorId buscarCartaoPorId,
-            BuscarCategoriaPorId buscarCategoriaPorId
+            BuscarCategoriaPorId buscarCategoriaPorId,
+            BuscarTagPorNome buscarTagPorNome
     ){
         return new AlterarDespesaUsecase(
                 salvarDespesa,
                 buscarDespesaPorId,
                 buscarCartaoPorId,
-                buscarCategoriaPorId
+                buscarCategoriaPorId,
+                buscarTagPorNome
         );
     }
 
@@ -162,5 +164,12 @@ public class FinancasApiConfiguration {
                 salvarTag,
                 buscarTagPorNome
         );
+    }
+
+    @Bean
+    BuscarTagsPorUsuarioUseCase criarBuscarTagsPorUsuarioUseCase(
+            BuscarTagsPorUsuarioId buscarTagsPorUsuarioId
+    ){
+        return new BuscarTagsPorUsuarioUseCase(buscarTagsPorUsuarioId);
     }
 }
