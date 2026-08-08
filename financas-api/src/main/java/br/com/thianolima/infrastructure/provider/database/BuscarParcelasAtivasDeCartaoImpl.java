@@ -32,7 +32,6 @@ public class BuscarParcelasAtivasDeCartaoImpl implements BuscarParcelasAtivasDeC
                         t.nome as cartao_nome, 
                         d.categoria_id, 
                         c.nome as categoria_nome, 
-                        MAX(d.fornecedor_id) as fornecedor_id, 
                         MAX(d.descricao_original) as descricao_original, 
                         d.descricao_processada, 
                         MAX(d.parcela_atual) as parcela_atual, 
