@@ -1,10 +1,9 @@
 package br.com.thianolima.entrypoint.controller;
 
-import br.com.thianolima.core.usecase.AlterarCartaoUseCase;
-import br.com.thianolima.core.usecase.BuscarCartoesPorUsuarioUseCase;
-import br.com.thianolima.core.usecase.ExcluirCartaoUseCase;
-import br.com.thianolima.core.usecase.InserirCartaoUseCase;
+import br.com.thianolima.core.provider.database.BuscarLimiteUtilizadoCartao;
+import br.com.thianolima.core.usecase.*;
 import br.com.thianolima.entrypoint.request.CartaoRequest;
+import br.com.thianolima.entrypoint.response.CartaoLimiteResponse;
 import br.com.thianolima.entrypoint.response.CartaoResponse;
 import io.micrometer.tracing.ScopedSpan;
 import io.micrometer.tracing.Tracer;
@@ -27,25 +26,27 @@ public class CartaoController {
     private final InserirCartaoUseCase inserirCartaoUseCase;
     private final AlterarCartaoUseCase alterarCartaoUseCase;
     private final ExcluirCartaoUseCase excluirCartaoUseCase;
+    private final BuscarLimiteUtilizadoCartaoUseCase buscarLimiteUtilizadoCartaoUseCase;
 
     public CartaoController(
             Tracer tracer,
             BuscarCartoesPorUsuarioUseCase buscarCartoesPorUsuarioUseCase,
             InserirCartaoUseCase inserirCartaoUseCase,
             AlterarCartaoUseCase alterarCartaoUseCase,
-            ExcluirCartaoUseCase excluirCartaoUseCase
+            ExcluirCartaoUseCase excluirCartaoUseCase,
+            BuscarLimiteUtilizadoCartaoUseCase buscarLimiteUtilizadoCartaoUseCase
     ) {
         this.tracer = tracer;
         this.buscarCartoesPorUsuarioUseCase = buscarCartoesPorUsuarioUseCase;
         this.inserirCartaoUseCase = inserirCartaoUseCase;
         this.alterarCartaoUseCase = alterarCartaoUseCase;
         this.excluirCartaoUseCase = excluirCartaoUseCase;
+        this.buscarLimiteUtilizadoCartaoUseCase = buscarLimiteUtilizadoCartaoUseCase;
     }
 
     @GetMapping
     @PreAuthorize("hasAnyAuthority('ADMIN', 'BASICO')")
     public ResponseEntity<?> listar(
-            @RequestParam(value = "incluirSaldoLimite", defaultValue = "false") Boolean incluirSaldoLimite,
             JwtAuthenticationToken token
     ) {
         ScopedSpan span = tracer.startScopedSpan("cartoes-por-usuario");
@@ -53,6 +54,35 @@ public class CartaoController {
             var usuarioId = extrairUsuarioIdDoToken(token);
             var resultado = buscarCartoesPorUsuarioUseCase.executar(usuarioId);
             var response = !resultado.isEmpty() ? resultado.stream().map(CartaoResponse::new).toList() : List.of();
+            return ResponseEntity.ok(response);
+        } catch (Exception exception) {
+            log.error("Erro: {}", exception.getMessage());
+            throw new RuntimeException(exception);
+        } finally {
+            span.end();
+        }
+    }
+
+    @GetMapping("{id}/limite")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'BASICO')")
+    public ResponseEntity<?> limite(
+            @PathVariable(value = "id") Long cartaoId,
+            JwtAuthenticationToken token
+    ) {
+        ScopedSpan span = tracer.startScopedSpan("cartoes-limite");
+        try{
+            var usuarioId = extrairUsuarioIdDoToken(token);
+            var resultado = buscarLimiteUtilizadoCartaoUseCase.executar(usuarioId, cartaoId);
+            var response =
+                    !resultado.isEmpty()
+                    ? resultado.stream().map(limite ->
+                            new CartaoLimiteResponse(
+                                    limite.getCartaoId(),
+                                    limite.getValorLimite(),
+                                    limite.getValorLimiteUtilizado()
+                            )
+                    ).findFirst()
+                    : List.of();
             return ResponseEntity.ok(response);
         } catch (Exception exception) {
             log.error("Erro: {}", exception.getMessage());

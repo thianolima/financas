@@ -172,4 +172,11 @@ public class FinancasApiConfiguration {
     ){
         return new BuscarTagsPorUsuarioUseCase(buscarTagsPorUsuarioId);
     }
+
+    @Bean
+    BuscarLimiteUtilizadoCartaoUseCase criarBuscarLimiteUtilizadoCartaoUseCase(
+            BuscarLimiteUtilizadoCartao buscarLimiteUtilizadoCartao
+    ){
+        return new BuscarLimiteUtilizadoCartaoUseCase(buscarLimiteUtilizadoCartao);
+    }
 }

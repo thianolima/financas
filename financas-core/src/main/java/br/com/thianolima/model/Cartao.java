@@ -17,11 +17,11 @@ public class Cartao {
     BandeiraEnum bandeira;
     Long usuarioId;
     String nome;
+    Integer diaFechamentoç;
     Integer diaVencimento;
     String numeroFinal;
     String titular;
     BigDecimal valorLimite;
     String cor;
     Boolean cartaoAdicional = false;
-
 }
