@@ -1,6 +1,5 @@
 package br.com.thianolima.infrastructure.provider.sqs;
 
-import br.com.thianolima.core.dto.FaturaItemDto;
 import br.com.thianolima.core.provider.ProduzirComandoNovaDespesa;
 import br.com.thianolima.infrastructure.provider.sqs.dto.ComandoNovaDespesaDto;
 import br.com.thianolima.model.Despesa;
@@ -32,26 +31,6 @@ public class ProduzirComandoNovaDespesaImpl implements ProduzirComandoNovaDespes
     }
 
     @Override
-    public boolean executar(FaturaItemDto faturaItem) {
-        var currentSpan = tracer.currentSpan();
-        var traceId =  currentSpan.context().traceIdString();
-        var spanId = currentSpan.context().spanIdString();
-
-        log.info("TraceId: {} SpanId: {} Mensagem: {}", traceId, spanId, faturaItem);
-
-        sqsTemplate.send(options -> options
-                .queue(nomeFila)
-                .payload(faturaItem)
-                .header("traceId", traceId)
-                .header("spanId", spanId)
-                .messageGroupId(faturaItem.getFaturaId().toString())
-                .messageDeduplicationId(faturaItem.getFaturaId() + "-" + faturaItem.getSequencia())
-        );
-
-        return true;
-    }
-
-    @Override
     public void executar(
             Despesa despesa,
             int sequencialAtual,
@@ -62,25 +41,25 @@ public class ProduzirComandoNovaDespesaImpl implements ProduzirComandoNovaDespes
             var traceId = currentSpan.context().traceIdString();
             var spanId = currentSpan.context().spanIdString();
 
-            var novaDespesa = ComandoNovaDespesaDto.builder()
-                    .usuarioId(despesa.getUsuarioId())
-                    .cartaoId(despesa.getCartaoId())
-                    .faturaId(despesa.getFaturaId())
-                    .dataDespesa(despesa.getDataDespesa())
-                    .dataVencimento(despesa.getDataVencimento())
-                    .descricao(despesa.getDescricaoOriginal())
-                    .valor(despesa.getValor())
-                    .parcelaAtual(despesa.getParcelaAtual() != null ? despesa.getParcelaAtual() : 0)
-                    .totalParcelas(despesa.getTotalParcelas() != null ? despesa.getTotalParcelas() : 0)
-                    .sequencialAtual(sequencialAtual)
-                    .sequencialFinal(sequenciaFinal)
-                    .build();
+            var comadoNovaDespesaDto = new ComandoNovaDespesaDto(
+                    despesa.getUsuarioId(),
+                    despesa.getCartaoId(),
+                    despesa.getFaturaId(),
+                    despesa.getDataDespesa(),
+                    despesa.getDataVencimento(),
+                    despesa.getDescricaoOriginal(),
+                    despesa.getValor(),
+                    despesa.getParcelaAtual() != null ? despesa.getParcelaAtual() : 0,
+                    despesa.getTotalParcelas() != null ? despesa.getTotalParcelas() : 0,
+                    sequencialAtual,
+                    sequenciaFinal
+            );
 
-            log.info("TraceId: {} SpanId: {} Mensagem: {}", traceId, spanId, novaDespesa);
+            log.info("TraceId: {} SpanId: {} Mensagem: {}", traceId, spanId, comadoNovaDespesaDto);
 
             sqsTemplate.send(options -> options
                     .queue(nomeFila)
-                    .payload(novaDespesa)
+                    .payload(comadoNovaDespesaDto)
                     .header("traceId", traceId)
                     .header("spanId", spanId)
                     .messageGroupId(traceId)

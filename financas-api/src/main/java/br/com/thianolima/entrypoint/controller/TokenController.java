@@ -30,8 +30,8 @@ public class TokenController {
             @Valid @RequestBody TokenRequest request
     ) {
         var token = autenticarUsuarioUseCase.executar(
-                request.getEmail(),
-                request.getSenha()
+                request.email(),
+                request.senha()
         );
 
         return ResponseEntity

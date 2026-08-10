@@ -11,20 +11,16 @@ import software.amazon.awssdk.annotations.NotNull;
 
 import java.util.List;
 
-@Builder
-@Getter
-@AllArgsConstructor
-@NoArgsConstructor
-public class RegraRequest {
+public record RegraRequest (
     @NotBlank
-    String descricao;
+    String descricao,
 
     @NotNull
-    Long categoriaId;
+    Long categoriaId,
 
     @NotBlank
-    String termoBusca;
-
+    String termoBusca
+){
     public Regra toModel(){
         return Regra.builder()
                 .descricao(this.descricao)
@@ -38,5 +34,4 @@ public class RegraRequest {
                 )
                 .build();
     }
-
 }

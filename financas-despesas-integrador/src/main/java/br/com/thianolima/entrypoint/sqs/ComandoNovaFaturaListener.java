@@ -1,8 +1,7 @@
 package br.com.thianolima.entrypoint.sqs;
 
 import br.com.thianolima.core.provider.CarregarFaturaExcel;
-import br.com.thianolima.core.usecase.ProcessarComandoNovaFaturaExcelUseCase;
-import br.com.thianolima.core.usecase.ProcessarComandoNovaFaturaUseCase;
+import br.com.thianolima.core.usecase.ProcessarFaturaExcelUseCase;
 import br.com.thianolima.entrypoint.dto.S3EventDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.awspring.cloud.sqs.annotation.SqsListener;
@@ -17,18 +16,17 @@ public class ComandoNovaFaturaListener {
 
     private final ObjectMapper objectMapper;
     private final Tracer tracer;
-    private final ProcessarComandoNovaFaturaExcelUseCase processarComandoNovaFaturaExcelUseCase;
+    private final ProcessarFaturaExcelUseCase processarFaturaExcelUseCase;
 
     public ComandoNovaFaturaListener(
             ObjectMapper objectMapper,
             Tracer tracer,
-            ProcessarComandoNovaFaturaUseCase processarComandoNovaFaturaUseCase,
             CarregarFaturaExcel carregarFaturaExcelImpl,
-            ProcessarComandoNovaFaturaExcelUseCase processarComandoNovaFaturaExcelUseCase
+            ProcessarFaturaExcelUseCase processarFaturaExcelUseCase
     ) {
         this.objectMapper = objectMapper;
         this.tracer = tracer;
-        this.processarComandoNovaFaturaExcelUseCase = processarComandoNovaFaturaExcelUseCase;
+        this.processarFaturaExcelUseCase = processarFaturaExcelUseCase;
     }
 
     @SqsListener(
@@ -42,14 +40,14 @@ public class ComandoNovaFaturaListener {
             log.info("INICIO - Comando Nova Fatura Listener mensagem: {}", mensagem);
 
             S3EventDto s3EventDto = objectMapper.readValue(mensagem, S3EventDto.class);
-            var splitKey = s3EventDto.getRecords().getFirst().getS3().getObject().getKey().split("/");
+            var splitKey = s3EventDto.records().getFirst().s3().object().key().split("/");
             var usuarioId = Long.parseLong(splitKey[0]);
             var cartaoId = Long.parseLong(splitKey[1]);
             var anomes = splitKey[2];
-            var s3Bucket = s3EventDto.getRecords().getFirst().getS3().getBucket().getName();
-            var s3Key = s3EventDto.getRecords().getFirst().getS3().getObject().getKey();
+            var s3Bucket = s3EventDto.records().getFirst().s3().bucket().name();
+            var s3Key = s3EventDto.records().getFirst().s3().object().key();
 
-            processarComandoNovaFaturaExcelUseCase.executar(
+            processarFaturaExcelUseCase.executar(
                     usuarioId,
                     cartaoId,
                     anomes,

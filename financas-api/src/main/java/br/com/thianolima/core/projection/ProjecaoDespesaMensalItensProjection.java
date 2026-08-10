@@ -1,4 +1,4 @@
-package br.com.thianolima.core.model;
+package br.com.thianolima.core.projection;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -7,25 +7,32 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class DespesaPaginadaItem {
+@Builder
+public class ProjecaoDespesaMensalItensProjection {
     private Long id;
+    private Long faturaId;
+    private Long usuarioId;
     private Long cartaoId;
     private String cartaoNome;
+    private String cartaoCor;
     private Long categoriaId;
     private String categoriaNome;
-    private String descricao;
+    private String descricaoOriginal;
+    private String descricaoProcessada;
     private Integer parcelaAtual;
     private Integer totalParcelas;
+    private Integer sequencia;
     private LocalDate dataDespesa;
     private LocalDate dataVencimento;
     private BigDecimal valor;
     private String observacao;
-    Boolean recorrente;
+    private Boolean recorrente;
+    private List<String> tags;
 
     public boolean isParcelado(){
         return parcelaAtual > 0 && totalParcelas > 0;

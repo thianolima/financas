@@ -2,23 +2,31 @@ package br.com.thianolima.entrypoint.response;
 
 import br.com.thianolima.model.BandeiraEnum;
 import br.com.thianolima.model.Cartao;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-public class CartaoResponse {
-    Long id;
-    String nome;
-    BandeiraEnum bandeira;
-    Integer diaVencimento;
+import java.math.BigDecimal;
 
+public record CartaoResponse(
+        Long id,
+        String nome,
+        BandeiraEnum bandeira,
+        Integer diaVencimento,
+        String numeroFinal,
+        String titular,
+        BigDecimal valorLimite,
+        String cor,
+        Boolean cartaoAdicional
+) {
     public CartaoResponse(Cartao cartao) {
-        this.id = cartao.getId();
-        this.nome = cartao.getNome();
-        this.bandeira = cartao.getBandeira();
-        this.diaVencimento = cartao.getDiaVencimento();
+        this(
+                cartao.getId(),
+                cartao.getNome(),
+                cartao.getBandeira(),
+                cartao.getDiaVencimento(),
+                cartao.getNumeroFinal(),
+                cartao.getTitular(),
+                cartao.getValorLimite(),
+                cartao.getCor(),
+                cartao.getCartaoAdicional()
+        );
     }
 }

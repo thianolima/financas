@@ -1,0 +1,26 @@
+meta {
+  name: Tag - Inserir
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{URL_SERVER}}/tags
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{TOKEN}}
+}
+
+body:json {
+  {    
+    "nome":"BIZ"
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

@@ -1,10 +1,11 @@
 package br.com.thianolima.core.provider.database;
 
-import br.com.thianolima.core.model.ProjecaoDespesaMensalItens;
+
+import br.com.thianolima.core.projection.ProjecaoDespesaMensalItensProjection;
 
 import java.util.List;
 
 public interface BuscarProjecaoDespesasPorCategoria {
 
-    List<ProjecaoDespesaMensalItens> executar(Long usuarioId);
+    List<ProjecaoDespesaMensalItensProjection> executar(Long usuarioId);
 }

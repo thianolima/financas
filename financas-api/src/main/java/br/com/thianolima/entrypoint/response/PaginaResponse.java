@@ -2,29 +2,43 @@ package br.com.thianolima.entrypoint.response;
 
 import java.util.List;
 
-public class PaginaResponse {
-    private Integer paginaAtual;
-    private Integer totalPaginas;
-    private Integer totalRegistros;
-    private Integer registrosPorPagina;
-    private List<?> items;
-
+public record PaginaResponse(
+        Integer paginaAtual,
+        Integer totalPaginas,
+        Integer totalRegistros,
+        Integer registrosPorPagina,
+        List<?> items
+) {
     public PaginaResponse(
             List<?> itens,
             Integer pagina,
-            Integer tamanho
-    ){
-        var totalRegistros = itens.size();
-        var totalPaginas = Math.abs(totalRegistros / tamanho);
-        var paginaAtual = Math.min(pagina,totalPaginas);
-        var inicio = paginaAtual * tamanho;
-        var fim = inicio + tamanho;
-        var itensPaginado = itens.subList(inicio, Math.min(fim, itens.size()));
+            Integer registrosPorPagina
+    ) {
+        this(
+                calcularPaginaAtual(itens, pagina, registrosPorPagina),
+                calcularTotalPaginas(itens, registrosPorPagina),
+                itens.size(),
+                registrosPorPagina,
+                calcularItensPaginados(itens, pagina, registrosPorPagina)
+        );
+    }
 
-        this.paginaAtual = paginaAtual;
-        this.totalPaginas = totalPaginas;
-        this.totalRegistros = totalRegistros;
-        this.registrosPorPagina = tamanho;
-        this.items = itensPaginado;
+    private static int calcularTotalPaginas(
+            List<?> itens,
+            Integer tamanho
+    ) {
+        return Math.abs(itens.size() / tamanho);
+    }
+
+    private static int calcularPaginaAtual(List<?> itens, Integer pagina, Integer registrosPorPagina) {
+        var totalPaginas = calcularTotalPaginas(itens, registrosPorPagina);
+        return Math.min(pagina, totalPaginas);
+    }
+
+    private static List<?> calcularItensPaginados(List<?> itens, Integer pagina, Integer registrosPorPagina) {
+        int paginaAtual = calcularPaginaAtual(itens, pagina, registrosPorPagina);
+        int inicio = paginaAtual * registrosPorPagina;
+        int fim = inicio + registrosPorPagina;
+        return itens.subList(inicio, Math.min(fim, itens.size()));
     }
 }

@@ -7,6 +7,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -31,13 +33,28 @@ public class CartaoEntity {
     @Column(name = "numero_final")
     String numeroFinal;
 
+    String titular;
+
+    @Column(name = "valor_limite")
+    BigDecimal valorLimite;
+
+    String cor;
+
+    @Column(name = "cartao_adicional")
+    Boolean cartaoAdicional = false;
+
     public Cartao toModel(){
         return Cartao.builder()
                 .id(this.id)
                 .bandeira(this.bandeira)
+                .usuarioId(this.usuarioId)
                 .nome(this.nome)
                 .diaVencimento(this.diaVencimento)
-                .usuarioId(this.usuarioId)
+                .numeroFinal(this.numeroFinal)
+                .titular(this.titular)
+                .valorLimite(this.valorLimite)
+                .cor(this.cor)
+                .cartaoAdicional(this.cartaoAdicional)
                 .build();
     }
 }

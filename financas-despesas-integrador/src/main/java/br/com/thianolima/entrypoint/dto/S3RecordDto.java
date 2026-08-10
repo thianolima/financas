@@ -2,10 +2,10 @@ package br.com.thianolima.entrypoint.dto;
 
 import lombok.Data;
 
-@Data
-public class S3RecordDto {
-    private String awsRegion;
-    private String eventTime;
-    private String eventName;
-    private S3DetailDto s3;
-}
+
+public record S3RecordDto (
+    String awsRegion,
+    String eventTime,
+    String eventName,
+    S3DetailDto s3
+){}

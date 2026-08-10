@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -36,9 +37,6 @@ public class DespesaEntity {
     @Column(name = "fatura_id")
     Long faturaId;
 
-    @Column(name = "fornecedor_id")
-    Long fornecedorId;
-
     private String descricaoOriginal;
     private String descricaoProcessada;
     private Integer parcelaAtual;
@@ -48,7 +46,15 @@ public class DespesaEntity {
     private LocalDate dataVencimento;
     private BigDecimal valor;
     private String observacao;
-    private Boolean recorrente = false;
+    private Boolean recorrente;
+
+    @ManyToMany
+    @JoinTable(
+            name = "tb_despesas_tags",
+            joinColumns = @JoinColumn(name = "despesa_id"),
+            inverseJoinColumns = @JoinColumn(name = "tag_id")
+    )
+    private List<TagEntity> tags;
 
     public boolean isParcelado(){
         return parcelaAtual > 0 && totalParcelas > 0;
@@ -68,7 +74,6 @@ public class DespesaEntity {
         this.cartaoId = despesa.getCartaoId();
         this.faturaId = despesa.getFaturaId();
         this.categoriaId = despesa.getCategoriaId();
-        this.fornecedorId = despesa.getFornecedorId();
         this.descricaoOriginal = despesa.getDescricaoOriginal();
         this.descricaoProcessada = despesa.getDescricaoProcessada();
         this.parcelaAtual = despesa.getParcelaAtual();
@@ -79,6 +84,7 @@ public class DespesaEntity {
         this.valor = despesa.getValor();
         this.observacao = despesa.getObservacao();
         this.recorrente = despesa.getRecorrente();
+        this.tags = despesa.getTags().stream().map(TagEntity::new).toList();
     }
 
     public Despesa toModel() {
@@ -88,7 +94,6 @@ public class DespesaEntity {
                 .cartaoId(this.cartaoId)
                 .faturaId(this.faturaId)
                 .categoriaId(this.categoriaId)
-                .fornecedorId(this.fornecedorId)
                 .descricaoOriginal(this.descricaoOriginal)
                 .descricaoProcessada(this.descricaoProcessada)
                 .parcelaAtual(this.parcelaAtual)

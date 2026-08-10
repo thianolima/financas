@@ -129,7 +129,7 @@ public class DespesaController {
         ScopedSpan span = tracer.startScopedSpan("despesas-processar-regras");
         try{
             var usuarioId = extrairUsuarioIdDoToken(token);
-            processarRegrasEmLoteUseCase.executar(request.getDespesasIds(), usuarioId);
+            processarRegrasEmLoteUseCase.executar(request.despesasIds(), usuarioId);
             return ResponseEntity.ok().build();
         } catch (Exception exception) {
             log.error("Erro: {}", exception.getMessage());

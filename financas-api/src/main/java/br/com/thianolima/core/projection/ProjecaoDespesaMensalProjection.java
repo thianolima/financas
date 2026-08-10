@@ -1,4 +1,4 @@
-package br.com.thianolima.core.model;
+package br.com.thianolima.core.projection;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,13 +13,13 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ProjecaoDespesaMensal {
+public class ProjecaoDespesaMensalProjection {
     YearMonth anoMes;
     BigDecimal valorTotal;
     BigDecimal valorTotalParcelado;
     BigDecimal valorTotalRecorrente;
     BigDecimal valorTotalAvulso;
-    List<ProjecaoDespesaMensalItens> despesas;
+    List<ProjecaoDespesaMensalItensProjection> despesas;
 }
 
 

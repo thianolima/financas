@@ -1,0 +1,20 @@
+meta {
+  name: Tag - Listar
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{URL_SERVER}}/tags
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{TOKEN}}
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

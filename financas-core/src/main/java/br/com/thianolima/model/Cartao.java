@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.util.Objects;
 
 @Data
@@ -16,5 +17,11 @@ public class Cartao {
     BandeiraEnum bandeira;
     Long usuarioId;
     String nome;
+    Integer diaFechamentoç;
     Integer diaVencimento;
+    String numeroFinal;
+    String titular;
+    BigDecimal valorLimite;
+    String cor;
+    Boolean cartaoAdicional = false;
 }

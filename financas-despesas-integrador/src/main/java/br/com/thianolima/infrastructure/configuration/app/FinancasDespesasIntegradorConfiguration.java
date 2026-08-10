@@ -1,8 +1,7 @@
 package br.com.thianolima.infrastructure.configuration.app;
 
 import br.com.thianolima.core.provider.*;
-import br.com.thianolima.core.usecase.ProcessarComandoNovaFaturaExcelUseCase;
-import br.com.thianolima.core.usecase.ProcessarComandoNovaFaturaUseCase;
+import br.com.thianolima.core.usecase.ProcessarFaturaExcelUseCase;
 import br.com.thianolima.core.usecase.ProcessarRetornoNovaFaturaUseCase;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,31 +10,14 @@ import org.springframework.context.annotation.Configuration;
 public class FinancasDespesasIntegradorConfiguration {
 
     @Bean
-    ProcessarComandoNovaFaturaUseCase criarComandoNovaFaturaUseCase(
-            CarregarFaturaCsv carregarFaturaCsv,
-            BuscarFaturaPorCartaoIdEAnoMes buscarFaturaPorCartaoIdEAnoMes,
-            SalvarFatura salvarFatura,
-            ProduzirComandoNovaDespesa produzirComandoNovaDespesa,
-            BuscarCartaoPorId buscarCartaoPorId
-    ){
-        return new ProcessarComandoNovaFaturaUseCase(
-                carregarFaturaCsv,
-                buscarFaturaPorCartaoIdEAnoMes,
-                salvarFatura,
-                produzirComandoNovaDespesa,
-                buscarCartaoPorId
-        );
-    }
-
-    @Bean
-    ProcessarComandoNovaFaturaExcelUseCase criarProcessarComandoNovaFaturaExcelUseCase(
+    ProcessarFaturaExcelUseCase criarProcessarComandoNovaFaturaExcelUseCase(
         CarregarFaturaExcel carregarFaturaExcel,
         ProduzirComandoNovaDespesa produzirComandoNovaDespesa,
         SalvarFatura salvarFatura,
         BuscarCartaoPorId buscarCartaoPorId,
         BuscarFaturaPorCartaoIdEAnoMes buscarFaturaPorCartaoIdEAnoMes
     ){
-        return new ProcessarComandoNovaFaturaExcelUseCase(
+        return new ProcessarFaturaExcelUseCase(
                 carregarFaturaExcel,
                 produzirComandoNovaDespesa,
                 salvarFatura,

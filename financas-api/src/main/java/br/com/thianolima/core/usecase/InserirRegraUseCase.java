@@ -4,12 +4,12 @@ import br.com.thianolima.core.provider.database.BuscarRegraPorTermoBusca;
 import br.com.thianolima.core.provider.database.SalvarRegra;
 import br.com.thianolima.model.Regra;
 
-public class CriarRegraUseCase {
+public class InserirRegraUseCase {
 
     private final SalvarRegra salvarRegra;
     private final BuscarRegraPorTermoBusca buscarRegraPorTermoBusca;
 
-    public CriarRegraUseCase(
+    public InserirRegraUseCase(
             SalvarRegra salvarRegra,
             BuscarRegraPorTermoBusca buscarRegraPorTermoBusca
     ) {

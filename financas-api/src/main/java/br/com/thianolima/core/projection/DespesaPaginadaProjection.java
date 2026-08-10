@@ -1,4 +1,4 @@
-package br.com.thianolima.core.model;
+package br.com.thianolima.core.projection;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -8,11 +8,12 @@ import lombok.NoArgsConstructor;
 import java.math.BigDecimal;
 import java.util.List;
 
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class DespesaPaginada {
+public class DespesaPaginadaProjection {
     private Integer paginaAtual;
     private Integer totalPaginas;
     private Integer totalRegistros;
@@ -21,5 +22,5 @@ public class DespesaPaginada {
     private BigDecimal valorTotalParcelado;
     private BigDecimal valorTotalRecorrente;
     private BigDecimal valorTotalAvulso;
-    private List<DespesaPaginadaItem> despesas;
+    private List<DespesaPaginadaItemProjection> despesas;
 }

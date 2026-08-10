@@ -1,6 +1,6 @@
 package br.com.thianolima.entrypoint.controller;
 
-import br.com.thianolima.core.usecase.CriarRegraUseCase;
+import br.com.thianolima.core.usecase.InserirRegraUseCase;
 import br.com.thianolima.entrypoint.request.RegraRequest;
 import io.micrometer.tracing.ScopedSpan;
 import io.micrometer.tracing.Tracer;
@@ -20,19 +20,19 @@ import org.springframework.web.bind.annotation.RestController;
 public class RegraController {
 
     private final Tracer tracer;
-    private final CriarRegraUseCase criarRegraUseCase;
+    private final InserirRegraUseCase inserirRegraUseCase;
 
     public RegraController(
             Tracer tracer,
-            CriarRegraUseCase criarRegraUseCase
+            InserirRegraUseCase inserirRegraUseCase
     ) {
         this.tracer = tracer;
-        this.criarRegraUseCase = criarRegraUseCase;
+        this.inserirRegraUseCase = inserirRegraUseCase;
     }
 
     @PostMapping
     @PreAuthorize("hasAnyAuthority('ADMIN', 'BASICO')")
-    public ResponseEntity<?> criarRegraRapida(
+    public ResponseEntity<?> inserirRegraRapida(
             @RequestBody @Valid RegraRequest request,
             JwtAuthenticationToken token
     ){
@@ -41,7 +41,7 @@ public class RegraController {
             var usuarioId = extrairUsuarioIdDoToken(token);
             var regra = request.toModel();
             regra.setUsuarioId(usuarioId);
-            criarRegraUseCase.executar(regra);
+            inserirRegraUseCase.executar(regra);
             return ResponseEntity.ok().build();
         } catch (Exception exception) {
             log.error("Erro: {}", exception.getMessage());
