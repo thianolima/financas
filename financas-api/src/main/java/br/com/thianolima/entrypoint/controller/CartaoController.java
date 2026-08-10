@@ -72,7 +72,7 @@ public class CartaoController {
         ScopedSpan span = tracer.startScopedSpan("cartoes-limite");
         try{
             var usuarioId = extrairUsuarioIdDoToken(token);
-            var resultado = buscarLimiteUtilizadoCartaoUseCase.executar(usuarioId, cartaoId);
+            var resultado = buscarLimiteUtilizadoCartaoUseCase.executar(cartaoId, usuarioId);
             var response =
                     !resultado.isEmpty()
                     ? resultado.stream().map(limite ->
