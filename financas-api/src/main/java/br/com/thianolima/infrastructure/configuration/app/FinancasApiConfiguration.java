@@ -179,4 +179,15 @@ public class FinancasApiConfiguration {
     ){
         return new BuscarLimiteUtilizadoCartaoUseCase(buscarLimiteUtilizadoCartao);
     }
+
+    @Bean
+    GerarDashboardUseCase criarGerarDashboardUseCase(
+            BuscarTotaisDespesasPorCategoriaDashboard buscarTotaisDespesasPorCategoriaDashboard,
+            BuscarTotaisDespesasDashboard buscarTotaisDespesasDashboard
+    ){
+        return new GerarDashboardUseCase(
+                buscarTotaisDespesasPorCategoriaDashboard,
+                buscarTotaisDespesasDashboard
+        );
+    }
 }

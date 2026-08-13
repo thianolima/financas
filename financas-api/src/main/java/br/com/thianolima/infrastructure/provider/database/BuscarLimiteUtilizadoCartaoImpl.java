@@ -33,7 +33,8 @@ public class BuscarLimiteUtilizadoCartaoImpl implements BuscarLimiteUtilizadoCar
                             FROM tb_faturas f 
                             GROUP BY f.cartao_id
                         )as faturas)                    
-                """);
+                """
+        );
 
         var parametros = new MapSqlParameterSource()
                 .addValue("usuarioId", usuarioId);
