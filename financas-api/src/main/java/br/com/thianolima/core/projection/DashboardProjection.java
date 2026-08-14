@@ -12,9 +12,10 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 public class DashboardProjection {
-    List<DashboardItemCategoriaProjection> cardRankingCategorias;
     List<DashboardItemCategoriaProjection> cardDespesasPorCategoria;
     List<DashboardItemTotaisProjection> cardTotaisDespesas;
+    List<CartaoLimiteProjection> cardLimitesCartoes;
+    List<DashboardItemHistoricoProjection> cardDespesasPorHistorico;
 }
 
 

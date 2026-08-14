@@ -183,11 +183,17 @@ public class FinancasApiConfiguration {
     @Bean
     GerarDashboardUseCase criarGerarDashboardUseCase(
             BuscarTotaisDespesasPorCategoriaDashboard buscarTotaisDespesasPorCategoriaDashboard,
-            BuscarTotaisDespesasDashboard buscarTotaisDespesasDashboard
+            BuscarTotaisDespesasDashboard buscarTotaisDespesasDashboard,
+            BuscarLimiteUtilizadoCartao buscarLimiteUtilizadoCartao,
+            BuscarTotaisDespesasPorHistoricoDashboard buscarTotaisDespesasPorHistoricoDashboard,
+            GerarProjecaoDespesasUseCase gerarProjecaoDespesasUseCase
     ){
         return new GerarDashboardUseCase(
                 buscarTotaisDespesasPorCategoriaDashboard,
-                buscarTotaisDespesasDashboard
+                buscarTotaisDespesasDashboard,
+                buscarLimiteUtilizadoCartao,
+                buscarTotaisDespesasPorHistoricoDashboard,
+                gerarProjecaoDespesasUseCase
         );
     }
 }

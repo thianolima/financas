@@ -89,5 +89,6 @@ public class BuscarTotaisDespesasDashboardImpl implements BuscarTotaisDespesasDa
                 .param("usuarioId", usuarioId)
                 .param("dataReferencia", dataReferencia)
                 .query(DashboardItemTotaisProjection.class)
-                .list();    }
+                .list();
+    }
 }
