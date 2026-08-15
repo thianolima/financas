@@ -82,7 +82,7 @@ resource "aws_lb_listener" "api_listener_http" {
 }
 
 # ==========================================================
-# 5. NOVO TARGET GROUP PARA NOTIFICAÇÕES (SSE)
+# 5. TARGET GROUP PARA NOTIFICAÇÕES (SSE)
 # ==========================================================
 resource "aws_lb_target_group" "tg_financas_notificacoes" {
   name        = "tg-financas-notificacoes-${var.ambiente}"

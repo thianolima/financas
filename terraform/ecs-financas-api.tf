@@ -118,7 +118,10 @@ resource "aws_security_group" "sg_ecs_financas_api" {
     from_port   = 8080
     to_port     = 8080
     protocol    = "tcp"
-    security_groups = [aws_security_group.sg_alb_financas_api.id]
+    security_groups = [
+      aws_security_group.sg_alb_financas_api.id,
+      aws_security_group.sg_vpc_link_financas.id
+    ]
   }
 
   egress {
@@ -201,9 +204,17 @@ resource "aws_ecs_service" "ecs_service_financas_api" {
     assign_public_ip = true
   }
 
+  #ADICIONA REGISTRO NO ALB
   load_balancer {
     target_group_arn = aws_lb_target_group.tg_financas_api.arn
     container_name   = "financas-api"
     container_port   = 8080
+  }
+
+  #ADICIONA REGISTRO NO CLOUD MAP
+  service_registries {
+    registry_arn   = aws_service_discovery_service.service_discovery_financas_api.arn
+    container_name = "financas-api"
+    container_port = "8080"
   }
 }

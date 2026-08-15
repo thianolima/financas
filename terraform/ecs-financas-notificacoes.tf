@@ -141,7 +141,10 @@ resource "aws_security_group" "sg_ecs_financas_notificacoes" {
     from_port   = 8080
     to_port     = 8080
     protocol    = "tcp"
-    security_groups = [aws_security_group.sg_alb_financas_api.id]
+    security_groups = [
+      aws_security_group.sg_alb_financas_api.id,
+      aws_security_group.sg_vpc_link_financas.id
+    ]
   }
 
   egress {
@@ -234,10 +237,18 @@ resource "aws_ecs_service" "ecs_service_financas_notificacoes" {
     assign_public_ip = true
   }
 
+  #ADICIONA REGISTRO NO ALB
   load_balancer {
     target_group_arn = aws_lb_target_group.tg_financas_notificacoes.arn
     container_name   = "financas-notificacoes"
     container_port   = 8080
+  }
+
+  #ADICIONA REGISTRO NO CLOUD MAP
+  service_registries {
+    registry_arn   = aws_service_discovery_service.service_discovery_financas_notificacoes.arn
+    container_name = "financas-notificacoes"
+    container_port = 8080
   }
 
   depends_on = [aws_lb_listener_rule.routing_notificacoes]
