@@ -158,6 +158,13 @@ resource "aws_ecs_task_definition" "ecs_task_definition_financas_despesas_integr
         protocol = "tcp"
       }]
 
+      environment = [
+        {
+          name  = "SERVER_PORT"
+          value = "8080"
+        }
+      ]
+
       secrets = [
         {
           name      = "AWS_RDS_PASSWORD"

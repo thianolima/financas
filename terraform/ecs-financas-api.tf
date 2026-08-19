@@ -119,7 +119,7 @@ resource "aws_security_group" "sg_ecs_financas_api" {
     to_port     = 8080
     protocol    = "tcp"
     security_groups = [
-      aws_security_group.sg_alb_financas_api.id,
+      # aws_security_group.sg_alb_financas_api.id,
       aws_security_group.sg_vpc_link_financas.id
     ]
   }
@@ -159,6 +159,13 @@ resource "aws_ecs_task_definition" "ecs_task_definition_financas_api" {
         hostPort = 8080,
         protocol = "tcp"
       }]
+
+      environment = [
+        {
+          name  = "SERVER_PORT"
+          value = "8080"
+        }
+      ]
 
       secrets = [
         {
@@ -205,11 +212,11 @@ resource "aws_ecs_service" "ecs_service_financas_api" {
   }
 
   #ADICIONA REGISTRO NO ALB
-  load_balancer {
-    target_group_arn = aws_lb_target_group.tg_financas_api.arn
-    container_name   = "financas-api"
-    container_port   = 8080
-  }
+  # load_balancer {
+  #   target_group_arn = aws_lb_target_group.tg_financas_api.arn
+  #   container_name   = "financas-api"
+  #   container_port   = 8080
+  # }
 
   #ADICIONA REGISTRO NO CLOUD MAP
   service_registries {

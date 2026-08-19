@@ -82,7 +82,14 @@ resource "aws_apigatewayv2_route" "route_actuator" {
   target    = "integrations/${aws_apigatewayv2_integration.integration_api.id}"
 }
 
-# Rota Específica: /notificacoes/{proxy+} -> Serviço de Notificações
+# Rota para o caminho exato: GET/POST /notificacoes
+resource "aws_apigatewayv2_route" "route_notificacoes_exact" {
+  api_id    = aws_apigatewayv2_api.apigtw.id
+  route_key = "ANY /notificacoes"
+  target    = "integrations/${aws_apigatewayv2_integration.integration_notificacoes.id}"
+}
+
+# Rota para os subcaminhos: /notificacoes/stream, etc.
 resource "aws_apigatewayv2_route" "route_notificacoes" {
   api_id    = aws_apigatewayv2_api.apigtw.id
   route_key = "ANY /notificacoes/{proxy+}"
@@ -97,9 +104,36 @@ resource "aws_apigatewayv2_route" "route_default" {
 }
 
 # ==========================================================
-# 5. OUTPUT DA URL NATIVA
+# 5. DOMÍNIO CUSTOMIZADO (api.thianolima.com)
+# ==========================================================
+
+# Registra o subdomínio no API Gateway utilizando o certificado criado no ACM
+resource "aws_apigatewayv2_domain_name" "api_domain" {
+  domain_name = "api.thianolima.com"
+
+  domain_name_configuration {
+    certificate_arn = aws_acm_certificate_validation.cert_validation.certificate_arn
+    endpoint_type   = "REGIONAL"
+    security_policy = "TLS_1_2"
+  }
+}
+
+# Mapeia o subdomínio diretamente para o Stage $default
+resource "aws_apigatewayv2_api_mapping" "api_mapping" {
+  api_id      = aws_apigatewayv2_api.apigtw.id
+  domain_name = aws_apigatewayv2_domain_name.api_domain.id
+  stage       = aws_apigatewayv2_stage.default.id
+}
+
+# ==========================================================
+# 6. OUTPUTS
 # ==========================================================
 output "apigateway_endpoint" {
   description = "URL nativa pública gerada pela AWS para testes"
   value       = aws_apigatewayv2_stage.default.invoke_url
+}
+
+output "apigateway_target_domain_name" {
+  description = "Target domain gerado pela AWS para uso no Route 53"
+  value       = aws_apigatewayv2_domain_name.api_domain.domain_name_configuration[0].target_domain_name
 }
