@@ -1,0 +1,24 @@
+meta {
+  name: connectorId
+  type: http
+  seq: 15
+}
+
+get {
+  url: https://api.pluggy.ai/connectors
+  body: none
+  auth: inherit
+}
+
+params:query {
+  ~name: nubank
+}
+
+headers {
+  X-API-KEY: eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiZWNjOGVjMjExOWE3NDEzMjU2YWMxNmIyNDAzMzhkNGU6NzhjM2Q3Y2ZjZDEwYWRhZWEwZjliNzllMjU3ZDU0Njg0Y2ZlMDcyOWNkMDA5ZjA3MGRjYzI0MzJlOGFkNDVkYTlmODhmODY5M2E5NTljZDM5OWYzYzVmMzM1ZDMyNTUyNjU3OTI1NjIyMDhkYWYxODdiMzE5NDFhNWFmYmM0MDVjZmRiOWJkZTYwOGU3ZTEzNGIwNWZlYjFhMTI5ZmU1OCIsImlhdCI6MTc4NzM0MDcyNiwiZXhwIjoxNzg3MzQ3OTI2fQ.p4KVxZSPcj241exdl-pzW07teMmoroOPbCOtNrtOxqcG6mLSNYxxuKDmLoqkHWuQljBwVx2VCCV92e8d7zDhlsRagds7UU-oKQNwx0CB0HrijJnqBeD7Ka9gce9bIFSxqWG4SXXBO6BeVcUooCJ0J8Z3__TfGpsRSJewrFm8sc56Jn4HR6SLLRO16xnXiZcjVhFrVhdnEMtJThpBp8RDE39wkaD77wXhh1NecjSSLQwUbSbWCaRAvimhr96kjlxY2M6jDQT_uI4t2QwKEiJ8FmGDSgKIO2eBUZKJSUGsFl6TKehtVtA7wWStK6pG3Gs_CRdPsVCldKoevHHNas60uA
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
