@@ -1,0 +1,23 @@
+meta {
+  name: apiKey
+  type: http
+  seq: 11
+}
+
+post {
+  url: https://api.pluggy.ai/auth
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "clientId": "c6c9aded-bf40-4cb0-9fed-73d9014ab86b",
+    "clientSecret": "N4T1ua8NhYoBNVKTKuYgY2U2bBtIHegld2ZuolLOLqU"
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
