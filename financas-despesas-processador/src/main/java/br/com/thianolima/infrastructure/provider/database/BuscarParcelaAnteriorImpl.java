@@ -24,7 +24,6 @@ public class BuscarParcelaAnteriorImpl implements BuscarParcelaAnterior {
            """
                SELECT d FROM DespesaEntity d
                WHERE d.cartaoId = :cartaoId
-               AND d.valor = :valor
                AND d.dataDespesa = :dataDespesa
                AND d.parcelaAtual < :parcela
                ORDER BY d.parcelaAtual desc
@@ -32,7 +31,6 @@ public class BuscarParcelaAnteriorImpl implements BuscarParcelaAnterior {
 
         return entityManager.createQuery(consulta, DespesaEntity.class)
                 .setParameter("cartaoId", despesa.getCartaoId())
-                .setParameter("valor", despesa.getValor())
                 .setParameter("dataDespesa", despesa.getDataDespesa())
                 .setParameter("parcela", despesa.getParcelaAtual())
                 .getResultList()

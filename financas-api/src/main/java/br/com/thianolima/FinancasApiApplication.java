@@ -5,11 +5,13 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import software.amazon.awssdk.services.s3.S3Client;
 
 @Slf4j
-@SpringBootApplication 
+@SpringBootApplication
+@EnableCaching
 public class FinancasApiApplication {
     public static void main(String[] args) {
         SpringApplication.run(FinancasApiApplication.class, args);

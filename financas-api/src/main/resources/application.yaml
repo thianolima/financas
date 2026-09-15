@@ -15,6 +15,13 @@ spring:
     password: ${AWS_RDS_PASSWORD:}
     driver-class-name: com.mysql.cj.jdbc.Driver
 
+  cache:
+    cache-names:
+      - dashboardCache
+    caffeine:
+      spec: expireAfterWrite=5m,maximumSize=24
+
+
 #    # Configurações do Pool de Conexões (HikariCP)
 #    hikari:
 #      # 1. Tamanho Máximo do Pool

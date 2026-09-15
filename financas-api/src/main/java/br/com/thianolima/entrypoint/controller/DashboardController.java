@@ -6,6 +6,7 @@ import io.micrometer.tracing.ScopedSpan;
 import io.micrometer.tracing.Tracer;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
@@ -27,6 +28,10 @@ public class DashboardController {
 
     @GetMapping
     @PreAuthorize("hasAnyAuthority('ADMIN', 'BASICO')")
+    @Cacheable(
+            value = "dashboardCache",
+            key = "#token.tokenAttributes['sub'] + '_' + (#datareferencia != null ? #datareferencia : T(java.time.LocalDate).now())"
+    )
     public ResponseEntity<?> listar(
             JwtAuthenticationToken token,
             @RequestParam(value = "datareferencia", required = false) LocalDate datareferencia

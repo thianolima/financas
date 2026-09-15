@@ -36,10 +36,6 @@ public class Despesa {
         return this.totalParcelas > 0;
     }
 
-    public boolean isUltimaParcela(){
-        return this.totalParcelas.equals(parcelaAtual);
-    }
-
     public boolean isPrimeiraParcela(){
         return this.parcelaAtual.equals(1);
     }
@@ -48,23 +44,19 @@ public class Despesa {
         return this.recorrente;
     }
 
+    public boolean isOrigemFatura(){
+        return this.faturaId != null;
+    }
+
     public Integer getParcelaAnterior(){
-        if (isParcelado() && parcelaAtual > 1)
-            return parcelaAtual - 1;
-        else {
-            return parcelaAtual;
-        }
+        return (isParcelado() && parcelaAtual > 1)? parcelaAtual - 1 : parcelaAtual;
+    }
+
+    public boolean isUltimaParcela(){
+        return this.totalParcelas.equals(parcelaAtual);
     }
 
     public Optional<LocalDate> getProximaDataVencimentoParcela(){
-        if (parcelaAtual < totalParcelas)
-            return Optional.of(dataVencimento.plusMonths(1));
-        else {
-            return Optional.empty();
-        }
-    }
-
-    public boolean isOrigemFatura(){
-        return this.faturaId != null;
+        return (parcelaAtual < totalParcelas) ? Optional.of(dataVencimento.plusMonths(1)) : Optional.empty();
     }
 }
