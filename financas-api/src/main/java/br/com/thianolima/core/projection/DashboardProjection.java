@@ -16,6 +16,7 @@ public class DashboardProjection {
     List<DashboardItemTotaisProjection> cardTotaisDespesas;
     List<CartaoLimiteProjection> cardLimitesCartoes;
     List<DashboardItemHistoricoProjection> cardDespesasPorHistorico;
+    List<DashboardItemTotaisParcelasProjection> cardTotaisPrimeiraUltimaParcela;
 }
 
 

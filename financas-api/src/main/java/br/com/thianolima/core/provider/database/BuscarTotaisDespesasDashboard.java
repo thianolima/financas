@@ -7,5 +7,4 @@ import java.util.List;
 
 public interface BuscarTotaisDespesasDashboard {
     List<DashboardItemTotaisProjection> executar(LocalDate dataReferencia, Long usuarioId);
-
 }

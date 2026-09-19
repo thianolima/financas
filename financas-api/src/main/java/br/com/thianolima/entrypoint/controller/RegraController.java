@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 @RestController
 @RequestMapping("/regras")
-public class RegraController {
+public class  RegraController {
 
     private final Tracer tracer;
     private final InserirRegraUseCase inserirRegraUseCase;

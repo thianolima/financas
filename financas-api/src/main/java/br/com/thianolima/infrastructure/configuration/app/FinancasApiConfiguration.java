@@ -186,14 +186,16 @@ public class FinancasApiConfiguration {
             BuscarTotaisDespesasDashboard buscarTotaisDespesasDashboard,
             BuscarLimiteUtilizadoCartao buscarLimiteUtilizadoCartao,
             BuscarTotaisDespesasPorHistoricoDashboard buscarTotaisDespesasPorHistoricoDashboard,
-            GerarProjecaoDespesasUseCase gerarProjecaoDespesasUseCase
+            GerarProjecaoDespesasUseCase gerarProjecaoDespesasUseCase,
+            BuscarTotaisPrimeiraUltimaParcelaDashboard buscarTotaisPrimeiraUltimaParcelaDashboard
     ){
         return new GerarDashboardUseCase(
                 buscarTotaisDespesasPorCategoriaDashboard,
                 buscarTotaisDespesasDashboard,
                 buscarLimiteUtilizadoCartao,
                 buscarTotaisDespesasPorHistoricoDashboard,
-                gerarProjecaoDespesasUseCase
+                gerarProjecaoDespesasUseCase,
+                buscarTotaisPrimeiraUltimaParcelaDashboard
         );
     }
 }

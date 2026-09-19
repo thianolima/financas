@@ -2,10 +2,7 @@ package br.com.thianolima.core.usecase;
 
 import br.com.thianolima.core.projection.DashboardItemHistoricoProjection;
 import br.com.thianolima.core.projection.DashboardProjection;
-import br.com.thianolima.core.provider.database.BuscarLimiteUtilizadoCartao;
-import br.com.thianolima.core.provider.database.BuscarTotaisDespesasDashboard;
-import br.com.thianolima.core.provider.database.BuscarTotaisDespesasPorCategoriaDashboard;
-import br.com.thianolima.core.provider.database.BuscarTotaisDespesasPorHistoricoDashboard;
+import br.com.thianolima.core.provider.database.*;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -17,21 +14,23 @@ public class GerarDashboardUseCase {
     private final BuscarTotaisDespesasDashboard buscarTotaisDespesasDashboard;
     private final BuscarLimiteUtilizadoCartao buscarLimiteUtilizadoCartao;
     private final BuscarTotaisDespesasPorHistoricoDashboard buscarTotaisDespesasPorHistoricoDashboard;
-
     private final GerarProjecaoDespesasUseCase gerarProjecaoDespesasUseCase;
+    private final BuscarTotaisPrimeiraUltimaParcelaDashboard buscarTotaisPrimeiraUltimaParcelaDashboard;
 
     public GerarDashboardUseCase(
             BuscarTotaisDespesasPorCategoriaDashboard buscarTotaisDespesasPorCategoriaDashboard,
             BuscarTotaisDespesasDashboard buscarTotaisDespesasDashboard,
             BuscarLimiteUtilizadoCartao buscarLimiteUtilizadoCartao,
             BuscarTotaisDespesasPorHistoricoDashboard buscarTotaisDespesasPorHistoricoDashboard,
-            GerarProjecaoDespesasUseCase gerarProjecaoDespesasUseCase
+            GerarProjecaoDespesasUseCase gerarProjecaoDespesasUseCase,
+            BuscarTotaisPrimeiraUltimaParcelaDashboard buscarTotaisPrimeiraUltimaParcelaDashboard
     ) {
         this.buscarTotaisDespesasPorCategoriaDashboard = buscarTotaisDespesasPorCategoriaDashboard;
         this.buscarTotaisDespesasDashboard = buscarTotaisDespesasDashboard;
         this.buscarLimiteUtilizadoCartao = buscarLimiteUtilizadoCartao;
         this.buscarTotaisDespesasPorHistoricoDashboard = buscarTotaisDespesasPorHistoricoDashboard;
         this.gerarProjecaoDespesasUseCase = gerarProjecaoDespesasUseCase;
+        this.buscarTotaisPrimeiraUltimaParcelaDashboard = buscarTotaisPrimeiraUltimaParcelaDashboard;
     }
 
     public DashboardProjection executar(LocalDate dataReferencia, Long usuarioId) {
@@ -53,11 +52,17 @@ public class GerarDashboardUseCase {
                     () -> gerarHistoricoDespesas(dataReferencia, usuarioId)
             );
 
+            var futureTotaisPrimeiraUltimaParcela = executor.submit(
+                    () -> buscarTotaisPrimeiraUltimaParcelaDashboard.executar(dataReferencia, usuarioId)
+            );
+
+
             return DashboardProjection.builder()
                 .cardDespesasPorCategoria(futureCategorias.get())
                 .cardTotaisDespesas(futureTotais.get())
                 .cardLimitesCartoes(futureLimites.get())
                 .cardDespesasPorHistorico(futureHistorico.get())
+                .cardTotaisPrimeiraUltimaParcela(futureTotaisPrimeiraUltimaParcela.get())
                 .build();
 
         } catch (Exception e) {

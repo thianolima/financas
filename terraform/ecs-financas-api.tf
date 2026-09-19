@@ -5,12 +5,15 @@
 # A. Role de Execução (Infraestrutura)
 resource "aws_iam_role" "role_task_execution_financas_api" {
   name = "role-task-execution-financas-api-${var.ambiente}"
+
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
     Statement = [{
-      Action = "sts:AssumeRole",
-      Effect = "Allow",
-      Principal = { Service = "ecs-tasks.amazonaws.com" }
+      Action = "sts:AssumeRole"
+      Effect = "Allow"
+      Principal = {
+        Service = "ecs-tasks.amazonaws.com"
+      }
     }]
   })
 }
@@ -22,6 +25,7 @@ resource "aws_iam_policy" "policy_task_execution_financas_api" {
 
   policy = jsonencode({
     Version = "2012-10-17"
+
     Statement = [
       {
         Effect = "Allow"
@@ -42,8 +46,8 @@ resource "aws_iam_policy" "policy_task_execution_financas_api" {
         Resource = "*"
       },
       {
-        Effect   = "Allow"
-        Action   = [
+        Effect = "Allow"
+        Action = [
           "secretsmanager:GetSecretValue"
         ]
         Resource = "*"
@@ -62,39 +66,76 @@ resource "aws_iam_role_policy_attachment" "role_policy_ecs_task_execution_manage
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
 }
 
-# B. Task Role (Aplicação)
+
+# ==========================================================
+# B. TASK ROLE - APLICAÇÃO
+# ==========================================================
+
 resource "aws_iam_role" "role_task_financas_api" {
   name = "role-task-financas-api-${var.ambiente}"
+
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
-    Statement = [{ Action = "sts:AssumeRole", Effect = "Allow", Principal = { Service = "ecs-tasks.amazonaws.com" } }]
+
+    Statement = [{
+      Action = "sts:AssumeRole"
+      Effect = "Allow"
+
+      Principal = {
+        Service = "ecs-tasks.amazonaws.com"
+      }
+    }]
   })
 }
 
-# Política da Aplicacao (ECR + Logs + Secrets)
+
+# Política da Aplicacao
+# S3 + SQS + ECS Exec
 resource "aws_iam_policy" "policy_task_financas_api" {
   name = "policy-task-financas-api-${var.ambiente}"
+
   policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
+      # ------------------------------------------------------
+      # S3
+      # ------------------------------------------------------
       {
-        Effect = "Allow",
-        Action = ["s3:*"],
+        Effect = "Allow"
+        Action = [
+          "s3:*"
+        ]
         Resource = "*"
       },
+      # ------------------------------------------------------
+      # SQS
+      # ------------------------------------------------------
       {
-        Effect = "Allow",
+        Effect = "Allow"
         Action = [
           "sqs:ReceiveMessage",
           "sqs:DeleteMessage",
           "sqs:GetQueueAttributes",
           "sqs:GetQueueUrl",
           "sqs:SendMessage"
-        ],
+        ]
         Resource = [
           "arn:aws:sqs:${var.aws_region}:${data.aws_caller_identity.current.account_id}:sqs-comando-processar-regras-${var.ambiente}.fifo",
           "arn:aws:sqs:${var.aws_region}:${data.aws_caller_identity.current.account_id}:sqs-retorno-processar-regras-${var.ambiente}"
         ]
+      },
+      # ------------------------------------------------------
+      # ECS EXEC / SSM MESSAGES
+      # ------------------------------------------------------
+      {
+        Effect = "Allow"
+        Action = [
+          "ssmmessages:CreateControlChannel",
+          "ssmmessages:CreateDataChannel",
+          "ssmmessages:OpenControlChannel",
+          "ssmmessages:OpenDataChannel"
+        ]
+        Resource = "*"
       }
     ]
   })
@@ -115,9 +156,9 @@ resource "aws_security_group" "sg_ecs_financas_api" {
   vpc_id      = aws_vpc.vpc_financas.id
 
   ingress {
-    from_port   = 8080
-    to_port     = 8080
-    protocol    = "tcp"
+    from_port = 8080
+    to_port   = 8080
+    protocol  = "tcp"
     security_groups = [
       # aws_security_group.sg_alb_financas_api.id,
       aws_security_group.sg_vpc_link_financas.id
@@ -131,22 +172,37 @@ resource "aws_security_group" "sg_ecs_financas_api" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  tags = merge(var.common_tags, { Name = "ecs-financas-api-sg-${var.ambiente}" })
+  tags = merge(
+    var.common_tags,
+    {
+      Name = "ecs-financas-api-sg-${var.ambiente}"
+    }
+  )
 }
+
+
+# ==========================================================
+# CLOUDWATCH LOG GROUP
+# ==========================================================
 
 resource "aws_cloudwatch_log_group" "log_group_ecs_financas_api" {
   name              = "/ecs/financas-api-${var.ambiente}"
   retention_in_days = 7
 }
 
+
+# ==========================================================
+# ECS TASK DEFINITION
+# ==========================================================
+
 resource "aws_ecs_task_definition" "ecs_task_definition_financas_api" {
   family                   = "ecs-financas-api-${var.ambiente}"
   requires_compatibilities = ["FARGATE"]
   network_mode             = "awsvpc"
-  cpu                      = 256
-  memory                   = 512
-  execution_role_arn       = aws_iam_role.role_task_execution_financas_api.arn
-  task_role_arn            = aws_iam_role.role_task_financas_api.arn
+  cpu    = 256
+  memory = 512
+  execution_role_arn = aws_iam_role.role_task_execution_financas_api.arn
+  task_role_arn      = aws_iam_role.role_task_financas_api.arn
 
   container_definitions = jsonencode([
     {
@@ -154,11 +210,13 @@ resource "aws_ecs_task_definition" "ecs_task_definition_financas_api" {
       image     = "841816327169.dkr.ecr.${var.aws_region}.amazonaws.com/${var.ecr_financas_api}:latest"
       essential = true
 
-      portMappings = [{
-        containerPort = 8080,
-        hostPort = 8080,
-        protocol = "tcp"
-      }]
+      portMappings = [
+        {
+          containerPort = 8080
+          hostPort      = 8080
+          protocol      = "tcp"
+        }
+      ]
 
       environment = [
         {
@@ -186,16 +244,21 @@ resource "aws_ecs_task_definition" "ecs_task_definition_financas_api" {
           "awslogs-stream-prefix" = "ecs"
         }
       }
-
     }
   ])
 }
+
+
+# ==========================================================
+# ECS SERVICE
+# ==========================================================
 
 resource "aws_ecs_service" "ecs_service_financas_api" {
   name            = "ecs-financas-api-service"
   cluster         = aws_ecs_cluster.ecs_cluster_financas.id
   task_definition = aws_ecs_task_definition.ecs_task_definition_financas_api.arn
   desired_count   = var.ecs_tasks_desejadas
+  enable_execute_command = true
 
   capacity_provider_strategy {
     capacity_provider = "FARGATE_SPOT"
@@ -203,22 +266,32 @@ resource "aws_ecs_service" "ecs_service_financas_api" {
   }
 
   network_configuration {
-    subnets          = [
+    subnets = [
       aws_subnet.subnet_financas_publica_az_a.id,
       aws_subnet.subnet_financas_publica_az_b.id
     ]
-    security_groups  = [aws_security_group.sg_ecs_financas_api.id]
+
+    security_groups = [
+      aws_security_group.sg_ecs_financas_api.id
+    ]
+
     assign_public_ip = true
   }
 
-  #ADICIONA REGISTRO NO ALB
+  # --------------------------------------------------------
+  # ALB
+  # --------------------------------------------------------
+  #
   # load_balancer {
   #   target_group_arn = aws_lb_target_group.tg_financas_api.arn
   #   container_name   = "financas-api"
   #   container_port   = 8080
   # }
 
-  #ADICIONA REGISTRO NO CLOUD MAP
+
+  # --------------------------------------------------------
+  # AWS CLOUD MAP
+  # --------------------------------------------------------
   service_registries {
     registry_arn   = aws_service_discovery_service.service_discovery_financas_api.arn
     container_name = "financas-api"

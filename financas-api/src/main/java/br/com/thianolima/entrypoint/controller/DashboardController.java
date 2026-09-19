@@ -39,10 +39,21 @@ public class DashboardController {
         ScopedSpan span = tracer.startScopedSpan("dashboard");
         try{
             var usuarioId = extrairUsuarioIdDoToken(token);
+            var dataReferencia = datareferencia != null ? datareferencia : LocalDate.now();
+            var cacheKey = usuarioId + "_" + dataReferencia;
+
+            log.info(
+                    "🔥 CACHE MISS - key={} - usuarioId={} - dataReferencia={}",
+                    cacheKey,
+                    usuarioId,
+                    dataReferencia
+            );
+
             var response = gerarDashboardUseCase.executar(
-                    datareferencia != null ? datareferencia : LocalDate.now(),
+                    dataReferencia,
                     usuarioId
             );
+
             return ResponseEntity.ok(response);
         } catch (Exception exception) {
             log.error("Erro: {}", exception.getMessage());
