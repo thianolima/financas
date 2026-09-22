@@ -1,10 +1,9 @@
 package br.com.thianolima.entrypoint.controller;
 
-import br.com.thianolima.core.provider.database.BuscarTagsPorUsuarioId;
+import br.com.thianolima.core.provider.database.BuscarTagsPorUsuario;
 import br.com.thianolima.core.usecase.AlterarTagUseCase;
 import br.com.thianolima.core.usecase.InserirTagUseCase;
 import br.com.thianolima.entrypoint.request.TagRequest;
-import br.com.thianolima.entrypoint.response.CategoriaResponse;
 import br.com.thianolima.entrypoint.response.TagResponse;
 import io.micrometer.tracing.ScopedSpan;
 import io.micrometer.tracing.Tracer;
@@ -27,7 +26,7 @@ public class TagController {
     private final Tracer tracer;
     private final InserirTagUseCase inserirTagUseCase;
     private final AlterarTagUseCase alterarTagUseCase;
-    private final BuscarTagsPorUsuarioId buscarTagsPorUsuarioId;
+    private final BuscarTagsPorUsuario buscarTagsPorUsuario;
 
     @GetMapping
     @PreAuthorize("hasAnyAuthority('ADMIN', 'BASICO')")
@@ -38,7 +37,7 @@ public class TagController {
         ScopedSpan span = tracer.startScopedSpan("cartoes-por-usuario");
         try{
             var usuarioId = extrairUsuarioIdDoToken(token);
-            var resultado = buscarTagsPorUsuarioId.executar(usuarioId);
+            var resultado = buscarTagsPorUsuario.executar(usuarioId);
             var response = !resultado.isEmpty() ? resultado.stream().map(TagResponse::new).toList() : List.of();
             return ResponseEntity.ok(response);
         } catch (Exception exception) {

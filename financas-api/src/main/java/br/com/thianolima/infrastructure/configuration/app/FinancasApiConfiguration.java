@@ -168,9 +168,9 @@ public class FinancasApiConfiguration {
 
     @Bean
     BuscarTagsPorUsuarioUseCase criarBuscarTagsPorUsuarioUseCase(
-            BuscarTagsPorUsuarioId buscarTagsPorUsuarioId
+            BuscarTagsPorUsuario buscarTagsPorUsuario
     ){
-        return new BuscarTagsPorUsuarioUseCase(buscarTagsPorUsuarioId);
+        return new BuscarTagsPorUsuarioUseCase(buscarTagsPorUsuario);
     }
 
     @Bean
@@ -197,5 +197,25 @@ public class FinancasApiConfiguration {
                 gerarProjecaoDespesasUseCase,
                 buscarTotaisPrimeiraUltimaParcelaDashboard
         );
+    }
+
+    @Bean
+    AlterarRegraUseCase criarAlterarRegraUseCase(
+            SalvarRegra salvarRegra,
+            BuscarRegraPorTermoBusca buscarRegraPorTermoBusca,
+            BuscarRegraPorId buscarRegraPorId
+    ){
+        return new AlterarRegraUseCase(
+                salvarRegra,
+                buscarRegraPorTermoBusca,
+                buscarRegraPorId
+        );
+    }
+
+    @Bean
+    BuscarRegrasPorUsuarioUseCase criarBuscarRegrasPorUsuarioUseCase(
+            BuscarRegrasPorUsuario buscarRegrasPorUsuario
+    ){
+        return new BuscarRegrasPorUsuarioUseCase(buscarRegrasPorUsuario);
     }
 }

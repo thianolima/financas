@@ -1,6 +1,6 @@
 package br.com.thianolima.infrastructure.provider.database;
 
-import br.com.thianolima.core.provider.database.BuscarTagsPorUsuarioId;
+import br.com.thianolima.core.provider.database.BuscarTagsPorUsuario;
 import br.com.thianolima.infrastructure.provider.database.entity.TagEntity;
 import br.com.thianolima.model.Tag;
 import jakarta.persistence.EntityManager;
@@ -12,7 +12,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class BuscarTagsPorUsuarioImpl implements BuscarTagsPorUsuarioId {
+public class BuscarTagsPorUsuarioImpl implements BuscarTagsPorUsuario {
 
     @PersistenceContext
     private final EntityManager entityManager;

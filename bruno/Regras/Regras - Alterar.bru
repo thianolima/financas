@@ -1,0 +1,28 @@
+meta {
+  name: Regras - Alterar
+  type: http
+  seq: 2
+}
+
+put {
+  url: {{URL_SERVER}}/regras/333
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{TOKEN}}
+}
+
+body:json {
+  {    
+    "categoriaId":7,
+    "descricao":"STEPHANY MUNDO DAS DELICIAS",  
+    "termos":["STEPHANY","MUNDO DAS DELICIAS"]
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

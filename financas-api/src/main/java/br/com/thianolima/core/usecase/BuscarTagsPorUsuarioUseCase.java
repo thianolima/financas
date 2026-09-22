@@ -1,21 +1,21 @@
 package br.com.thianolima.core.usecase;
 
-import br.com.thianolima.core.provider.database.BuscarTagsPorUsuarioId;
+import br.com.thianolima.core.provider.database.BuscarTagsPorUsuario;
 import br.com.thianolima.model.Tag;
 
 import java.util.List;
 
 public class BuscarTagsPorUsuarioUseCase {
 
-    private final BuscarTagsPorUsuarioId buscarTagsPorUsuarioId;
+    private final BuscarTagsPorUsuario buscarTagsPorUsuario;
 
     public BuscarTagsPorUsuarioUseCase(
-            BuscarTagsPorUsuarioId buscarTagsPorUsuarioId
+            BuscarTagsPorUsuario buscarTagsPorUsuario
     ) {
-        this.buscarTagsPorUsuarioId = buscarTagsPorUsuarioId;
+        this.buscarTagsPorUsuario = buscarTagsPorUsuario;
     }
 
     public List<Tag> executar(Long usuarioId){
-        return buscarTagsPorUsuarioId.executar(usuarioId);
+        return buscarTagsPorUsuario.executar(usuarioId);
     }
 }

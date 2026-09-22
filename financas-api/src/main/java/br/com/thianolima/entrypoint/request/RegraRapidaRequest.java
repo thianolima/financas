@@ -3,35 +3,30 @@ package br.com.thianolima.entrypoint.request;
 import br.com.thianolima.model.Regra;
 import br.com.thianolima.model.RegraTermo;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
 import software.amazon.awssdk.annotations.NotNull;
 
 import java.util.List;
 
-public record RegraRequest (
+public record RegraRapidaRequest(
     @NotBlank
     String descricao,
 
     @NotNull
     Long categoriaId,
 
-    @Size(min = 1)
-    List<String> termos
+    @NotBlank
+    String termoBusca
 ){
     public Regra toModel(){
         return Regra.builder()
                 .descricao(this.descricao)
                 .categoriaId(this.categoriaId)
                 .termos(
-                        termos.stream().map(termoBusca ->
-                                RegraTermo.builder().
-                                        termoBusca(termoBusca)
-                                        .build()
-                        ).toList()
+                   List.of(
+                        RegraTermo.builder()
+                            .termoBusca(this.termoBusca)
+                            .build()
+                   )
                 )
                 .build();
     }

@@ -4,7 +4,7 @@ import br.com.thianolima.model.Tag;
 
 import java.util.List;
 
-public interface BuscarTagsPorUsuarioId {
+public interface BuscarTagsPorUsuario {
 
     List<Tag> executar(Long usuarioId);
 }

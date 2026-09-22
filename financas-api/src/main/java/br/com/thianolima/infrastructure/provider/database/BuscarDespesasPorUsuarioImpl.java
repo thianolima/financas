@@ -24,7 +24,7 @@ public class BuscarDespesasPorUsuarioImpl implements BuscarDespesasPorUsuario {
     }
 
     @Override
-    public List<DespesaPaginadaItemProjection> executar(
+    public List<DespesaPaginadaItemProjection>    executar(
             Long usuarioId,
             YearMonth anomes,
             Long cartaoId,
