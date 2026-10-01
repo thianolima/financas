@@ -21,7 +21,7 @@ public class BuscarTotaisPrimeiraUltimaParcelaDashboardImpl implements BuscarTot
         var consulta =
                 """
                         SELECT
-                            SUM(td.valor) AS valorTotal,
+                            COALESCE(SUM(td.valor),0) AS valorTotal,
                             COUNT(td.despesa_id) as quantidade,
                            	'NOVA' as tipo_parcela
                         FROM tb_despesas td
@@ -31,7 +31,7 @@ public class BuscarTotaisPrimeiraUltimaParcelaDashboardImpl implements BuscarTot
                         AND td.total_parcelas > 0
                         UNION ALL
                         SELECT
-                            SUM(td.valor) AS valorTotal,
+                            COALESCE(SUM(td.valor),0) AS valorTotal,
                             COUNT(td.despesa_id) as quantidade,
                            	'FINALIZADA' as tipo_parcela
                         FROM tb_despesas td
