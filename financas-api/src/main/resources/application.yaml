@@ -16,10 +16,11 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   cache:
+    type: caffeine
     cache-names:
       - dashboardCache
     caffeine:
-      spec: expireAfterWrite=5m,maximumSize=24
+      spec: expireAfterWrite=5m,maximumSize=10
 
 
 #    # Configurações do Pool de Conexões (HikariCP)
