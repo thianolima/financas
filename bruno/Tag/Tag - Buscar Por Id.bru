@@ -1,0 +1,21 @@
+meta {
+  name: Tag - Buscar Por Id
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{URL_SERVER}}/tags/1
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{TOKEN}}
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
+

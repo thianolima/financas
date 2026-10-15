@@ -24,16 +24,17 @@ public class BuscarCategoriaPorIdImpl implements BuscarCategoriaPorId {
     @Override
     public Optional<Categoria> executar(Long categoriaId, Long usuarioId) {
         var consulta = """
-                          SELECT c FROM CategoriaEntity c 
-                          WHERE (c.usuarioId = :usuarioId OR c.usuarioId = 0) 
+                          SELECT c FROM CategoriaEntity c
+                          WHERE (c.usuarioId = :usuarioId OR c.usuarioId = 0)
                           AND c.id = :categoriaId
                        """;
 
-        CategoriaEntity categoriaEntity = entityManager.createQuery(consulta, CategoriaEntity.class)
+        return entityManager.createQuery(consulta, CategoriaEntity.class)
                 .setParameter("usuarioId", usuarioId)
                 .setParameter("categoriaId", categoriaId)
-                .getSingleResult();
-
-        return categoriaEntity == null ? Optional.empty() : Optional.of(categoriaEntity.toModel());
+                .getResultList()
+                .stream()
+                .map(CategoriaEntity::toModel)
+                .findFirst();
     }
 }

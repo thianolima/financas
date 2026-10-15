@@ -1,7 +1,9 @@
 package br.com.thianolima.entrypoint.controller;
 
-import br.com.thianolima.core.provider.database.BuscarTagsPorUsuario;
+import br.com.thianolima.core.provider.database.BuscarTagPorId;
 import br.com.thianolima.core.usecase.AlterarTagUseCase;
+import br.com.thianolima.core.usecase.BuscarTagsPorUsuarioUseCase;
+import br.com.thianolima.core.usecase.ExcluirTagUseCase;
 import br.com.thianolima.core.usecase.InserirTagUseCase;
 import br.com.thianolima.entrypoint.request.TagRequest;
 import br.com.thianolima.entrypoint.response.TagResponse;
@@ -26,20 +28,41 @@ public class TagController {
     private final Tracer tracer;
     private final InserirTagUseCase inserirTagUseCase;
     private final AlterarTagUseCase alterarTagUseCase;
-    private final BuscarTagsPorUsuario buscarTagsPorUsuario;
+    private final ExcluirTagUseCase excluirTagUseCase;
+    private final BuscarTagsPorUsuarioUseCase buscarTagsPorUsuarioUseCase;
+    private final BuscarTagPorId buscarTagPorId;
 
     @GetMapping
     @PreAuthorize("hasAnyAuthority('ADMIN', 'BASICO')")
     public ResponseEntity<?> listar(
-            @RequestParam(value = "incluirSaldoLimite", defaultValue = "false") Boolean incluirSaldoLimite,
             JwtAuthenticationToken token
     ) {
-        ScopedSpan span = tracer.startScopedSpan("cartoes-por-usuario");
+        ScopedSpan span = tracer.startScopedSpan("tags-por-usuario");
         try{
             var usuarioId = extrairUsuarioIdDoToken(token);
-            var resultado = buscarTagsPorUsuario.executar(usuarioId);
+            var resultado = buscarTagsPorUsuarioUseCase.executar(usuarioId);
             var response = !resultado.isEmpty() ? resultado.stream().map(TagResponse::new).toList() : List.of();
             return ResponseEntity.ok(response);
+        } catch (Exception exception) {
+            log.error("Erro: {}", exception.getMessage());
+            throw new RuntimeException(exception);
+        } finally {
+            span.end();
+        }
+    }
+
+    @GetMapping("/{id}")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'BASICO')")
+    public ResponseEntity<?> buscarPorId(
+            @PathVariable(value = "id") Long tagId,
+            JwtAuthenticationToken token
+    ) {
+        ScopedSpan span = tracer.startScopedSpan("tag-por-id");
+        try {
+            var usuarioId = extrairUsuarioIdDoToken(token);
+            var resultado = buscarTagPorId.executar(tagId, usuarioId)
+                    .orElseThrow(() -> new RuntimeException("Tag nao encontrada"));
+            return ResponseEntity.ok(new TagResponse(resultado));
         } catch (Exception exception) {
             log.error("Erro: {}", exception.getMessage());
             throw new RuntimeException(exception);
@@ -54,7 +77,7 @@ public class TagController {
             @Valid @RequestBody TagRequest request,
             JwtAuthenticationToken token
     ) {
-        ScopedSpan span = tracer.startScopedSpan("cartoes-inserir");
+        ScopedSpan span = tracer.startScopedSpan("tags-inserir");
         try{
             var usuarioId = extrairUsuarioIdDoToken(token);
             var novaTag = request.toModel();
@@ -76,7 +99,7 @@ public class TagController {
             @Valid @RequestBody TagRequest request,
             JwtAuthenticationToken token
     ) {
-        ScopedSpan span = tracer.startScopedSpan("cartoes-alterar");
+        ScopedSpan span = tracer.startScopedSpan("tags-alterar");
         try{
             var usuarioId = extrairUsuarioIdDoToken(token);
             var novaTag = request.toModel();
@@ -95,13 +118,13 @@ public class TagController {
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAnyAuthority('ADMIN', 'BASICO')")
     public ResponseEntity<?> excluir(
-            @PathVariable(value = "id") Long cartaoId,
+            @PathVariable(value = "id") Long tagId,
             JwtAuthenticationToken token
     ) {
-        ScopedSpan span = tracer.startScopedSpan("cartoes-alterar");
+        ScopedSpan span = tracer.startScopedSpan("tags-excluir");
         try{
             var usuarioId = extrairUsuarioIdDoToken(token);
-
+            excluirTagUseCase.executar(tagId, usuarioId);
             return ResponseEntity.ok().build();
         } catch (Exception exception) {
             log.error("Erro: {}", exception.getMessage());
@@ -110,7 +133,6 @@ public class TagController {
             span.end();
         }
     }
-
 
     private Long extrairUsuarioIdDoToken(JwtAuthenticationToken token){
         return Long.parseLong(token.getTokenAttributes().get("sub").toString());

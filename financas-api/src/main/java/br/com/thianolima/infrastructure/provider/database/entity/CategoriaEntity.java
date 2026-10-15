@@ -25,6 +25,13 @@ public class CategoriaEntity {
     String nome;
     Boolean incluirProjecao;
 
+    public CategoriaEntity(Categoria categoria) {
+        this.id = categoria.getId();
+        this.nome = categoria.getNome();
+        this.usuarioId = categoria.getUsuarioId();
+        this.incluirProjecao = categoria.getIncluirProjecao();
+    }
+
     public Categoria toModel() {
         return Categoria.builder()
                 .id(id)

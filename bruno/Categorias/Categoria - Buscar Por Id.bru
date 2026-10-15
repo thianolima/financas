@@ -1,0 +1,21 @@
+meta {
+  name: Categoria - Buscar Por Id
+  type: http
+  seq: 6
+}
+
+get {
+  url: {{URL_SERVER}}/categorias/1
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{TOKEN}}
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
+

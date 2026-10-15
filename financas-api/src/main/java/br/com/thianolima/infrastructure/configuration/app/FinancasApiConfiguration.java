@@ -58,6 +58,43 @@ public class FinancasApiConfiguration {
     }
 
     @Bean
+    public InserirCategoriaUseCase criarInserirCategoriaUseCase(
+            SalvarCategoria salvarCategoria,
+            BuscarCategoriaPorNome buscarCategoriaPorNome
+    ) {
+        return new InserirCategoriaUseCase(
+                salvarCategoria,
+                buscarCategoriaPorNome
+        );
+    }
+
+    @Bean
+    public AlterarCategoriaUseCase criarAlterarCategoriaUseCase(
+            SalvarCategoria salvarCategoria,
+            BuscarCategoriaPorNome buscarCategoriaPorNome,
+            BuscarCategoriaPorId buscarCategoriaPorId
+    ) {
+        return new AlterarCategoriaUseCase(
+                salvarCategoria,
+                buscarCategoriaPorNome,
+                buscarCategoriaPorId
+        );
+    }
+
+    @Bean
+    public ExcluirCategoriaUseCase criarExcluirCategoriaUseCase(
+            ExcluirCategoria excluirCategoria,
+            BuscarCategoriaPorId buscarCategoriaPorId,
+            BuscarDespesasPorCategoria buscarDespesasPorCategoria
+    ) {
+        return new ExcluirCategoriaUseCase(
+                excluirCategoria,
+                buscarCategoriaPorId,
+                buscarDespesasPorCategoria
+        );
+    }
+
+    @Bean
     public AlterarDespesaUsecase criarAlterarDespesaUsecase(
             SalvarDespesa salvarDespesa,
             BuscarDespesaPorId buscarDespesaPorId,
@@ -158,11 +195,26 @@ public class FinancasApiConfiguration {
     @Bean
     public AlterarTagUseCase criarAlterarTagUseCase(
             SalvarTag salvarTag,
-            BuscarTagPorNome buscarTagPorNome
+            BuscarTagPorNome buscarTagPorNome,
+            BuscarTagPorId buscarTagPorId
     ){
         return new AlterarTagUseCase(
                 salvarTag,
-                buscarTagPorNome
+                buscarTagPorNome,
+                buscarTagPorId
+        );
+    }
+
+    @Bean
+    public ExcluirTagUseCase criarExcluirTagUseCase(
+            BuscarTagPorId buscarTagPorId,
+            ExcluirTag excluirTag,
+            BuscarDespesasPorTag buscarDespesasPorTag
+    ) {
+        return new ExcluirTagUseCase(
+                buscarTagPorId,
+                excluirTag,
+                buscarDespesasPorTag
         );
     }
 

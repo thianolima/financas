@@ -1,0 +1,28 @@
+meta {
+  name: Categoria - Inserir
+  type: http
+  seq: 7
+}
+
+post {
+  url: {{URL_SERVER}}/categorias
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{TOKEN}}
+}
+
+body:json {
+  {
+    "nome": "Categoria Teste",
+    "incluirProjecao": true
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
+

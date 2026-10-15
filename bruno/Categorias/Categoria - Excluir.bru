@@ -1,0 +1,21 @@
+meta {
+  name: Categoria - Excluir
+  type: http
+  seq: 9
+}
+
+delete {
+  url: {{URL_SERVER}}/categorias/1
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{TOKEN}}
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
+

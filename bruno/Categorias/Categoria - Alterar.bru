@@ -1,0 +1,28 @@
+meta {
+  name: Categoria - Alterar
+  type: http
+  seq: 8
+}
+
+put {
+  url: {{URL_SERVER}}/categorias/1
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{TOKEN}}
+}
+
+body:json {
+  {
+    "nome": "Categoria Teste Atualizada",
+    "incluirProjecao": false
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
+
