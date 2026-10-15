@@ -23,9 +23,9 @@ public class BuscarProjecaoDespesasPorCategoriaImpl implements BuscarProjecaoDes
                         MAX(d.despesa_id) as despesa_id, 
                         null as fatura_id, 
                         d.usuario_id, 
-                        d.cartao_id, 
-                        t.nome as cartao_nome, 
-                        t.cor as cartao_cor,
+                        null as cartao_id, 
+                        null as cartao_nome, 
+                        null as cartao_cor,
                         d.categoria_id, 
                         c.nome as categoria_nome, 
                         CONCAT('PROJECAO CATEGORIA - ', c.nome) as descricao_original, 
@@ -48,9 +48,6 @@ public class BuscarProjecaoDespesasPorCategoriaImpl implements BuscarProjecaoDes
                       AND c.incluir_projecao = true 
                       AND d.usuario_id = :usuarioId 
                     GROUP BY 
-                        d.usuario_id, 
-                        d.cartao_id, 
-                        t.nome, 
                         d.categoria_id, 
                         c.nome 
                 """;
