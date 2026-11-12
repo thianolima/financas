@@ -5,15 +5,13 @@ meta {
 }
 
 get {
-  url: {{URL_SERVER}}/despesas?anomes=202608&pagina=1&tamanho=50
+  url: {{URL_SERVER}}/despesas?anomes=202610
   body: none
   auth: bearer
 }
 
 params:query {
-  anomes: 202608
-  pagina: 1
-  tamanho: 50
+  anomes: 202610
   ~cartao: {{CARTAO_VISA}}
   ~tipo: RECORRENTE
   ~categoria: 16

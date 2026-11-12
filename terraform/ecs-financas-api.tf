@@ -260,6 +260,10 @@ resource "aws_ecs_service" "ecs_service_financas_api" {
   desired_count   = var.ecs_tasks_desejadas
   enable_execute_command = true
 
+  lifecycle {
+    ignore_changes = [desired_count]
+  }
+
   capacity_provider_strategy {
     capacity_provider = "FARGATE_SPOT"
     weight            = 1
@@ -296,5 +300,33 @@ resource "aws_ecs_service" "ecs_service_financas_api" {
     registry_arn   = aws_service_discovery_service.service_discovery_financas_api.arn
     container_name = "financas-api"
     container_port = "8080"
+  }
+}
+
+resource "aws_appautoscaling_target" "autoscaling_financas_api" {
+  service_namespace  = "ecs"
+  scalable_dimension = "ecs:service:DesiredCount"
+  resource_id        = "service/${aws_ecs_cluster.ecs_cluster_financas.name}/${aws_ecs_service.ecs_service_financas_api.name}"
+
+  min_capacity = 0
+  max_capacity = 1
+
+  lifecycle {
+    ignore_changes = [min_capacity, max_capacity]
+  }
+}
+
+resource "aws_appautoscaling_scheduled_action" "autoscaling_scheduled_financas_api" {
+  name               = "desligar-financas-api"
+  service_namespace  = aws_appautoscaling_target.autoscaling_financas_api.service_namespace
+  scalable_dimension = aws_appautoscaling_target.autoscaling_financas_api.scalable_dimension
+  resource_id        = aws_appautoscaling_target.autoscaling_financas_api.resource_id
+
+  schedule = "cron(0 18 * * ? *)"
+  timezone = "America/Sao_Paulo"
+
+  scalable_target_action {
+    min_capacity = 0
+    max_capacity = 0
   }
 }

@@ -183,6 +183,10 @@ resource "aws_ecs_service" "ecs_service_financas_despesas_processador" {
   task_definition = aws_ecs_task_definition.ecs_task_definition_financas_despesas_processador.arn
   desired_count   = var.ecs_tasks_desejadas
 
+  lifecycle {
+    ignore_changes = [desired_count]
+  }
+
   capacity_provider_strategy {
     capacity_provider = "FARGATE_SPOT"
     weight            = 1
@@ -192,5 +196,33 @@ resource "aws_ecs_service" "ecs_service_financas_despesas_processador" {
     subnets          = [aws_subnet.subnet_financas_publica_az_a.id]
     security_groups  = [aws_security_group.sg_ecs_financas_despesas_processador.id]
     assign_public_ip = true
+  }
+}
+
+resource "aws_appautoscaling_target" "autoscaling_financas_despesas_processador" {
+  service_namespace  = "ecs"
+  scalable_dimension = "ecs:service:DesiredCount"
+  resource_id        = "service/${aws_ecs_cluster.ecs_cluster_financas.name}/${aws_ecs_service.ecs_service_financas_despesas_processador.name}"
+
+  min_capacity = 0
+  max_capacity = 1
+
+  lifecycle {
+    ignore_changes = [min_capacity, max_capacity]
+  }
+}
+
+resource "aws_appautoscaling_scheduled_action" "autoscaling_scheduled_financas_despesas_processador" {
+  name               = "desligar-financas-despesas-processador"
+  service_namespace  = aws_appautoscaling_target.autoscaling_financas_despesas_processador.service_namespace
+  scalable_dimension = aws_appautoscaling_target.autoscaling_financas_despesas_processador.scalable_dimension
+  resource_id        = aws_appautoscaling_target.autoscaling_financas_despesas_processador.resource_id
+
+  schedule = "cron(0 18 * * ? *)"
+  timezone = "America/Sao_Paulo"
+
+  scalable_target_action {
+    min_capacity = 0
+    max_capacity = 0
   }
 }

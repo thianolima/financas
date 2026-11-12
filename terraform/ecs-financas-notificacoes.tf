@@ -230,6 +230,10 @@ resource "aws_ecs_service" "ecs_service_financas_notificacoes" {
   task_definition = aws_ecs_task_definition.ecs_task_definition_financas_notificacoes.arn
   desired_count   = var.ecs_tasks_desejadas
 
+  lifecycle {
+    ignore_changes = [desired_count]
+  }
+
   capacity_provider_strategy {
     capacity_provider = "FARGATE_SPOT"
     weight            = 1
@@ -259,4 +263,32 @@ resource "aws_ecs_service" "ecs_service_financas_notificacoes" {
   }
 
   # depends_on = [aws_lb_listener_rule.routing_notificacoes]
+}
+
+resource "aws_appautoscaling_target" "autoscaling_financas_notificacoes" {
+  service_namespace  = "ecs"
+  scalable_dimension = "ecs:service:DesiredCount"
+  resource_id        = "service/${aws_ecs_cluster.ecs_cluster_financas.name}/${aws_ecs_service.ecs_service_financas_notificacoes.name}"
+
+  min_capacity = 0
+  max_capacity = 1
+
+  lifecycle {
+    ignore_changes = [min_capacity, max_capacity]
+  }
+}
+
+resource "aws_appautoscaling_scheduled_action" "autoscaling_scheduled_financas_notificacoes" {
+  name               = "desligar-financas-notificacoes"
+  service_namespace  = aws_appautoscaling_target.autoscaling_financas_notificacoes.service_namespace
+  scalable_dimension = aws_appautoscaling_target.autoscaling_financas_notificacoes.scalable_dimension
+  resource_id        = aws_appautoscaling_target.autoscaling_financas_notificacoes.resource_id
+
+  schedule = "cron(0 18 * * ? *)"
+  timezone = "America/Sao_Paulo"
+
+  scalable_target_action {
+    min_capacity = 0
+    max_capacity = 0
+  }
 }
